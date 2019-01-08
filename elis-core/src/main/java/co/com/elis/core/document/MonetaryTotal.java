@@ -19,6 +19,7 @@
 package co.com.elis.core.document;
 
 import co.com.elis.core.document.allowance.AllowanceCharge;
+import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -51,26 +52,26 @@ public class MonetaryTotal {
 
     public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount) {
         this.currency = currency;
-        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);
-        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);
-        this.payableAmount = payableAmount.setScale(4, RoundingMode.HALF_UP);
+        this.lineTotal = scaledOrNull(lineTotal);
+        this.taxTotal = scaledOrNull(taxTotal);
+        this.payableAmount = scaledOrNull(payableAmount);
         this.chargeTotal = null;
         this.discountTotal = null;
     }
 
     public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount, BigDecimal chargeTotal, BigDecimal discountTotal) {
         this.currency = currency;
-        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);
-        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);
-        this.payableAmount = payableAmount.setScale(4, RoundingMode.HALF_UP);
-        this.chargeTotal = chargeTotal.setScale(4, RoundingMode.HALF_UP);
-        this.discountTotal = discountTotal.setScale(4, RoundingMode.HALF_UP);
+        this.lineTotal = scaledOrNull(lineTotal);
+        this.taxTotal = scaledOrNull(taxTotal);
+        this.payableAmount = scaledOrNull(payableAmount);
+        this.chargeTotal = scaledOrNull(chargeTotal);
+        this.discountTotal = scaledOrNull(discountTotal);
     }
 
     MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, List<AllowanceCharge> allowanceCharges) {
         this.currency = currency;
-        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);
-        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);
+        this.lineTotal = scaledOrNull(lineTotal);
+        this.taxTotal = scaledOrNull(taxTotal);
         BigDecimal chargeSum = BigDecimal.ZERO;
         BigDecimal discuntSum = BigDecimal.ZERO;
 
@@ -82,8 +83,8 @@ public class MonetaryTotal {
             }
         }
 
-        this.chargeTotal = chargeSum.setScale(4, RoundingMode.HALF_UP);
-        this.discountTotal = discuntSum.setScale(4, RoundingMode.HALF_UP);
+        this.chargeTotal = scaledOrNull(chargeSum);
+        this.discountTotal = scaledOrNull(discuntSum);
         this.payableAmount = lineTotal.add(taxTotal).add(chargeSum).subtract(discuntSum).setScale(4, RoundingMode.HALF_UP);
     }
 

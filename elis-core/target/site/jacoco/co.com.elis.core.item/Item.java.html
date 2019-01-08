@@ -21,9 +21,9 @@ package co.com.elis.core.item;
 import co.com.elis.core.tax.Tax;
 import co.com.elis.core.tax.TaxType;
 import co.com.elis.core.tax.validation.ValidateItemTax;
+import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import co.com.elis.core.util.ResourceInterpolator;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -63,9 +63,9 @@ public class Item {
 <span class="fc" id="L63">    public Item(Integer position, String code, String description, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List&lt;Tax&gt; taxCollection) {</span>
 <span class="fc" id="L64">        this.position = position;</span>
 <span class="fc" id="L65">        this.description = description;</span>
-<span class="fc" id="L66">        this.total = total.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L66">        this.total = scaledOrNull(total);</span>
 <span class="fc" id="L67">        this.quantity = quantity;</span>
-<span class="fc" id="L68">        this.unitaryValue = unitaryValue.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L68">        this.unitaryValue = scaledOrNull(unitaryValue);</span>
 <span class="fc" id="L69">        this.taxes = taxCollection;</span>
 <span class="fc" id="L70">        this.code = code;</span>
 <span class="fc" id="L71">    }</span>

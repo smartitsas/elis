@@ -43,7 +43,7 @@ elis-core,co.com.elis.core.document,PopulatedDebitNoteBuilder,6,72,1,1,1,11,2,3,
 elis-core,co.com.elis.core.document,PopulatedCreditNoteBuilder.PopulatedMandatoryContext,7,39,0,0,2,10,1,6,1,6
 elis-core,co.com.elis.core.document,Invoice,19,196,2,6,0,38,5,13,3,11
 elis-core,co.com.elis.core.document,PopulatedInvoiceBuilder,6,77,1,3,1,13,2,4,1,3
-elis-core,co.com.elis.core.document,MonetaryTotal,42,120,0,4,10,28,3,9,3,7
+elis-core,co.com.elis.core.document,MonetaryTotal,32,106,0,4,10,28,3,9,3,7
 elis-core,co.com.elis.core.document,PopulatedCreditNoteBuilder.PopulatedOptionalContext,30,25,0,0,7,8,3,4,3,4
 elis-core,co.com.elis.core.document,CalculatedInvoiceBuilder,6,87,0,0,1,12,1,3,1,3
 elis-core,co.com.elis.core.document,DocumentNumber,0,26,0,0,0,7,0,4,0,4
@@ -91,6 +91,7 @@ elis-core,co.com.elis.core.document.reference,Reference,0,15,0,0,0,6,0,3,0,3
 elis-core,co.com.elis.core.document.reference,ReferenceType,9,79,0,0,0,8,2,2,2,2
 elis-core,co.com.elis.core.util,ElisEncoder,9,43,0,2,4,6,1,2,1,1
 elis-core,co.com.elis.core.util,ResourceInterpolator,5,11,0,0,1,3,1,3,1,3
+elis-core,co.com.elis.core.util,DecimalUtils,5,7,1,1,2,2,2,1,1,1
 elis-core,co.com.elis.core.document.delivery,Despatch,9,12,0,0,3,5,3,1,3,1
 elis-core,co.com.elis.core.document.delivery,Delivery,18,31,0,0,6,11,6,3,6,3
 elis-core,co.com.elis.core.document.delivery,DeliveryParty.DeliveryPartyBuilder,0,30,0,0,0,7,0,4,0,4
@@ -105,7 +106,7 @@ elis-core,co.com.elis.core.item,ItemCalculationBuilder,0,61,0,0,0,11,0,4,0,4
 elis-core,co.com.elis.core.item,NoteItemPopulationBuilder.PopulationOptionalContext,9,20,0,0,2,6,1,4,1,4
 elis-core,co.com.elis.core.item,AbstractItemBuilder.MandatoryContext,14,31,0,0,4,9,2,4,2,4
 elis-core,co.com.elis.core.item,AbstractItemBuilder.OptionalContext,0,27,0,0,0,9,0,4,0,4
-elis-core,co.com.elis.core.item,Item,25,86,4,2,6,25,3,12,1,11
+elis-core,co.com.elis.core.item,Item,25,82,4,2,6,25,3,12,1,11
 elis-core,co.com.elis.core.item,ItemCalculationBuilder.CalculationOptionalContext,0,20,0,0,0,6,0,4,0,4
 elis-core,co.com.elis.core.item,AbstractItemBuilder,21,16,1,3,1,7,1,3,0,2
 elis-core,co.com.elis.core.item,NoteItemPopulationBuilder,3,50,0,0,1,9,1,3,1,3

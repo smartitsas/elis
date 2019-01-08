@@ -135,6 +135,7 @@ co/com/elis/core/item/Discrepancy.class
 co/com/elis/core/document/PopulatedDebitNoteBuilder$1.class
 co/com/elis/core/person/SupplierParty.class
 co/com/elis/core/person/ReceiverParty.class
+co/com/elis/core/util/DecimalUtils.class
 co/com/elis/core/item/AbstractItemBuilder.class
 co/com/elis/core/tax/TaxType.class
 co/com/elis/core/document/PopulatedDebitNoteBuilder$PopulatedOptionalContext.class
