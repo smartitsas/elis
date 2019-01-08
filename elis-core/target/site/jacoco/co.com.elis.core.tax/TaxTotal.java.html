@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaxTotal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.tax</a> &gt; <span class="el_source">TaxTotal.java</span></div><h1>TaxTotal.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.tax;
+
+import co.com.elis.core.tax.validation.ConsistentTaxTotal;
+import co.com.elis.core.tax.validation.ConsistentTaxType;
+import co.com.elis.exception.ElisCoreException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Iterator;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import lombok.Getter;
+
+@ConsistentTaxType
+@ConsistentTaxTotal
+public class TaxTotal implements Iterable&lt;Tax&gt; {
+
+<span class="fc" id="L36">    @Getter</span>
+    private final BigDecimal total;
+
+<span class="fc" id="L39">    @Getter</span>
+    private final TaxType type;
+    
+    //TODO: When calculating an ITEM there is no way to know if is retained, we should check this
+<span class="nc" id="L43">    @Getter</span>
+    private final boolean isRetained;
+
+<span class="nc" id="L46">    @Getter</span>
+    @Size(min = 1, message = &quot;ELIS_CORE_VAL_TAX_SUBTAXES&quot;)
+    @NotNull(message = &quot;ELIS_CORE_VAL_TAX_SUBTAXES&quot;)
+    private final List&lt;Tax&gt; taxSubtotals;
+
+    /**
+     * Constructor used to create a tax total with already calculated data
+     *
+     * @param total
+     * @param type
+     * @param isRetained if this tax is retained
+     * @param taxSubtotals
+     */
+<span class="fc" id="L59">    public TaxTotal(TaxType type, BigDecimal total, boolean isRetained, List&lt;Tax&gt; taxSubtotals) {</span>
+<span class="fc" id="L60">        this.total = total;</span>
+<span class="fc" id="L61">        this.type = type;</span>
+<span class="fc" id="L62">        this.isRetained = isRetained;</span>
+<span class="fc" id="L63">        this.taxSubtotals = taxSubtotals;</span>
+<span class="fc" id="L64">    }</span>
+    
+    /**
+     * Constructor used to create a tax total with already calculated data
+     *
+     * @param total
+     * @param type
+     * @param taxSubtotals
+     */
+    public TaxTotal(TaxType type, BigDecimal total,  List&lt;Tax&gt; taxSubtotals) {
+<span class="fc" id="L74">        this(type, total, false, taxSubtotals);</span>
+<span class="fc" id="L75">    }    </span>
+
+    
+    /**
+     * Constructor used to create a tax total calculating internal values
+     *
+     * @param taxSubtotals
+     * @throws co.com.elis.exception.ElisCoreException
+     */
+    public TaxTotal(List&lt;Tax&gt; taxSubtotals) throws ElisCoreException {
+<span class="nc" id="L85">        this(taxSubtotals, false);</span>
+<span class="nc" id="L86">    }    </span>
+    
+    /**
+     * Constructor used to create a tax total calculating internal values
+     *
+     * @param taxSubtotals
+     * @param isRetained
+     * @throws co.com.elis.exception.ElisCoreException
+     */
+<span class="fc" id="L95">    public TaxTotal(List&lt;Tax&gt; taxSubtotals, boolean isRetained) throws ElisCoreException {</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (taxSubtotals.isEmpty()) {</span>
+<span class="nc" id="L97">            throw new ElisCoreException(&quot;Subtotal list must not be empty&quot;);</span>
+        }
+<span class="fc" id="L99">        Tax subtotal = taxSubtotals.get(0);</span>
+<span class="pc" id="L100">        this.total = taxSubtotals.stream().map(Tax::getTotal).reduce((a, b) -&gt; a.add(b)).orElseThrow(() -&gt; new ElisCoreException(&quot;Could not calculate total from subtotals&quot;));</span>
+<span class="fc" id="L101">        this.type = subtotal.getType();</span>
+<span class="fc" id="L102">        this.taxSubtotals = taxSubtotals;</span>
+<span class="fc" id="L103">        this.isRetained = isRetained;</span>
+<span class="fc" id="L104">    }</span>
+
+    public void validate() throws ElisCoreException {
+<span class="nc" id="L107">        BigDecimal sum = BigDecimal.ZERO;</span>
+<span class="nc" id="L108">        TaxType firstType = taxSubtotals.get(0).getType();</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        for (Tax taxSubtotal : taxSubtotals) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (!taxSubtotal.getType().equals(firstType)) {</span>
+<span class="nc" id="L112">                throw new ElisCoreException(&quot;El tipo del subtotal: &quot; + taxSubtotal.getType() + &quot; no coincide con el de el total: &quot; + firstType);</span>
+            }
+<span class="nc" id="L114">            sum = sum.add(taxSubtotal.getTotal());</span>
+<span class="nc" id="L115">        }</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (sum.compareTo(total) != 0) {</span>
+<span class="nc" id="L118">            throw new ElisCoreException(&quot;Para el tipo: &quot; + type + &quot;El valor total: &quot; + total + &quot; no coincide con la suma de los subtotales: &quot; + sum);</span>
+        }
+
+<span class="nc" id="L121">    }</span>
+
+    public String toPlainString() {
+<span class="fc" id="L124">        return type.getCode() + total.setScale(2, RoundingMode.DOWN).toPlainString();</span>
+    }
+
+    @Override
+    public Iterator&lt;Tax&gt; iterator() {
+<span class="fc" id="L129">        return taxSubtotals.iterator();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

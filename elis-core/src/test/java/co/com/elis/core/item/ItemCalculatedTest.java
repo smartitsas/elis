@@ -3,6 +3,7 @@ package co.com.elis.core.item;
 import co.com.elis.core.tax.TaxType;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -22,8 +23,8 @@ public class ItemCalculatedTest {
         assertThat(item.getPosition(), is(1));
         assertNull(item.getDescription());
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -41,8 +42,8 @@ public class ItemCalculatedTest {
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -61,8 +62,8 @@ public class ItemCalculatedTest {
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(1854.3708)));
         assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));
@@ -85,8 +86,8 @@ public class ItemCalculatedTest {
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
         assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(824.1648)));
@@ -109,8 +110,8 @@ public class ItemCalculatedTest {
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
         assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));

@@ -4,6 +4,7 @@ import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.InvoicingRange;
 import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
@@ -31,7 +32,7 @@ public class InvoicingRangeTest {
         software.createInvoicingRangeAs()
                 .withConsecutiveRange(100L, 100L)
                 .withTechnicalKey("TK")
-                .withResoultion(null)
+                .withAuthorizationNumber(null)
                 .build();
     }
 
@@ -40,7 +41,7 @@ public class InvoicingRangeTest {
         software.createInvoicingRangeAs()
                 .withConsecutiveRange(100L, 100L)
                 .withTechnicalKey("TK")
-                .withResoultion("RESOL001")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withInvoicingPeriod(null)
                 .build();
     }
@@ -53,7 +54,7 @@ public class InvoicingRangeTest {
         software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
                 .withTechnicalKey("TK")
-                .withResoultion("RESOL002")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withInvoicingPeriod(period)
                 .withPrefix("PRFX01")
                 .build();
@@ -67,14 +68,14 @@ public class InvoicingRangeTest {
         InvoicingRange invoicingRange = software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
                 .withTechnicalKey("TK")
-                .withResoultion("RESOL002")
+                .withAuthorizationNumber(BigDecimal.TEN)
                 .withInvoicingPeriod(period)
                 .build();
 
         assertThat(invoicingRange.getFromConsecutive(), is(1L));
         assertThat(invoicingRange.getToConsecutive(), is(100L));
         assertThat(invoicingRange.getTechnicalKey(), is("TK"));
-        assertThat(invoicingRange.getAuthorizationNumber(), is("RESOL002"));
+        assertThat(invoicingRange.getAuthorizationNumber(), is(BigDecimal.TEN));
         assertNull(invoicingRange.getPrefix(), null);
         assertThat(invoicingRange.getAuthorizationPeriod(), is(period));
     }
@@ -87,7 +88,7 @@ public class InvoicingRangeTest {
         InvoicingRange invoicingRange = software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
                 .withTechnicalKey("TK")
-                .withResoultion("RESOL002")
+                .withAuthorizationNumber(BigDecimal.TEN)
                 .withInvoicingPeriod(period)
                 .withPrefix("PRFX")
                 .build();
@@ -95,7 +96,7 @@ public class InvoicingRangeTest {
         assertThat(invoicingRange.getFromConsecutive(), is(1L));
         assertThat(invoicingRange.getToConsecutive(), is(100L));
         assertThat(invoicingRange.getTechnicalKey(), is("TK"));
-        assertThat(invoicingRange.getAuthorizationNumber(), is("RESOL002"));
+        assertThat(invoicingRange.getAuthorizationNumber(), is(BigDecimal.TEN));
         assertThat(invoicingRange.getPrefix(), is("PRFX"));
         assertThat(invoicingRange.getAuthorizationPeriod(), is(period));
     }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidityPeriod.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.document</a> &gt; <span class="el_source">ValidityPeriod.java</span></div><h1>ValidityPeriod.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.document;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
+
+public class ValidityPeriod {
+
+<span class="nc" id="L28">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INVOICING_VALIDITY_PERIOD_START&quot;)
+    private final LocalDate start;
+
+<span class="nc" id="L32">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INVOICING_VALIDITY_PERIOD_END&quot;)
+    private final LocalDate end;
+
+<span class="nc" id="L36">    private ValidityPeriod(LocalDate start, LocalDate end) {</span>
+<span class="nc" id="L37">        this.start = start;</span>
+<span class="nc" id="L38">        this.end = end;</span>
+<span class="nc" id="L39">    }</span>
+
+    public Duration getDuration() {
+<span class="nc" id="L42">        return Duration.between(start.atStartOfDay(), end.atStartOfDay());</span>
+    }
+
+    public static ValidityPeriod of(LocalDate start, LocalDate end) {
+<span class="nc" id="L46">        return new ValidityPeriod(start, end);</span>
+    }
+
+    public static ValidityPeriod of(LocalDate start, Duration duration) {
+<span class="nc" id="L50">        return new ValidityPeriod(start, start.plus(duration));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

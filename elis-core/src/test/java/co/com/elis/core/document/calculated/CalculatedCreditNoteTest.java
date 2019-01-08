@@ -96,7 +96,7 @@ public class CalculatedCreditNoteTest {
         assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
         assertThat(creditNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
         assertThat(creditNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
-        assertThat(creditNote.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10).setScale(2)));
+        assertThat(creditNote.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10).setScale(4)));
     }
 
     @Test

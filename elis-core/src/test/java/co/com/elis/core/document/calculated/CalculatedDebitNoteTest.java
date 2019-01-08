@@ -97,7 +97,7 @@ public class CalculatedDebitNoteTest {
         assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
         assertThat(debitNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
         assertThat(debitNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
-        assertThat(debitNote.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10).setScale(2)));
+        assertThat(debitNote.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10).setScale(4)));
     }
 
     @Test

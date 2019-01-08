@@ -48,7 +48,7 @@ public class BasicInvoiceTest {
         LocalDateTime endPeriod = LocalDate.parse("2016-01-04").atStartOfDay();
 
         invoicingRange = software.createInvoicingRangeAs()
-                .withResoultion("000001")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withTechnicalKey("TECHKEY")
                 .withPrefix("81")
                 .withConsecutiveRange(10007869L, 19999999L)
@@ -84,7 +84,7 @@ public class BasicInvoiceTest {
         var invoicingRange2 = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -108,7 +108,7 @@ public class BasicInvoiceTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
         assertNotNull(invoice.getHeader().getInvoiceDate());
         assertNotNull(invoice.getCufe());
@@ -172,7 +172,7 @@ public class BasicInvoiceTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
         assertNotNull(invoice.getHeader().getInvoiceDate());
         assertThat(invoice.getHeader().getInvoiceDate().getIssueDate(), is(currentDateTime.toLocalDate()));
@@ -248,7 +248,7 @@ public class BasicInvoiceTest {
         assertThat(item1.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(4.14).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(invoice.getLegalMonetaryTotal().getCurrency(), is("COP"));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(200).setScale(2, RoundingMode.HALF_UP)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(200).setScale(4, RoundingMode.HALF_UP)));
         assertThat(invoice.getLegalMonetaryTotal().getTaxTotal(), is(BigDecimal.valueOf(40.28).setScale(4, RoundingMode.HALF_UP)));
         assertThat(invoice.getLegalMonetaryTotal().getPayableAmount(), is(BigDecimal.valueOf(240.2800).setScale(4, RoundingMode.HALF_UP)));
 

@@ -63,7 +63,7 @@ public class BillingReferenceTest {
         var invoicingRanger = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -96,7 +96,7 @@ public class BillingReferenceTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
         assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.ORDER_REFERENCE).get(0).getId(), is("ORD001"));
         assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.ORDER_REFERENCE).get(0), is(ref0));

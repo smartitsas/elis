@@ -46,7 +46,7 @@ public class InvoiceDeliveryTest {
         invoicingRange = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -111,7 +111,7 @@ public class InvoiceDeliveryTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
         assertThat(invoice.getOtherData().getDelivery().getDeliveryParty(), is(deliveryParty));
     }
 

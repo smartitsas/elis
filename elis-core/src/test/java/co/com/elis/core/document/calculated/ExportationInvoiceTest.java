@@ -68,7 +68,7 @@ public class ExportationInvoiceTest {
         var invoicingRanger = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -109,7 +109,7 @@ public class ExportationInvoiceTest {
         var invoicingRanger = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -137,7 +137,7 @@ public class ExportationInvoiceTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
     }
 
     @Test(expected = ElisCoreException.class)
@@ -146,7 +146,7 @@ public class ExportationInvoiceTest {
         var invoicingRanger = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -182,7 +182,7 @@ public class ExportationInvoiceTest {
         var invoicingRanger = software.createInvoicingRangeAs()
                 .withTechnicalKey("technicalKey")
                 .withPrefix("PRFX")
-                .withResoultion("RES001DIAN")
+                .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
                 .build();
@@ -209,7 +209,7 @@ public class ExportationInvoiceTest {
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
-        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(2)));
+        assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
     }
 
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReceiverParty.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.person</a> &gt; <span class="el_source">ReceiverParty.java</span></div><h1>ReceiverParty.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.person;
+
+import co.com.elis.core.document.PhysicalLocation;
+import java.util.List;
+
+public class ReceiverParty&lt;N extends PersonName&gt; extends Person&lt;N&gt; {
+
+    public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, List&lt;Contact&gt; contacts) {
+<span class="fc" id="L27">        super(personType, name, identityDocument, physicalLocation, dianCharacterization, contacts);</span>
+<span class="fc" id="L28">    }</span>
+
+    public static class ReceiverPartyBuilder&lt;N extends PersonName, R extends RepresentationType&gt; extends PersonBuilder&lt;N, R, ReceiverPartyBuilder&lt;N, R&gt;&gt; {
+
+        public ReceiverPartyBuilder(PersonType personType) {
+<span class="fc" id="L33">            super(personType);</span>
+<span class="fc" id="L34">        }</span>
+
+        /**
+         * Assigns a given name to the receiver party to be built
+         *
+         * @param name Name to be assigned
+         * @return Chaining builder
+         */
+        public ReceiverPartyBuilder&lt;N, R&gt; withName(N name) {
+<span class="fc" id="L43">            this.personName = name;</span>
+<span class="fc" id="L44">            return collectContext();</span>
+        }
+
+        @Override
+        protected ReceiverPartyBuilder&lt;N, R&gt; collectContext() {
+<span class="fc" id="L49">            return this;</span>
+        }
+
+        public ReceiverParty&lt;N&gt; build() {
+<span class="fc" id="L53">            DIANCharacterization dianCharacterization = new DIANCharacterization(obligations, customUserCodes, establishmentTypes, representationTypes);</span>
+<span class="fc" id="L54">            return new ReceiverParty&lt;&gt;(personType, personName, identityDocument, physicalLocation, dianCharacterization, contacts);</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

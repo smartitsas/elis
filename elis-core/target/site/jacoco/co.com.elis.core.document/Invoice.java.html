@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Invoice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.document</a> &gt; <span class="el_source">Invoice.java</span></div><h1>Invoice.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.document;
+
+import co.com.elis.core.util.ResourceInterpolator;
+import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.core.item.ItemList;
+import co.com.elis.core.tax.TaxTotal;
+import co.com.elis.core.tax.TaxType;
+import co.com.elis.core.util.ElisEncoder;
+import co.com.elis.exception.ElisCoreException;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import co.com.elis.core.document.validation.ExportationValidationGroup;
+import co.com.elis.core.document.validation.InvoicingRangeValid;
+import co.com.elis.core.item.InvoiceItem;
+import javax.validation.groups.Default;
+
+@InvoicingRangeValid
+public class Invoice extends Document&lt;InvoiceItem&gt; {
+
+    @Valid
+<span class="fc" id="L44">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INV_RANGE&quot;)
+    private final InvoicingRange invoicingRange;
+
+<span class="fc" id="L48">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INV_TYPE&quot;)
+    private final InvoiceType invoiceType;
+
+<span class="fc" id="L52">    @Getter</span>
+    private String cufe;
+
+    /**
+     * Constructor used to create an invoice with already calculated data
+     *
+     * @param invoiceType type of invoice
+     * @param header header data
+     * @param itemList List of items (detail) of the invoice
+     * @param legalMonetaryTotal Totals of invoice
+     * @param allowanceCharge if there is a charge or discount should be
+     * informed here
+     * @param otherData Additional related data
+     */
+    Invoice(InvoiceType invoiceType, Header header, InvoicingRange invoicingRange, ItemList&lt;InvoiceItem&gt; itemList, TaxTotalList taxTotalList, MonetaryTotal legalMonetaryTotal, OtherRelatedData otherData) {
+<span class="fc" id="L67">        super(header, taxTotalList, legalMonetaryTotal, itemList, otherData);</span>
+<span class="fc" id="L68">        this.invoiceType = invoiceType;</span>
+<span class="fc" id="L69">        this.invoicingRange = invoicingRange;</span>
+<span class="fc" id="L70">    }</span>
+
+    private Set&lt;ConstraintViolation&lt;Invoice&gt;&gt; validate() {
+<span class="fc" id="L73">        Validator validator = Validation.buildDefaultValidatorFactory().usingContext().messageInterpolator(new ResourceInterpolator()).getValidator();</span>
+        Set&lt;ConstraintViolation&lt;Invoice&gt;&gt; results;
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (invoiceType == InvoiceType.EXPORTATION) {</span>
+<span class="fc" id="L77">            results = validator.validate(this, Default.class, ExportationValidationGroup.class);</span>
+        } else {
+<span class="fc" id="L79">            results = validator.validate(this);</span>
+        }
+<span class="fc" id="L81">        return results;</span>
+    }
+
+    void validateOrThrow() throws ElisCoreException {
+<span class="fc" id="L85">        Set&lt;ConstraintViolation&lt;Invoice&gt;&gt; violations = validate();</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (!violations.isEmpty()) {</span>
+<span class="fc" id="L88">            ConstraintViolation&lt;Invoice&gt; violation = violations.iterator().next();</span>
+<span class="fc" id="L89">            throw new ElisCoreException(violation.getPropertyPath().toString() + &quot;: &quot; + violation.getMessage());</span>
+        }
+
+<span class="fc" id="L92">        getTaxTotalList().validate();</span>
+<span class="fc" id="L93">    }</span>
+
+    void calculateCufe() throws ElisCoreException {
+
+<span class="fc" id="L97">        StringBuilder builder = new StringBuilder(getHeader().getDocumentNumber().getFullId());</span>
+<span class="fc" id="L98">        builder.append(getHeader().getInvoiceDate().toFormattedDateTime());</span>
+
+<span class="fc" id="L100">        builder.append(getLegalMonetaryTotal().toPlainString());</span>
+
+<span class="pc" id="L102">        TaxTotal taxTotal = getTaxTotalList().getByType(TaxType.IVA).orElseThrow(() -&gt; new ElisCoreException(&quot;In order to calculate CUFE total IVA must be present&quot;));</span>
+<span class="fc" id="L103">        builder.append(taxTotal.toPlainString());</span>
+
+<span class="pc" id="L105">        taxTotal = getTaxTotalList().getByType(TaxType.ICA).orElseThrow(() -&gt; new ElisCoreException(&quot;In order to calculate CUFE ICA must be present&quot;));</span>
+<span class="fc" id="L106">        builder.append(taxTotal.toPlainString());</span>
+
+<span class="pc" id="L108">        taxTotal = getTaxTotalList().getByType(TaxType.CONSUMPTION).orElseThrow(() -&gt; new ElisCoreException(&quot;In order to calculate CUFE CONSUMPTION must be present&quot;));</span>
+<span class="fc" id="L109">        builder.append(taxTotal.toPlainString())</span>
+<span class="fc" id="L110">                .append(getHeader().getReceiverParty().getIdentityDocument().getType().getCode())</span>
+<span class="fc" id="L111">                .append(getHeader().getReceiverParty().getIdentityDocument().getAccount());</span>
+
+<span class="fc" id="L113">        builder.append(invoicingRange.getTechnicalKey());</span>
+<span class="fc" id="L114">        String consolidatedData = builder.toString();</span>
+<span class="fc" id="L115">        cufe = ElisEncoder.applyHash(consolidatedData);</span>
+<span class="fc" id="L116">    }</span>
+
+    void setCufe(String cufe) {
+<span class="fc" id="L119">        this.cufe = cufe;</span>
+<span class="fc" id="L120">    }</span>
+
+    @Override
+    public DocumentType getType() {
+<span class="fc" id="L124">        return DocumentType.INVOICE;</span>
+    }
+
+    public boolean isExportation() {
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        return invoiceType == InvoiceType.EXPORTATION;</span>
+    }
+
+    public boolean isTranscription() {
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        return invoiceType == InvoiceType.TRANSCRIPTION;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

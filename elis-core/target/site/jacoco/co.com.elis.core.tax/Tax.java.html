@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tax.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.tax</a> &gt; <span class="el_source">Tax.java</span></div><h1>Tax.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.tax;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
+
+public class Tax {
+
+<span class="fc" id="L28">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final TaxType type;
+
+<span class="fc" id="L32">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final BigDecimal percentage;
+
+<span class="fc" id="L36">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final BigDecimal total;
+
+<span class="nc" id="L40">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final BigDecimal taxableAmount;
+
+<span class="fc" id="L44">    public static final Tax ICA_ZERO = new Tax(TaxType.ICA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);</span>
+<span class="fc" id="L45">    public static final Tax IVA_ZERO = new Tax(TaxType.IVA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);</span>
+<span class="fc" id="L46">    public static final Tax CONSUMPTION_ZERO = new Tax(TaxType.CONSUMPTION, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);</span>
+
+    /**
+     * Create tax with type, percentage and total (this must be calculated by
+     * the user)
+     *
+     * @param type Type of the Tax
+     * @param percentage Percentage of the tax to be created
+     * @param total Total of the tax to be created, must be calculated by the
+     * user
+     * @param taxableAmount Original amount to apply the percentage
+     */
+<span class="fc" id="L58">    private Tax(TaxType type, BigDecimal percentage, BigDecimal total, BigDecimal taxableAmount) {</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L61">            throw new NullPointerException(&quot;type must not be null&quot;);</span>
+        }
+
+<span class="fc" id="L64">        this.percentage = percentage;</span>
+<span class="fc" id="L65">        this.total = total;</span>
+<span class="fc" id="L66">        this.type = type;</span>
+<span class="fc" id="L67">        this.taxableAmount = taxableAmount;</span>
+<span class="fc" id="L68">    }</span>
+
+    public Tax add(Tax otherSubtotal) {
+<span class="fc" id="L71">        return new Tax(type, percentage, total.add(otherSubtotal.getTotal()), taxableAmount);</span>
+    }
+
+    /**
+     * Creates a Builder for tax.
+     *
+     * Each unassigned value will NOT be ZERO by default
+     *
+     * @param type
+     * @return
+     */
+    public static TaxBuilder createAs(TaxType type) {
+<span class="fc" id="L83">        return new TaxBuilder(type, false);</span>
+    }
+
+    /**
+     * Creates a Builder for tax.
+     *
+     * Each unassigned value will be ZERO by default
+     *
+     * @param type
+     * @return
+     */
+    public static TaxBuilder createWithZeros(TaxType type) {
+<span class="fc" id="L95">        return new TaxBuilder(type, true);</span>
+    }
+
+    public static class TaxBuilder {
+
+        private final TaxType type;
+        private BigDecimal percentage;
+        private BigDecimal totalValue;
+        private BigDecimal taxableAmount;
+
+<span class="fc" id="L105">        public TaxBuilder(TaxType type, boolean defaultToZero) {</span>
+<span class="fc" id="L106">            this.type = type;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            if (defaultToZero) {</span>
+<span class="fc" id="L108">                this.percentage = BigDecimal.ZERO;</span>
+<span class="fc" id="L109">                this.totalValue = BigDecimal.ZERO;</span>
+<span class="fc" id="L110">                this.taxableAmount = BigDecimal.ZERO;</span>
+            }
+<span class="fc" id="L112">        }</span>
+
+        public TaxBuilder withPercentage(BigDecimal percentage) {
+<span class="fc" id="L115">            this.percentage = percentage;</span>
+<span class="fc" id="L116">            return this;</span>
+        }
+
+        public TaxBuilder withPercentage(double percentage) {
+<span class="fc" id="L120">            this.percentage = BigDecimal.valueOf(percentage).setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L121">            return this;</span>
+        }
+
+        public TaxBuilder withTaxableAmount(BigDecimal taxableAmount) {
+<span class="fc" id="L125">            this.taxableAmount = taxableAmount;</span>
+<span class="fc" id="L126">            return this;</span>
+        }
+
+        public TaxBuilder withTotal(BigDecimal totalValue) {
+<span class="fc" id="L130">            this.totalValue = totalValue;</span>
+<span class="fc" id="L131">            return this;</span>
+        }
+
+        public TaxBuilder withTotal(double totalValue) {
+<span class="fc" id="L135">            this.totalValue = BigDecimal.valueOf(totalValue).setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L136">            return this;</span>
+        }
+
+        public Tax build() {
+<span class="fc" id="L140">            return new Tax(type, percentage, totalValue, taxableAmount);</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -32,9 +32,9 @@ public class NoteItemPopulatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertNull(item.getDescription());
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getDiscrepancy().getReason(), is(CreditNoteDiscrepancyReason.RETURN_OF_PRODUCT_OR_SERVICE));
         assertThat(item.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
     }
@@ -56,9 +56,9 @@ public class NoteItemPopulatedTest {
         assertThat(item.getPosition(), is(1));
         assertThat(item.getCode(), is("ITM1"));
         assertThat(item.getDescription(), is("Item de 100 cm3"));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -79,8 +79,8 @@ public class NoteItemPopulatedTest {
         assertThat(item.getCode(), is("ITEM1"));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(1900.0361)));
         assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.valueOf(19).setScale(4, RoundingMode.HALF_UP)));
@@ -108,8 +108,8 @@ public class NoteItemPopulatedTest {
         assertThat(item.getCode(), is("ITEM1"));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
         assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO));
@@ -139,8 +139,8 @@ public class NoteItemPopulatedTest {
         assertThat(item.getCode(), is("ITEM1"));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
         assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19)));
+        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
         assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO));

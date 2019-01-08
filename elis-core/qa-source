@@ -1,0 +1,3 @@
+mvn sonar:sonar \
+  -Dsonar.host.url=https://www.smartit.net.co/intranet/ci/sonarqube \
+  -Dsonar.login=f7015d31118f66db5b636ae7f4f6732e1fd50df7

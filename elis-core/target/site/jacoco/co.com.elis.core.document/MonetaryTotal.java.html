@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonetaryTotal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.document</a> &gt; <span class="el_source">MonetaryTotal.java</span></div><h1>MonetaryTotal.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.document;
+
+import co.com.elis.core.document.allowance.AllowanceCharge;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
+
+public class MonetaryTotal {
+
+<span class="fc" id="L30">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INV_TOTAL&quot;)
+    private final BigDecimal lineTotal;
+
+<span class="fc" id="L34">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final BigDecimal taxTotal;
+
+<span class="fc" id="L38">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_UNKNOWN&quot;)
+    private final BigDecimal payableAmount;
+
+<span class="fc" id="L42">    @Getter</span>
+    @NotNull(message = &quot;ELIS_CORE_VAL_INV_TOTAL_CURRENCY&quot;)
+    private final String currency;
+
+<span class="nc" id="L46">    @Getter</span>
+    private final BigDecimal chargeTotal;
+
+<span class="nc" id="L49">    @Getter</span>
+    private final BigDecimal discountTotal;
+
+<span class="fc" id="L52">    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount) {</span>
+<span class="fc" id="L53">        this.currency = currency;</span>
+<span class="fc" id="L54">        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L55">        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L56">        this.payableAmount = payableAmount.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L57">        this.chargeTotal = null;</span>
+<span class="fc" id="L58">        this.discountTotal = null;</span>
+<span class="fc" id="L59">    }</span>
+
+<span class="nc" id="L61">    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount, BigDecimal chargeTotal, BigDecimal discountTotal) {</span>
+<span class="nc" id="L62">        this.currency = currency;</span>
+<span class="nc" id="L63">        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L64">        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L65">        this.payableAmount = payableAmount.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L66">        this.chargeTotal = chargeTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L67">        this.discountTotal = discountTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L68">    }</span>
+
+<span class="fc" id="L70">    MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, List&lt;AllowanceCharge&gt; allowanceCharges) {</span>
+<span class="fc" id="L71">        this.currency = currency;</span>
+<span class="fc" id="L72">        this.lineTotal = lineTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L73">        this.taxTotal = taxTotal.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L74">        BigDecimal chargeSum = BigDecimal.ZERO;</span>
+<span class="fc" id="L75">        BigDecimal discuntSum = BigDecimal.ZERO;</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for (AllowanceCharge allowanceCharge : allowanceCharges) {</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (allowanceCharge.isChargeIndicator()) {</span>
+<span class="fc" id="L79">                chargeSum = chargeSum.add(allowanceCharge.getAmount());</span>
+            } else {
+<span class="fc" id="L81">                discuntSum = discuntSum.add(allowanceCharge.getAmount());</span>
+            }
+<span class="fc" id="L83">        }</span>
+
+<span class="fc" id="L85">        this.chargeTotal = chargeSum.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L86">        this.discountTotal = discuntSum.setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L87">        this.payableAmount = lineTotal.add(taxTotal).add(chargeSum).subtract(discuntSum).setScale(4, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L88">    }</span>
+
+    public String toPlainString() {
+<span class="fc" id="L91">        return lineTotal.setScale(2, RoundingMode.DOWN).toPlainString();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

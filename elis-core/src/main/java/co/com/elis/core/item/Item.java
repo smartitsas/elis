@@ -23,6 +23,7 @@ import co.com.elis.core.tax.TaxType;
 import co.com.elis.core.tax.validation.ValidateItemTax;
 import co.com.elis.core.util.ResourceInterpolator;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -62,9 +63,9 @@ public class Item {
     public Item(Integer position, String code, String description, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection) {
         this.position = position;
         this.description = description;
-        this.total = total;
+        this.total = total.setScale(4, RoundingMode.HALF_UP);
         this.quantity = quantity;
-        this.unitaryValue = unitaryValue;
+        this.unitaryValue = unitaryValue.setScale(4, RoundingMode.HALF_UP);
         this.taxes = taxCollection;
         this.code = code;
     }

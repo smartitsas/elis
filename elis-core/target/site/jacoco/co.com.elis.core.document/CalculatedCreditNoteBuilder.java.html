@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculatedCreditNoteBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.document</a> &gt; <span class="el_source">CalculatedCreditNoteBuilder.java</span></div><h1>CalculatedCreditNoteBuilder.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.document;
+
+import co.com.elis.core.item.CreditNoteDiscrepancyReason;
+import co.com.elis.core.item.Discrepancy;
+import co.com.elis.core.software.Software;
+import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.exception.ElisCoreException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class CalculatedCreditNoteBuilder extends AbstractNoteBuilder&lt;CalculatedCreditNoteBuilder.CalculatedMandatoryContext&gt; {
+
+    private CreditNoteDiscrepancyReason discrepancyReason;
+
+    public CalculatedCreditNoteBuilder(Software software) {
+<span class="fc" id="L34">        super(software);</span>
+<span class="fc" id="L35">    }</span>
+
+    public CreditNote getCalculatedResult() throws ElisCoreException {
+<span class="fc" id="L38">        OtherRelatedData otherData = new OtherRelatedData(delivery, paymentDataBuilder.buildOrNull(), exchangeRate, referenceList, additionalNotes);</span>
+<span class="fc" id="L39">        TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, false, itemList.getTaxes());</span>
+<span class="fc" id="L40">        MonetaryTotal legalMonetaryTotal = calculateTotals(itemList, taxTotalList, allowanceCharge);</span>
+<span class="fc" id="L41">        DocumentNumber documentNumber = new DocumentNumber(prefix, consecutive);</span>
+
+<span class="fc" id="L43">        List&lt;AffectedInvoice&gt; affectedInvoices = itemList.stream().flatMap(t -&gt; t.getAffectedInvoices().stream()).collect(Collectors.toList());</span>
+
+<span class="fc" id="L45">        Discrepancy discrepancy = new Discrepancy(affectedInvoices, discrepancyReason);</span>
+
+<span class="fc" id="L47">        CreditNote creditNote = new CreditNote(</span>
+                new Header(supplierParty, software, receiverParty, invoiceDate, documentNumber),
+                taxTotalList,
+                legalMonetaryTotal,
+                itemList,
+                otherData,
+                discrepancy
+        );
+
+<span class="fc" id="L56">        creditNote.validateOrThrow();</span>
+<span class="fc" id="L57">        return creditNote;</span>
+    }
+
+    @Override
+    public CalculatedMandatoryContext withinMandatorySection() {
+<span class="fc" id="L62">        return new CalculatedMandatoryContext(this);</span>
+    }
+
+    public CalculatedOptionalContext withinOptionalSection() {
+<span class="nc" id="L66">        return new CalculatedOptionalContext(this);</span>
+    }
+
+    public static class CalculatedMandatoryContext extends AbstractNoteBuilder.MandatoryContext&lt;CalculatedMandatoryContext, CalculatedOptionalContext&gt; {
+
+        public CalculatedMandatoryContext(CalculatedCreditNoteBuilder invoiceBuilder) {
+<span class="fc" id="L72">            super(invoiceBuilder);</span>
+<span class="fc" id="L73">        }</span>
+
+        @Override
+        public CalculatedOptionalContext withinOptionalSection() {
+<span class="nc" id="L77">            return new CalculatedOptionalContext((CalculatedCreditNoteBuilder) builder);</span>
+        }
+
+        public CreditNote getResult() throws ElisCoreException {
+<span class="fc" id="L81">            CalculatedCreditNoteBuilder creditNoteBuilder = (CalculatedCreditNoteBuilder) builder;</span>
+
+<span class="fc" id="L83">            return creditNoteBuilder.getCalculatedResult();</span>
+        }
+
+        @Override
+        protected CalculatedMandatoryContext collectContext() {
+<span class="fc" id="L88">            return this;</span>
+        }
+
+    }
+
+    public static class CalculatedOptionalContext extends AbstractNoteBuilder.OptionalContext&lt;CalculatedMandatoryContext, CalculatedOptionalContext&gt; {
+
+        private CalculatedOptionalContext(CalculatedCreditNoteBuilder builder) {
+<span class="nc" id="L96">            super(builder);</span>
+<span class="nc" id="L97">        }</span>
+
+        public CalculatedOptionalContext setDiscrepancyReason(CreditNoteDiscrepancyReason reason) {
+<span class="nc" id="L100">            ((CalculatedCreditNoteBuilder) builder).discrepancyReason = reason;</span>
+<span class="nc" id="L101">            return collectContext();</span>
+        }
+
+        public CreditNote getResult() throws ElisCoreException {
+<span class="nc" id="L105">            CalculatedCreditNoteBuilder creditNoteBuilder = (CalculatedCreditNoteBuilder) builder;</span>
+<span class="nc" id="L106">            return creditNoteBuilder.getCalculatedResult();</span>
+        }
+
+        @Override
+        protected CalculatedOptionalContext collectContext() {
+<span class="nc" id="L111">            return this;</span>
+        }
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

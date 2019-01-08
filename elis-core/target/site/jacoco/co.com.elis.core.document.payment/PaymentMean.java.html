@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentMean.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.document.payment</a> &gt; <span class="el_source">PaymentMean.java</span></div><h1>PaymentMean.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.document.payment;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+
+public class PaymentMean {
+
+<span class="nc" id="L28">    @Getter</span>
+    private String id;
+
+<span class="nc" id="L31">    @Getter</span>
+    private String code;
+
+<span class="nc" id="L34">    @Getter</span>
+    private String cardAccount;
+
+<span class="nc" id="L37">    @Getter</span>
+    private String creditAccount;
+
+<span class="nc" id="L40">    @Getter</span>
+    private LocalDate dueDate;
+
+<span class="nc" id="L43">    @Getter</span>
+    private String channelCode;
+
+<span class="nc" id="L46">    @Getter</span>
+    private String payerFinancialAccount;
+
+<span class="nc" id="L49">    @Getter</span>
+    private String payeeFinancialAccount;
+
+<span class="nc" id="L52">    @Getter</span>
+    private final List&lt;String&gt; instructionNotes;
+
+<span class="nc" id="L55">    private PaymentMean() {</span>
+<span class="nc" id="L56">        instructionNotes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L57">    }</span>
+
+    public static PaymentMeansBuilder createAs() {
+<span class="nc" id="L60">        return new PaymentMeansBuilder();</span>
+    }
+
+    public static class PaymentMeansBuilder {
+
+        private final PaymentMean paymentMeans;
+
+<span class="nc" id="L67">        @Getter</span>
+        private final List&lt;String&gt; instructionNotes;
+
+<span class="nc" id="L70">        public PaymentMeansBuilder() {</span>
+<span class="nc" id="L71">            this.paymentMeans = new PaymentMean();</span>
+<span class="nc" id="L72">            this.instructionNotes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L73">        }</span>
+
+        public PaymentMeansBuilder withId(String id) {
+<span class="nc" id="L76">            paymentMeans.id = id;</span>
+<span class="nc" id="L77">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withCode(String code) {
+<span class="nc" id="L81">            paymentMeans.code = code;</span>
+<span class="nc" id="L82">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withCardAccount(String cardAccount) {
+<span class="nc" id="L86">            paymentMeans.cardAccount = cardAccount;</span>
+<span class="nc" id="L87">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withCreditAccount(String creditAccount) {
+<span class="nc" id="L91">            paymentMeans.creditAccount = creditAccount;</span>
+<span class="nc" id="L92">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withDueDate(LocalDate dueDate) {
+<span class="nc" id="L96">            paymentMeans.dueDate = dueDate;</span>
+<span class="nc" id="L97">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withPaymentChannelCode(String paymentChannelCode) {
+<span class="nc" id="L101">            paymentMeans.channelCode = paymentChannelCode;</span>
+<span class="nc" id="L102">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withPayerFinancialAccount(String payerFinancialAccount) {
+<span class="nc" id="L106">            paymentMeans.payerFinancialAccount = payerFinancialAccount;</span>
+<span class="nc" id="L107">            return this;</span>
+        }
+
+        public PaymentMeansBuilder withPayeeFinancialAccount(String payeeFinancialAccount) {
+<span class="nc" id="L111">            paymentMeans.payeeFinancialAccount = payeeFinancialAccount;</span>
+<span class="nc" id="L112">            return this;</span>
+        }
+
+        public PaymentMeansBuilder addInstructionNote(String instructionNote) {
+<span class="nc" id="L116">            this.instructionNotes.add(instructionNote);</span>
+<span class="nc" id="L117">            return this;</span>
+        }
+
+        public PaymentMeansBuilder addInstructionNotes(List&lt;String&gt; instructionNotes) {
+<span class="nc" id="L121">            this.instructionNotes.addAll(instructionNotes);</span>
+<span class="nc" id="L122">            return this;</span>
+        }
+
+        public PaymentMean build() {
+<span class="nc" id="L126">            paymentMeans.instructionNotes.addAll(instructionNotes);</span>
+<span class="nc" id="L127">            return paymentMeans;</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

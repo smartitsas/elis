@@ -70,7 +70,7 @@ public class AbstractItemBuilder {
         }
 
         public T setUnitaryValue(double unitaryValue) {
-            builder.unitaryValue = BigDecimal.valueOf(unitaryValue);
+            builder.unitaryValue = BigDecimal.valueOf(unitaryValue).setScale(4);
             return collectContext();
         }
 

@@ -20,6 +20,7 @@ package co.com.elis.core.document;
 
 import co.com.elis.core.util.ResourceInterpolator;
 import co.com.elis.exception.ElisCoreException;
+import java.math.BigDecimal;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -51,18 +52,18 @@ public class InvoicingRange {
 
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_INVOICING_RANGE_RESOLUTION")
-    private final String authorizationNumber;
+    private final BigDecimal authorizationNumber;
 
     @Getter
     @Valid
     @NotNull(message = "ELIS_CORE_VAL_INV_INVOICING_PERIOD")
     private final InvoicingRangePeriod authorizationPeriod;
 
-    private InvoicingRange(String technicalKey, String resolutionNumber, String prefix, Long fromConsecutive, Long toConsecutive, InvoicingRangePeriod invoicingPeriod) {
+    private InvoicingRange(String technicalKey, BigDecimal authorizationNumber, String prefix, Long fromConsecutive, Long toConsecutive, InvoicingRangePeriod invoicingPeriod) {
         this.technicalKey = technicalKey;
         this.fromConsecutive = fromConsecutive;
         this.toConsecutive = toConsecutive;
-        this.authorizationNumber = resolutionNumber;
+        this.authorizationNumber = authorizationNumber;
         this.prefix = prefix;
         this.authorizationPeriod = invoicingPeriod;
     }
@@ -72,7 +73,7 @@ public class InvoicingRange {
         private String prefix;
         private Long fromConsecutive;
         private Long toConsecutive;
-        private String resolutionNumber;
+        private BigDecimal authorizationNumber;
         private String technicalKey;
         private InvoicingRangePeriod invoicingPeriod;
 
@@ -95,16 +96,16 @@ public class InvoicingRange {
 
         /**
          * Resolution key given by DIAN prior registration (located in the
-         * muisca portal).
+         * muisca portal), same as Resolution Number.
          *
          * Details can be found in "Guia del facturador electronico"
          *
-         * @param resolutionNumber Value corresponding to the resolution number
+         * @param authorizationNumber Value corresponding to the resolution number
          * of the invoice range to build
          * @return Builder to chain object construction
          */
-        public InvoiceRangeBuilder withResoultion(String resolutionNumber) {
-            this.resolutionNumber = resolutionNumber;
+        public InvoiceRangeBuilder withAuthorizationNumber(BigDecimal authorizationNumber) {
+            this.authorizationNumber = authorizationNumber;
             return this;
         }
 
@@ -160,7 +161,7 @@ public class InvoicingRange {
          * @throws ElisCoreException
          */
         public InvoicingRange build() throws ElisCoreException {
-            InvoicingRange invoicinRange = new InvoicingRange(technicalKey, resolutionNumber, prefix, fromConsecutive, toConsecutive, invoicingPeriod);
+            InvoicingRange invoicinRange = new InvoicingRange(technicalKey, authorizationNumber, prefix, fromConsecutive, toConsecutive, invoicingPeriod);
 
             validateOrThrow(invoicinRange);
             return invoicinRange;

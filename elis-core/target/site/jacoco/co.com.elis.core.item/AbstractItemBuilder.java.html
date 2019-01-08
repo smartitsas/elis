@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractItemBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">elis-core</a> &gt; <a href="index.source.html" class="el_package">co.com.elis.core.item</a> &gt; <span class="el_source">AbstractItemBuilder.java</span></div><h1>AbstractItemBuilder.java</h1><pre class="source lang-java linenums">/**********************************************************************************************
+ *
+ * ELectronic Invoicing System Community Core library
+ * Copyright (C) 2017-2018. Smart IT S.A.S. &lt;smartit.net.co&gt;
+ *
+ * This file is licensed under the GNU Affero General Public License version 3 as published by
+ * the Free Software Foundation.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * You should have received a copy of the GNU Affero General Public License.  If not, please
+ * visit &lt;http://www.gnu.org/licenses/agpl-3.0.html&gt;.
+ *
+ **********************************************************************************************/
+
+package co.com.elis.core.item;
+
+import co.com.elis.exception.ElisCoreException;
+import java.math.BigDecimal;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+
+public class AbstractItemBuilder {
+
+    protected Integer position;
+    protected String code;
+    protected String description;
+    protected BigDecimal unitaryValue;
+    protected BigDecimal quantity;
+    protected boolean validate;
+
+<span class="fc" id="L35">    public AbstractItemBuilder() {</span>
+<span class="fc" id="L36">        this.validate = true;</span>
+<span class="fc" id="L37">    }</span>
+
+    protected void validateOrThrow(Item item) throws ElisCoreException {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (validate) {</span>
+<span class="fc" id="L41">            Set&lt;ConstraintViolation&lt;Item&gt;&gt; violations = item.validate();</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (!violations.isEmpty()) {</span>
+<span class="nc" id="L43">                throw new ElisCoreException(&quot;Error en item &quot; + item.toDescriptiveId() + &quot;: &quot; + violations.iterator().next().getMessage());</span>
+            }
+        }
+<span class="fc" id="L46">    }</span>
+
+    public abstract static class MandatoryContext&lt;B extends AbstractItemBuilder, T extends MandatoryContext&gt; {
+
+        protected final B builder;
+
+<span class="fc" id="L52">        public MandatoryContext(B builder) {</span>
+<span class="fc" id="L53">            this.builder = builder;</span>
+<span class="fc" id="L54">        }</span>
+
+        /**
+         * Assigns position of the item
+         *
+         * @param position Id or position of the item
+         * @return Chaining Builder
+         */
+        public T setPosition(Integer position) {
+<span class="fc" id="L63">            builder.position = position;</span>
+<span class="fc" id="L64">            return collectContext();</span>
+        }              
+        
+        public T setUnitaryValue(BigDecimal unitaryValue) {
+<span class="nc" id="L68">            builder.unitaryValue = unitaryValue;</span>
+<span class="nc" id="L69">            return collectContext();</span>
+        }
+
+        public T setUnitaryValue(double unitaryValue) {
+<span class="fc" id="L73">            builder.unitaryValue = BigDecimal.valueOf(unitaryValue).setScale(4);</span>
+<span class="fc" id="L74">            return collectContext();</span>
+        }
+
+        public T setQuantity(BigDecimal quantity) {
+<span class="nc" id="L78">            builder.quantity = quantity;</span>
+<span class="nc" id="L79">            return collectContext();</span>
+        }
+
+        public T setQuantity(double quantity) {
+<span class="fc" id="L83">            builder.quantity = BigDecimal.valueOf(quantity);</span>
+<span class="fc" id="L84">            return collectContext();</span>
+        }
+
+        protected abstract T collectContext();
+
+    }
+
+    public abstract static class OptionalContext&lt;B extends AbstractItemBuilder, T extends OptionalContext&gt; {
+
+        protected final B builder;
+
+<span class="fc" id="L95">        public OptionalContext(B builder) {</span>
+<span class="fc" id="L96">            this.builder = builder;</span>
+<span class="fc" id="L97">        }</span>
+
+        
+        /**
+         * Assigns code to the item to be building
+         *
+         * @param code Code of the item
+         * @return Chaining Builder
+         */
+        public T setCode(String code) {
+<span class="fc" id="L107">            builder.code = code;</span>
+<span class="fc" id="L108">            return collectContext();</span>
+        }              
+        
+        public T setDescription(String description) {
+<span class="fc" id="L112">            builder.description = description;</span>
+<span class="fc" id="L113">            return collectContext();</span>
+        }
+
+        public T disableValidations() {
+<span class="fc" id="L117">            builder.validate = false;</span>
+<span class="fc" id="L118">            return collectContext();</span>
+        }
+
+        protected abstract T collectContext();
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
