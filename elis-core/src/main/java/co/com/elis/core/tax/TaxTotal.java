@@ -20,6 +20,7 @@ package co.com.elis.core.tax;
 
 import co.com.elis.core.tax.validation.ConsistentTaxTotal;
 import co.com.elis.core.tax.validation.ConsistentTaxType;
+import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,7 +58,7 @@ public class TaxTotal implements Iterable<Tax> {
      * @param taxSubtotals
      */
     public TaxTotal(TaxType type, BigDecimal total, boolean isRetained, List<Tax> taxSubtotals) {
-        this.total = total;
+        this.total = scaledOrNull(total);
         this.type = type;
         this.isRetained = isRetained;
         this.taxSubtotals = taxSubtotals;

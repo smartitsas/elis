@@ -22,6 +22,7 @@ import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.tax.TaxType;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import static org.hamcrest.CoreMatchers.is;
@@ -95,9 +96,9 @@ public class PopulatedCreditNoteTest {
         assertThat(creditNote.getHeader().getInvoiceDate(), is(invoiceDate));
         assertThat(creditNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(creditNote.getItemList().iterator().next(), is(noteItem));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.ZERO));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
         assertThat(creditNote.getLegalMonetaryTotal(), is(monetaryTotal));
     }
 
@@ -142,9 +143,9 @@ public class PopulatedCreditNoteTest {
         assertThat(creditNote.getHeader().getInvoiceDate(), is(invoiceDate));
         assertThat(creditNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(creditNote.getItemList().iterator().next(), is(noteItem));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO));
-        assertThat(creditNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.ZERO));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(creditNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
         assertThat(creditNote.getLegalMonetaryTotal(), is(monetaryTotal));
         assertThat(creditNote.getOtherData().getAdditionalNotes().get(0), is("SAMPLE NOTE 1"));
     }

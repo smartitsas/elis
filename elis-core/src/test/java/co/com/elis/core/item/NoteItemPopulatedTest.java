@@ -83,11 +83,11 @@ public class NoteItemPopulatedTest {
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(1900.0361)));
-        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.valueOf(19).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.valueOf(19).setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -111,12 +111,12 @@ public class NoteItemPopulatedTest {
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.valueOf(5).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.valueOf(500.0095)));
+        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.valueOf(5).setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.valueOf(500.0095).setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -142,12 +142,12 @@ public class NoteItemPopulatedTest {
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10000.19).setScale(4, RoundingMode.HALF_UP)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(1000.02)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.valueOf(8).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.IVA).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(1000.02).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getPercentage(), is(BigDecimal.valueOf(8).setScale(2, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getPercentage(), is(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)));
     }
 
 }

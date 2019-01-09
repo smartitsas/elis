@@ -18,6 +18,7 @@
 
 package co.com.elis.core.tax;
 
+import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.validation.constraints.NotNull;
@@ -61,10 +62,10 @@ public class Tax {
             throw new NullPointerException("type must not be null");
         }
 
-        this.percentage = percentage;
-        this.total = total;
+        this.percentage = scaledOrNull(percentage, 2);
+        this.total = scaledOrNull(total);
         this.type = type;
-        this.taxableAmount = taxableAmount;
+        this.taxableAmount = scaledOrNull(taxableAmount);
     }
 
     public Tax add(Tax otherSubtotal) {
@@ -105,9 +106,9 @@ public class Tax {
         public TaxBuilder(TaxType type, boolean defaultToZero) {
             this.type = type;
             if (defaultToZero) {
-                this.percentage = BigDecimal.ZERO;
-                this.totalValue = BigDecimal.ZERO;
-                this.taxableAmount = BigDecimal.ZERO;
+                this.percentage = BigDecimal.ZERO.setScale(2);
+                this.totalValue = BigDecimal.ZERO.setScale(4);
+                this.taxableAmount = BigDecimal.ZERO.setScale(4);
             }
         }
 

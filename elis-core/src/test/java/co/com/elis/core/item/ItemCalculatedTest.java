@@ -66,8 +66,8 @@ public class ItemCalculatedTest {
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(1854.3708)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -89,9 +89,9 @@ public class ItemCalculatedTest {
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(824.1648)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
     }
 
     @Test
@@ -113,8 +113,8 @@ public class ItemCalculatedTest {
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO));
+        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.valueOf(515.103).setScale(4)));
     }
 

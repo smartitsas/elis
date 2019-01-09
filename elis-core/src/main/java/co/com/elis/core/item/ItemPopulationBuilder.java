@@ -26,6 +26,7 @@ import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ItemPopulationBuilder extends AbstractItemBuilder {
@@ -109,6 +110,11 @@ public class ItemPopulationBuilder extends AbstractItemBuilder {
 
         @Override
         protected PopulationOptionalContext collectContext() {
+            return this;
+        }
+
+        public PopulationOptionalContext addTaxes(Collection<Tax> taxes) {
+            builder.taxList.addAll(taxes);
             return this;
         }
 

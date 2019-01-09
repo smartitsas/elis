@@ -279,7 +279,7 @@ public class BasicInvoiceTest {
 
         assertThat(invoice.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.valueOf(32).setScale(4, RoundingMode.HALF_UP)));
         assertThat(invoice.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.valueOf(8.28).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(invoice.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO));
+        assertThat(invoice.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
     }
 
 }

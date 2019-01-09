@@ -33,4 +33,12 @@ public class DecimalUtils {
         }
         return value.setScale(4, RoundingMode.HALF_UP);
     }
+    
+    public static BigDecimal scaledOrNull(BigDecimal value, int scale){
+        if(value == null){
+            return null;
+        }
+        return value.setScale(scale, RoundingMode.HALF_UP);
+    }    
+    
 }
