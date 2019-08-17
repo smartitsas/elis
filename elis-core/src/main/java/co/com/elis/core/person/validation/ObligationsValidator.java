@@ -30,7 +30,7 @@ public class ObligationsValidator implements ConstraintValidator<ConsistentSameP
             return true;
         }
 
-        return !person.getDianCharacterization().getObligations().isEmpty();
+        return !person.getDianCharacterization().getObligations().isEmpty() || !person.getDianCharacterization().getResponsabilities().isEmpty();
     }
 
 }

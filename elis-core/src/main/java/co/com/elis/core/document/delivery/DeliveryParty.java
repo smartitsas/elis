@@ -27,7 +27,7 @@ import java.util.Collections;
 public class DeliveryParty extends Person<JuridicPersonName> {
 
     private DeliveryParty(JuridicPersonName name, IdentityDocument document) {
-        super(PersonType.JURIDIC, name, document, null, null, Collections.emptyList());
+        super(PersonType.JURIDIC, name, document, null, null, null, Collections.emptyList());
     }
 
     public static class DeliveryPartyBuilder {

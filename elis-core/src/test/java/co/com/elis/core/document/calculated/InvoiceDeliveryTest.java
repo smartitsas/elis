@@ -3,7 +3,7 @@ package co.com.elis.core.document.calculated;
 import co.com.elis.core.document.Invoice;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.PhysicalLocation;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRange;
 import co.com.elis.core.document.delivery.Delivery;
 import co.com.elis.core.document.delivery.DeliveryParty;
@@ -48,13 +48,14 @@ public class InvoiceDeliveryTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         supplier = software.getPersonBuilder()
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .build();
@@ -64,7 +65,8 @@ public class InvoiceDeliveryTest {
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .addObligation(Obligation.VENTAS_REGIMEN_COMUN)
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 
         item = InvoiceItem.calculateAs()
@@ -95,7 +97,7 @@ public class InvoiceDeliveryTest {
                 .setConsecutive(1L)
                 .setSupplierParty(supplier)
                 .setReceiverParty(receiver)
-                .setDate(new InvoiceDate(LocalDate.now(), LocalTime.now()))
+                .setDate(new DocumentDate(LocalDate.now(), LocalTime.now()))
                 .setCurrency("COP")
                 .addItem(item)
                 .withinOptionalSection()

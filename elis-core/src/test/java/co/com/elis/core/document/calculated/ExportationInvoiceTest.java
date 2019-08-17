@@ -3,7 +3,7 @@ package co.com.elis.core.document.calculated;
 import co.com.elis.core.document.DocumentType;
 import co.com.elis.core.document.ExchangeRate;
 import co.com.elis.core.document.Invoice;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoiceType;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.PhysicalLocation;
@@ -19,6 +19,7 @@ import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.var;
 import static org.hamcrest.CoreMatchers.is;
@@ -46,6 +47,7 @@ public class ExportationInvoiceTest {
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
@@ -70,7 +72,7 @@ public class ExportationInvoiceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         Invoice invoice = software.calculateInvoiceAs()
@@ -80,7 +82,7 @@ public class ExportationInvoiceTest {
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
                 .setInvoicingRange(invoicingRanger)
-                .setDate(new InvoiceDate(LocalDateTime.now()))
+                .setDate(new DocumentDate(LocalDateTime.now()))
                 .addItem(item)
                 .withinOptionalSection()
                 .setInvoiceType(InvoiceType.EXPORTATION)
@@ -111,7 +113,7 @@ public class ExportationInvoiceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         var invoice = software.calculateInvoiceAs()
@@ -121,7 +123,7 @@ public class ExportationInvoiceTest {
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
                 .setInvoicingRange(invoicingRanger)
-                .setDate(new InvoiceDate(LocalDateTime.now()))
+                .setDate(new DocumentDate(LocalDateTime.now()))
                 .addItem(item)
                 .withinOptionalSection()
                 .setExchangeRate(new ExchangeRate("USD", "COP", 3000))
@@ -148,7 +150,7 @@ public class ExportationInvoiceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         var invoice = software.calculateInvoiceAs()
@@ -184,7 +186,7 @@ public class ExportationInvoiceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         var invoice = software.calculateInvoiceAs()
@@ -194,7 +196,7 @@ public class ExportationInvoiceTest {
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
                 .setInvoicingRange(invoicingRanger)
-                .setDate(new InvoiceDate(LocalDateTime.now()))
+                .setDate(new DocumentDate(LocalDateTime.now()))
                 .addItem(item)
                 .withinOptionalSection()
                 .addAllowanceCharge(new AllowanceCharge(true, BigDecimal.ZERO, "Charge for VISA Payment"))

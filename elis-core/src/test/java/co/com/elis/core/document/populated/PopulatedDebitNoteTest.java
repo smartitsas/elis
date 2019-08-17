@@ -3,7 +3,7 @@ package co.com.elis.core.document.populated;
 import co.com.elis.core.document.AffectedInvoice;
 import co.com.elis.core.document.DebitNote;
 import co.com.elis.core.document.DocumentNumber;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.MonetaryTotal;
 import co.com.elis.core.item.DebitNoteDiscrepancyReason;
 import co.com.elis.core.item.NoteItem;
@@ -46,7 +46,8 @@ public class PopulatedDebitNoteTest {
                 .withIdentityDocument(new IdentityDocument("9000", AccountType.NIT))
                 .withName(new JuridicPersonName("Cafe el cafesoso"))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .addObligation(Obligation.OBTENCION_NIT)
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 
         receptor = software.getPersonBuilder().createReceiverPartyAsNaturalPerson()
@@ -72,7 +73,7 @@ public class PopulatedDebitNoteTest {
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(BigDecimal.ZERO))
                 .get();
 
-        InvoiceDate invoiceDate = new InvoiceDate(LocalDateTime.now());
+        DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
         AffectedInvoice affectedInvoice = new AffectedInvoice(new DocumentNumber("PFX", 1L), LocalDate.now(), "CUFEEXAMPLE");
         MonetaryTotal monetaryTotal = new MonetaryTotal("COP", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
@@ -93,7 +94,7 @@ public class PopulatedDebitNoteTest {
         assertThat(debitNote.getHeader().getReceiverParty(), is(receptor));
         assertThat(debitNote.getHeader().getDocumentNumber().getPrefix(), is("81"));
         assertThat(debitNote.getHeader().getDocumentNumber().getConsecutive(), is(1L));
-        assertThat(debitNote.getHeader().getInvoiceDate(), is(invoiceDate));
+        assertThat(debitNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(debitNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(debitNote.getItemList().iterator().next(), is(noteItem));
         assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
@@ -118,7 +119,7 @@ public class PopulatedDebitNoteTest {
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(BigDecimal.ZERO))
                 .get();
 
-        InvoiceDate invoiceDate = new InvoiceDate(LocalDateTime.now());
+        DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
         AffectedInvoice affectedInvoice = new AffectedInvoice(new DocumentNumber("PFX", 1L), LocalDate.now(), "CUFEEXAMPLE");
         MonetaryTotal monetaryTotal = new MonetaryTotal("COP", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
@@ -140,7 +141,7 @@ public class PopulatedDebitNoteTest {
         assertThat(debitNote.getHeader().getReceiverParty(), is(receptor));
         assertThat(debitNote.getHeader().getDocumentNumber().getPrefix(), is("81"));
         assertThat(debitNote.getHeader().getDocumentNumber().getConsecutive(), is(1L));
-        assertThat(debitNote.getHeader().getInvoiceDate(), is(invoiceDate));
+        assertThat(debitNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(debitNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(debitNote.getItemList().iterator().next(), is(noteItem));
         assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));

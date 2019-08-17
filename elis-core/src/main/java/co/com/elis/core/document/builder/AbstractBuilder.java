@@ -19,7 +19,7 @@
 package co.com.elis.core.document.builder;
 
 import co.com.elis.core.document.ExchangeRate;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRange;
 import co.com.elis.core.document.allowance.AllowanceCharge;
 import co.com.elis.core.document.delivery.Delivery;
@@ -39,7 +39,7 @@ public abstract class AbstractBuilder<M extends MandatoryBuildContext, I extends
     protected SupplierParty supplierParty;
     protected ReceiverParty receiverParty;
     protected List<AllowanceCharge> allowanceCharge;
-    protected InvoiceDate invoiceDate;
+    protected DocumentDate invoiceDate;
     protected InvoicingRange invoicingRange;
     protected Delivery delivery;
     protected ExchangeRate exchangeRate;

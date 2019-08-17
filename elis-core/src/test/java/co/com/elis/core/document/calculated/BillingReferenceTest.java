@@ -1,7 +1,7 @@
 package co.com.elis.core.document.calculated;
 
 import co.com.elis.core.document.PhysicalLocation;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.reference.Reference;
 import co.com.elis.core.document.reference.ReferenceType;
@@ -15,7 +15,6 @@ import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import lombok.var;
@@ -34,7 +33,7 @@ public class BillingReferenceTest {
         var ref3 = new Reference("GUIA001-0001", ReferenceType.DESPATCH_REFERENCE);
         var ref4 = new Reference("ORIG789", ReferenceType.ORIGINATOR_REFERENCE);
         var ref5 = new Reference("R001", ReferenceType.RECEIPT_REFERENCE);
-        var ref6 = new Reference("OTH_EPS001", ReferenceType.OTHER_REFERENCE);
+        var ref6 = new Reference("OTH_EPS001", ReferenceType.ADDITIONAL_REFERENCE);
 
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
         
@@ -44,13 +43,15 @@ public class BillingReferenceTest {
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .addObligation(Obligation.OBLIGADO_LLEVAR_CONTABILIDAD)
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 
         ReceiverParty receiver = software.getPersonBuilder()
                 .createReceiverPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .build();
 
         var item = InvoiceItem.calculateAs()
@@ -65,7 +66,7 @@ public class BillingReferenceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         var invoice = software.calculateInvoiceAs()
@@ -74,7 +75,7 @@ public class BillingReferenceTest {
                 .setSupplierParty(supplier)
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
-                .setDate(new InvoiceDate(LocalDate.now(), LocalTime.now()))
+                .setDate(new DocumentDate(LocalDate.now(), LocalTime.now()))
                 .setInvoicingRange(invoicingRanger)
                 .addItem(item)
                 .withinOptionalSection()
@@ -84,8 +85,8 @@ public class BillingReferenceTest {
                 .addReference(ref3)
                 .addReference(ref4)
                 .addReferences(ref5, ref6)
-                .addReferences(new Reference("OTH1", ReferenceType.OTHER_REFERENCE), new Reference("OTH1", ReferenceType.OTHER_REFERENCE))
-                .addReferences(Arrays.asList(new Reference("OTH1", ReferenceType.OTHER_REFERENCE), new Reference("OTH1", ReferenceType.OTHER_REFERENCE)))
+                .addReferences(new Reference("OTH1", ReferenceType.ADDITIONAL_REFERENCE), new Reference("OTH1", ReferenceType.ADDITIONAL_REFERENCE))
+                .addReferences(Arrays.asList(new Reference("OTH1", ReferenceType.ADDITIONAL_REFERENCE), new Reference("OTH1", ReferenceType.ADDITIONAL_REFERENCE)))
                 .getCalculatedResult();
 
         assertThat(invoice.getDocumentNumber().getPrefix(), is("PRFX"));
@@ -105,7 +106,7 @@ public class BillingReferenceTest {
         assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.DESPATCH_REFERENCE).get(0), is(ref3));
         assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.ORIGINATOR_REFERENCE).get(0), is(ref4));
         assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.RECEIPT_REFERENCE).get(0), is(ref5));
-        assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.OTHER_REFERENCE).get(0), is(ref6));
+        assertThat(invoice.getOtherData().getReferences().getOfType(ReferenceType.ADDITIONAL_REFERENCE).get(0), is(ref6));
 
     }
 

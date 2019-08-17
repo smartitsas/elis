@@ -3,7 +3,7 @@ package co.com.elis.core.document.populated;
 import co.com.elis.core.document.DocumentNumber;
 import co.com.elis.core.document.DocumentType;
 import co.com.elis.core.document.Invoice;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoiceType;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.InvoicingRange;
@@ -49,8 +49,8 @@ public class BasicInvoiceTest {
     public static void startup() throws ElisCoreException {
         software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN");
 
-        LocalDateTime startPeriod = LocalDate.parse("2014-01-04").atStartOfDay();
-        LocalDateTime endPeriod = LocalDate.parse("2016-01-04").atStartOfDay();
+        LocalDate startPeriod = LocalDate.parse("2014-01-04");
+        LocalDate endPeriod = LocalDate.parse("2016-01-04");
 
         invoicingRange = software.createInvoicingRangeAs()
                 .withAuthorizationNumber(BigDecimal.ONE)
@@ -70,6 +70,7 @@ public class BasicInvoiceTest {
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
@@ -91,7 +92,7 @@ public class BasicInvoiceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         TaxTotalList taxTotalList = new TaxTotalList(
@@ -110,7 +111,7 @@ public class BasicInvoiceTest {
                 .setSupplierParty(supplier)
                 .setReceiverParty(receiverParty)
                 .setCurrency("COP")
-                .setDate(new InvoiceDate(LocalDate.ofYearDay(2018, 256), LocalTime.of(5, 0)))
+                .setDate(new DocumentDate(LocalDate.ofYearDay(2018, 256), LocalTime.of(5, 0)))
                 .setMonetaryTotal(new MonetaryTotal("COP", BigDecimal.valueOf(10000).setScale(2), BigDecimal.ZERO, BigDecimal.ZERO))
                 .setTaxTotals(taxTotalList)
                 .addItem(item)
@@ -126,7 +127,7 @@ public class BasicInvoiceTest {
         assertThat(invoice.getItemList().size(), is(1));
         assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
-        assertNotNull(invoice.getHeader().getInvoiceDate());
+        assertNotNull(invoice.getHeader().getDocumentDate());
         assertNotNull(invoice.getCufe());
 
         assertThat(invoice.getCufe(), is("620023302F39A70960569C3631F24D6600DC63A1"));
@@ -146,6 +147,7 @@ public class BasicInvoiceTest {
         SupplierParty supplier = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
@@ -170,7 +172,7 @@ public class BasicInvoiceTest {
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
                 .setMonetaryTotal(new MonetaryTotal("COP", BigDecimal.valueOf(10000).setScale(2), BigDecimal.ZERO, BigDecimal.ZERO))
-                .setDate(new InvoiceDate(currentDateTime.toLocalDate(), currentDateTime.toLocalTime()))
+                .setDate(new DocumentDate(currentDateTime.toLocalDate(), currentDateTime.toLocalTime()))
                 .setInvoicingRange(invoicingRange)
                 .setTaxTotals(TaxTotalList.buildTotalList(Tax.IVA_ZERO, Tax.ICA_ZERO, Tax.CONSUMPTION_ZERO))
                 .addItem(item)
@@ -193,9 +195,9 @@ public class BasicInvoiceTest {
         assertThat(invoice.getItemList().size(), is(1));
         assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
-        assertNotNull(invoice.getHeader().getInvoiceDate());
-        assertThat(invoice.getHeader().getInvoiceDate().getIssueDate(), is(currentDateTime.toLocalDate()));
-        assertThat(invoice.getHeader().getInvoiceDate().getIssueTime(), is(currentDateTime.toLocalTime()));
+        assertNotNull(invoice.getHeader().getDocumentDate());
+        assertThat(invoice.getHeader().getDocumentDate().getIssueDate(), is(currentDateTime.toLocalDate()));
+        assertThat(invoice.getHeader().getDocumentDate().getIssueTime(), is(currentDateTime.toLocalTime()));
 
         assertNotNull(invoice.getTaxTotalList());
         assertNotNull(invoice.getInvoicingRange().getAuthorizationPeriod());
@@ -213,8 +215,9 @@ public class BasicInvoiceTest {
         SupplierParty supplierParty = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("900", AccountType.NIT))
                 .withName(new JuridicPersonName("EMPRESA S001", "SCS Comidas S.A.S"))
-                .addObligation(Obligation.VENTAS_REGIMEN_COMUN)
+                .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .withPhysicalLocation(PhysicalLocation.createAs().withMainAddress("Imaginary street 123").build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .build();
 
         ReceiverParty receiverParty = personBuilder.createReceiverPartyAsNaturalPerson()
@@ -254,7 +257,7 @@ public class BasicInvoiceTest {
                 .setDocumentNumber(new DocumentNumber("PRFX", 10007869L))
                 .setMonetaryTotal(new MonetaryTotal("COP", BigDecimal.valueOf(200).setScale(2), BigDecimal.valueOf(40.28).setScale(4), BigDecimal.valueOf(240.28).setScale(4)))
                 .setCurrency("COP")
-                .setDate(new InvoiceDate(LocalDate.parse("2015-07-21"), LocalTime.parse("00:00:00")))
+                .setDate(new DocumentDate(LocalDate.parse("2015-07-21"), LocalTime.parse("00:00:00")))
                 .setTaxTotals(
                         TaxTotalList.buildTotalList(
                                 Tax.createWithZeros(TaxType.IVA).withTotal(32).build(),

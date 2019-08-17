@@ -42,7 +42,7 @@ public class ItemPopulationBuilder extends AbstractItemBuilder {
     }
 
     private InvoiceItem get() throws ElisCoreException {
-        InvoiceItem item = new InvoiceItem(position, code, description, quantity, unitaryValue, total, taxList, paymentTerms);
+        InvoiceItem item = new InvoiceItem(position, code, description, units, quantity, unitaryValue, total, taxList, paymentTerms);
 
         validateOrThrow(item);
         return item;

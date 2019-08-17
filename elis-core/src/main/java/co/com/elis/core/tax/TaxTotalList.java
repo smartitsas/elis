@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.tax;
 
 import co.com.elis.core.util.ResourceInterpolator;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
+import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
@@ -52,8 +55,8 @@ public class TaxTotalList {
     }
 
     //TODO: Limit this call
-    public void add(TaxTotal taxTotal) {
-        taxTotals.add(taxTotal);
+    public boolean add(TaxTotal taxTotal) {
+        return taxTotals.add(taxTotal);
     }
 
     public Optional<TaxTotal> getByType(TaxType type) {
@@ -62,6 +65,18 @@ public class TaxTotalList {
 
     public TaxTotal get(int index) {
         return taxTotals.get(index);
+    }
+
+    public Iterator<TaxTotal> iterator() {
+        return taxTotals.iterator();
+    }
+
+    public Stream<TaxTotal> stream() {
+        return taxTotals.stream();
+    }
+
+    public int size() {
+        return taxTotals.size();
     }
 
     public boolean isEmpty() {
@@ -84,12 +99,12 @@ public class TaxTotalList {
 
     public static TaxTotalList buildTotalList(boolean includeMissing, boolean isRetained, Tax... subtotals) throws ElisCoreException {
         return buildTotalList(includeMissing, isRetained, Arrays.asList(subtotals));
-    }    
-    
+    }
+
     public static TaxTotalList buildTotalList(Collection<Tax> subtotals) throws ElisCoreException {
         return buildTotalList(false, false, subtotals);
     }
-    
+
     public static TaxTotalList buildTotalList(boolean includeMissing, boolean isRetained, Collection<Tax> subtotals) throws ElisCoreException {
         List<TaxTotal> totalsList = new LinkedList<>();
 

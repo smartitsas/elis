@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
@@ -48,6 +49,11 @@ public abstract class Person<N extends PersonName> {
     @NotNull(message = "ELIS_CORE_VAL_PERSON_LOCATION")
     private final PhysicalLocation physicalLocation;
 
+    @Getter
+    @Valid
+    @NotNull(message = "ELIS_CORE_VAL_PERSON_LOCATION")
+    private final PhysicalLocation registrationAddress;
+
     @Valid
     @Getter
     private final N name;
@@ -59,13 +65,14 @@ public abstract class Person<N extends PersonName> {
     @Getter
     private final List<Contact> contacts;
 
-    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, List<Contact> contacts) {
+    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, List<Contact> contacts) {
         this.identityDocument = document;
         this.physicalLocation = physicalLocation;
         this.dianCharacterization = dianCharacterization;
         this.personType = personType;
         this.name = name;
         this.contacts = contacts;
+        this.registrationAddress = registrationAddress;
     }
 
     public boolean isJuridicPerson() {
@@ -89,9 +96,11 @@ public abstract class Person<N extends PersonName> {
     public abstract static class PersonBuilder<N extends PersonName, R extends RepresentationType, C extends PersonBuilder> {
 
         protected PhysicalLocation physicalLocation;
+        protected PhysicalLocation registrationAddress;
         protected IdentityDocument identityDocument;
         protected boolean naturalPerson;
         protected List<Obligation> obligations;
+        protected List<Responsability> responsabilities;
         protected List<CustomUserCode> customUserCodes;
         protected List<EstablishmentType> establishmentTypes;
         protected List<RepresentationType> representationTypes;
@@ -99,8 +108,10 @@ public abstract class Person<N extends PersonName> {
         protected N personName;
         protected PersonType personType;
         protected boolean disableValidations;
+        protected Regime regime;
 
         public PersonBuilder(PersonType personType) {
+            responsabilities = new ArrayList<>();
             obligations = new ArrayList<>();
             customUserCodes = new ArrayList<>();
             establishmentTypes = new ArrayList<>();
@@ -108,6 +119,11 @@ public abstract class Person<N extends PersonName> {
             contacts = new ArrayList<>();
             this.personType = personType;
             this.disableValidations = false;
+        }
+
+        public C withRegime(Regime regime) {
+            this.regime = regime;
+            return collectContext();
         }
 
         /**
@@ -121,6 +137,11 @@ public abstract class Person<N extends PersonName> {
             return collectContext();
         }
 
+        public C addResponsability(Responsability responsability) {
+            responsabilities.add(responsability);
+            return collectContext();
+        }
+
         public C addObligation(Obligation obligation) {
             obligations.add(obligation);
             return collectContext();
@@ -130,11 +151,11 @@ public abstract class Person<N extends PersonName> {
             this.obligations.addAll(obligations);
             return collectContext();
         }
-        
+
         public C addRepresentationTypes(List<R> representationType) {
             this.representationTypes.addAll(representationType);
             return collectContext();
-        }        
+        }
 
         public C addCustomUserCode(CustomUserCode customUserCode) {
             customUserCodes.add(customUserCode);
@@ -150,11 +171,11 @@ public abstract class Person<N extends PersonName> {
             establishmentTypes.add(establishmentType);
             return collectContext();
         }
-        
+
         public C addEstablishmentTypes(List<EstablishmentType> establishmentTypes) {
             this.establishmentTypes.addAll(establishmentTypes);
             return collectContext();
-        }        
+        }
 
         public C addContacts(List<Contact> contacts) {
             this.contacts.addAll(contacts);
@@ -168,6 +189,11 @@ public abstract class Person<N extends PersonName> {
 
         public C withPhysicalLocation(PhysicalLocation physicalLocation) {
             this.physicalLocation = physicalLocation;
+            return collectContext();
+        }
+
+        public C withRegistrationAddress(PhysicalLocation registrationAddress) {
+            this.registrationAddress = registrationAddress;
             return collectContext();
         }
 

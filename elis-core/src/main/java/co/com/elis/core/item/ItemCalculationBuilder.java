@@ -38,7 +38,7 @@ public class ItemCalculationBuilder extends AbstractItemBuilder {
                 .map(t -> t.applyTo(calcTotal))
                 .collect(Collectors.toList());
 
-        InvoiceItem item = new InvoiceItem(position, code, description, quantity, unitaryValue, calcTotal, taxList, paymentTerms);
+        InvoiceItem item = new InvoiceItem(position, code, description, units, quantity, unitaryValue, calcTotal, taxList, paymentTerms);
 
         validateOrThrow(item);
         return item;

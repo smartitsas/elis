@@ -22,7 +22,7 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertNull(item.getDescription());
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
+        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
     }
@@ -41,7 +41,7 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
+        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
     }
@@ -61,7 +61,7 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
+        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
@@ -85,7 +85,7 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
+        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 
@@ -109,7 +109,7 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3)));
+        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
         assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
         assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
 

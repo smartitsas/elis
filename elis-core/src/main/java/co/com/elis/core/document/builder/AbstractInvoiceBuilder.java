@@ -28,6 +28,7 @@ import co.com.elis.core.person.PaymentReceptor;
 import co.com.elis.core.software.Software;
 import java.util.List;
 
+
 public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> extends AbstractBuilder<M, InvoiceItem> {
 
     protected InvoiceType invoiceType;

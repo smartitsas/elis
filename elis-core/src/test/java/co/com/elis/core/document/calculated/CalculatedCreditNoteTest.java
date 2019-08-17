@@ -3,7 +3,7 @@ package co.com.elis.core.document.calculated;
 import co.com.elis.core.document.AffectedInvoice;
 import co.com.elis.core.document.CreditNote;
 import co.com.elis.core.document.DocumentNumber;
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.MonetaryTotal;
 import co.com.elis.core.item.CreditNoteDiscrepancyReason;
 import co.com.elis.core.item.NoteItem;
@@ -46,7 +46,8 @@ public class CalculatedCreditNoteTest {
                 .withIdentityDocument(new IdentityDocument("9000", AccountType.NIT))
                 .withName(new JuridicPersonName("Cafe el cafesoso"))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .addObligation(Obligation.OBTENCION_NIT)
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 
         receptor = software.getPersonBuilder().createReceiverPartyAsNaturalPerson()
@@ -74,7 +75,7 @@ public class CalculatedCreditNoteTest {
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0))
                 .get();
 
-        InvoiceDate invoiceDate = new InvoiceDate(LocalDateTime.now());
+        DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
 
         CreditNote creditNote = software.calculateCreditNoteAs()
                 .withinMandatorySection()
@@ -91,7 +92,7 @@ public class CalculatedCreditNoteTest {
         assertThat(creditNote.getHeader().getReceiverParty(), is(receptor));
         assertThat(creditNote.getHeader().getDocumentNumber().getPrefix(), is("81"));
         assertThat(creditNote.getHeader().getDocumentNumber().getConsecutive(), is(1L));
-        assertThat(creditNote.getHeader().getInvoiceDate(), is(invoiceDate));
+        assertThat(creditNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(creditNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(creditNote.getItemList().iterator().next(), is(noteItem));
         assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
@@ -116,7 +117,7 @@ public class CalculatedCreditNoteTest {
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0))
                 .get();
 
-        InvoiceDate invoiceDate = new InvoiceDate(LocalDateTime.now());
+        DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
         AffectedInvoice affectedInvoice = new AffectedInvoice(new DocumentNumber("PFX", 1L), LocalDate.now(), "CUFEEXAMPLE");
         MonetaryTotal monetaryTotal = new MonetaryTotal("COP", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
@@ -138,7 +139,7 @@ public class CalculatedCreditNoteTest {
         assertThat(creditNote.getHeader().getReceiverParty(), is(receptor));
         assertThat(creditNote.getHeader().getDocumentNumber().getPrefix(), is("81"));
         assertThat(creditNote.getHeader().getDocumentNumber().getConsecutive(), is(1L));
-        assertThat(creditNote.getHeader().getInvoiceDate(), is(invoiceDate));
+        assertThat(creditNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(creditNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(creditNote.getItemList().iterator().next(), is(noteItem));
         assertThat(creditNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));

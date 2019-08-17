@@ -35,7 +35,7 @@ public class CreditNote extends Document<NoteItem> {
     @Getter
     private final Discrepancy discrepancy;
 
-    public CreditNote(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) {
+    public CreditNote(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
         super(header, taxTotalList, monetaryTotal, itemList, otherData);
         this.discrepancy = discrepancy;
     }

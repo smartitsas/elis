@@ -1,27 +1,29 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.software;
 
 import co.com.elis.core.document.CalculatedCreditNoteBuilder;
 import co.com.elis.core.document.CalculatedDebitNoteBuilder;
 import co.com.elis.core.document.PopulatedCreditNoteBuilder;
 import co.com.elis.core.document.CalculatedInvoiceBuilder;
+import co.com.elis.core.document.DocumentNumber;
 import co.com.elis.core.document.InvoicingRange;
 import co.com.elis.core.document.InvoicingRange.InvoiceRangeBuilder;
 import co.com.elis.core.document.PopulatedDebitNoteBuilder;
@@ -53,8 +55,7 @@ public class Software {
     private final String name;
 
     @Getter
-    @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_SECURITY_CODE")
-    private final String securityCode;
+    private final String pin;
 
     /**
      * Creates a new software Object
@@ -69,8 +70,8 @@ public class Software {
     public Software(String id, Long nit, String name, String pin) throws ElisCoreException {
         this.id = id;
         this.nit = nit;
+        this.pin = pin;
         this.name = name;
-        this.securityCode = calculateSecurityCode(id, pin);
     }
 
     /**
@@ -78,15 +79,14 @@ public class Software {
      *
      * @param id Id of the software as registered in DIAN
      * @param nit NIT of the registree company
-     * @param securityCode Security code calculated of the software
      * @throws ElisCoreException Throws ElisCoreException if the securityCode
      * couldn't be acquired using the given arguments
      */
-    public Software(String id, Long nit, String securityCode) throws ElisCoreException {
+    public Software(String id, Long nit) throws ElisCoreException {
         this.id = id;
         this.nit = nit;
-        this.securityCode = securityCode;
         this.name = null;
+        this.pin = null;
     }
 
     /**
@@ -160,12 +160,10 @@ public class Software {
      *
      * @return Item builder
      * @see ItemCalculationBuilder
-     
-    public ItemCalculationBuilder calculateItemAs() {
-        return new ItemCalculationBuilder();
-    }
-*/
-    
+     *
+     * public ItemCalculationBuilder calculateItemAs() { return new
+     * ItemCalculationBuilder(); }
+     */
     /**
      * Creates an item builder that allows to POPULATE an item by settng all
      * data fields.
@@ -177,20 +175,21 @@ public class Software {
         return new ItemPopulationBuilder();
     }
 
-    private String calculateSecurityCode(String id, String pin) throws ElisCoreException {
+    public PersonBuilder getPersonBuilder() {
+        return new PersonBuilder();
+    }
+
+    public String calculateSecurityCode(DocumentNumber documentNumber) throws ElisCoreException {
         try {
-            String seed = id + pin;
+            String seed = id+pin+documentNumber.getFullId();
             MessageDigest digester = MessageDigest.getInstance("SHA-384");
 
-            return DatatypeConverter.printHexBinary(digester.digest(seed.getBytes()));
+            return DatatypeConverter.printHexBinary(digester.digest(seed.getBytes())).toLowerCase();
+            
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Software.class.getName()).log(Level.SEVERE, null, ex);
             throw new ElisCoreException("Error obtaining hashing function: SHA-384 for security code.", ex);
-        }
-    }
-
-    public PersonBuilder getPersonBuilder() {
-        return new PersonBuilder();
+        }        
     }
 
 }

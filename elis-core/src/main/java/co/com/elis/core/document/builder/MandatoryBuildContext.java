@@ -18,7 +18,7 @@
 
 package co.com.elis.core.document.builder;
 
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.item.Item;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
@@ -59,7 +59,7 @@ public abstract class MandatoryBuildContext<M extends MandatoryBuildContext, O e
         return collectContext();
     }
 
-    public M setDate(InvoiceDate invoiceDate) {
+    public M setDate(DocumentDate invoiceDate) {
         builder.invoiceDate = invoiceDate;
         return collectContext();
     }

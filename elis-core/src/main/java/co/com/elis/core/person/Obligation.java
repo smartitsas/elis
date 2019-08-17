@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.person;
 
 import lombok.Getter;
@@ -26,23 +27,23 @@ public enum Obligation {
     /**
      * O-1 APORTE_ESPECIAL_ADMIN_JUSTICIA
      */
-    APORTE_ESPECIAL_ADMIN_JUSTICIA(1, "Aporte especial para la administración de justicia"),
+//    APORTE_ESPECIAL_ADMIN_JUSTICIA(1, "Aporte especial para la administración de justicia"),
     /**
      * O-2 GRAVAMEN_MOVIMIENTO_FINANCIERO
      */
-    GRAVAMEN_MOVIMIENTO_FINANCIERO(2, "Gravamen a los movimientos financieros"),
+//    GRAVAMEN_MOVIMIENTO_FINANCIERO(2, "Gravamen a los movimientos financieros"),
     /**
      * O-3 IMPUESTO_PATRIMONIO
      */
-    IMPUESTO_PATRIMONIO(3, "Impuesto al patrimonio"),
+//    IMPUESTO_PATRIMONIO(3, "Impuesto al patrimonio"),
     /**
      * O-4 IMPUESTO_RENTA_REGIMEN_ESPECIAL
      */
-    IMPUESTO_RENTA_REGIMEN_ESPECIAL(4, "Impuesto sobre la renta y complementario régimen tributario especial"),
+//    IMPUESTO_RENTA_REGIMEN_ESPECIAL(4, "Impuesto sobre la renta y complementario régimen tributario especial"),
     /**
      * O-5 IMPUESTO_RENTA_REGIMEN_ORDINARIO
      */
-    IMPUESTO_RENTA_REGIMEN_ORDINARIO(5, "Impuesto sobre la renta y complementario régimen ordinario"),
+//    IMPUESTO_RENTA_REGIMEN_ORDINARIO(5, "Impuesto sobre la renta y complementario régimen ordinario"),
     /**
      * O-6 INGRESOS_PATRIMONIO
      */
@@ -62,15 +63,15 @@ public enum Obligation {
     /**
      * O-10 USUARIO_ADUANERO
      */
-    USUARIO_ADUANERO(10, "Usuario aduanero"),
+    //    USUARIO_ADUANERO(10, "Usuario aduanero"),
     /**
      * O-11 VENTAS_REGIMEN_COMUN
      */
-    VENTAS_REGIMEN_COMUN(11, "Ventas régimen común"),
+    //    VENTAS_REGIMEN_COMUN(11, "Ventas régimen común"),
     /**
      * O-12 VENTAS_REGIMEN_SIMPLIFICADO
      */
-    VENTAS_REGIMEN_SIMPLIFICADO(12, "Ventas régimen simplificado"),
+    //    VENTAS_REGIMEN_SIMPLIFICADO(12, "Ventas régimen simplificado"),
     /**
      * O-13 GRAN_CONTRIBUYENTE
      */
@@ -94,7 +95,7 @@ public enum Obligation {
     /**
      * O-18 PRECIOS_TRANSFERENCIA
      */
-    PRECIOS_TRANSFERENCIA(18, "Precios de Transferencia"),
+    //    PRECIOS_TRANSFERENCIA(18, "Precios de Transferencia"),
     /**
      * O-19 PRODUCTOR_EXPORTADOR_BIENES_EXENTOS
      */
@@ -102,11 +103,11 @@ public enum Obligation {
     /**
      * O-20 OBTENCION_NIT
      */
-    OBTENCION_NIT(20, "Obtención NIT"),
+    //    OBTENCION_NIT(20, "Obtención NIT"),
     /**
      * O-21 DECLARAR_INGRESO_SALIDA_DIVISAS
      */
-    DECLARAR_INGRESO_SALIDA_DIVISAS(21, "Declarar el ingreso o salida del país de divisas o moneda legal colombiana"),
+    //    DECLARAR_INGRESO_SALIDA_DIVISAS(21, "Declarar el ingreso o salida del país de divisas o moneda legal colombiana"),
     /**
      * O-22 OBLIGADO_DEBERES_FORMALES_DE_TERCEROS
      */
@@ -118,11 +119,11 @@ public enum Obligation {
     /**
      * O-24 DECLARACION_INFORMATIVA_CONSOLIDADA_PRECIOS_TRANSFERENCIA
      */
-    DECLARACION_INFORMATIVA_CONSOLIDADA_PRECIOS_TRANSFERENCIA(24, "Declaración Informativa Consolidada Precios de transferencia"),
+    //    DECLARACION_INFORMATIVA_CONSOLIDADA_PRECIOS_TRANSFERENCIA(24, "Declaración Informativa Consolidada Precios de transferencia"),
     /**
      * O-26 DECLARACION_INFORMATIVA_INDIVIDUAL_PRECIOS_TRASNFERENCIA
      */
-    DECLARACION_INFORMATIVA_INDIVIDUAL_PRECIOS_TRASNFERENCIA(26, "Declaración Informativa Individual Precios de transferencia"),
+    //    DECLARACION_INFORMATIVA_INDIVIDUAL_PRECIOS_TRASNFERENCIA(26, "Declaración Informativa Individual Precios de transferencia"),
     /**
      * O-32 IMPUESTO_NACIONAL_GASOLINA_ACPM
      */
@@ -138,7 +139,7 @@ public enum Obligation {
     /**
      * O-35 IMPUESTO_CREE
      */
-    IMPUESTO_CREE(35, "Impuesto sobre la renta para la equidad CREE"),
+    //    IMPUESTO_CREE(35, "Impuesto sobre la renta para la equidad CREE"),
     /**
      * O-36 ESTABLECIMIENTO_PERMANENTE
      */
@@ -158,15 +159,15 @@ public enum Obligation {
     /**
      * O-40 IMPUESTO_RIQUEZA
      */
-    IMPUESTO_RIQUEZA(40, "Impuesto a la Riqueza"),
+    //    IMPUESTO_RIQUEZA(40, "Impuesto a la Riqueza"),
     /**
      * O-41 DECLARACION_ANUAL_ACTIVOS_EXTERIOR
      */
-    DECLARACION_ANUAL_ACTIVOS_EXTERIOR(41, "Declaración anual de activos en el exterior"),
+    //    DECLARACION_ANUAL_ACTIVOS_EXTERIOR(41, "Declaración anual de activos en el exterior"),
     /**
      * O-42 OBLIGADO_LLEVAR_CONTABILIDAD
      */
-    OBLIGADO_LLEVAR_CONTABILIDAD(42, "Obligado a Llevar Contabilidad"),
+    //    OBLIGADO_LLEVAR_CONTABILIDAD(42, "Obligado a Llevar Contabilidad"),
     /**
      * O-99 OTRO_TIPO_OBLIGADO
      */

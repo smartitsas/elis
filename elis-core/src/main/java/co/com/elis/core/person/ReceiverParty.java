@@ -24,7 +24,7 @@ import java.util.List;
 public class ReceiverParty<N extends PersonName> extends Person<N> {
 
     public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, List<Contact> contacts) {
-        super(personType, name, identityDocument, physicalLocation, dianCharacterization, contacts);
+        super(personType, name, identityDocument, physicalLocation, physicalLocation, dianCharacterization, contacts);
     }
 
     public static class ReceiverPartyBuilder<N extends PersonName, R extends RepresentationType> extends PersonBuilder<N, R, ReceiverPartyBuilder<N, R>> {
@@ -50,7 +50,7 @@ public class ReceiverParty<N extends PersonName> extends Person<N> {
         }
 
         public ReceiverParty<N> build() {
-            DIANCharacterization dianCharacterization = new DIANCharacterization(obligations, customUserCodes, establishmentTypes, representationTypes);
+            DIANCharacterization dianCharacterization = new DIANCharacterization(regime, obligations, responsabilities, customUserCodes, establishmentTypes, representationTypes);
             return new ReceiverParty<>(personType, personName, identityDocument, physicalLocation, dianCharacterization, contacts);
         }
 

@@ -30,8 +30,8 @@ public class InvoiceItem extends Item {
     @NotNull(message = "ELIS_CORE_VAL_ITEM_PAYMENT_TERMS")
     private final List<String> paymentTerms;    
 
-    InvoiceItem(Integer id, String code, String description, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<String> paymentTerms) {
-        super(id, code, description, total, quantity, unitaryValue, taxList);
+    InvoiceItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<String> paymentTerms) {
+        super(id, code, description, units, total, quantity, unitaryValue, taxList);
         this.paymentTerms = paymentTerms;
     }
 

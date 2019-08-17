@@ -1,6 +1,6 @@
 package co.com.elis.core.document.calculated;
 
-import co.com.elis.core.document.InvoiceDate;
+import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.allowance.AllowanceCharge;
@@ -60,7 +60,7 @@ public class InvoiceAllowanceTest {
                     .withPrefix("PRFX")
                     .withAuthorizationNumber(BigDecimal.ONE)
                     .withConsecutiveRange(1L, 1000L)
-                    .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                    .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                     .build();
 
             var invoice = software.calculateInvoiceAs()
@@ -69,7 +69,7 @@ public class InvoiceAllowanceTest {
                     .setSupplierParty(supplier)
                     .setReceiverParty(receiver)
                     .setCurrency("COP")
-                    .setDate(new InvoiceDate(LocalDate.now(), LocalTime.now()))
+                    .setDate(new DocumentDate(LocalDate.now(), LocalTime.now()))
                     .setInvoicingRange(invoicingRange)
                     .addItem(item)
                     .withinOptionalSection()
@@ -104,6 +104,7 @@ public class InvoiceAllowanceTest {
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
                 .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withRegistrationAddress(PhysicalLocation.createAs().build())
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
@@ -127,7 +128,7 @@ public class InvoiceAllowanceTest {
                 .withPrefix("PRFX")
                 .withAuthorizationNumber(BigDecimal.ONE)
                 .withConsecutiveRange(1L, 1000L)
-                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDateTime.now(), LocalDateTime.now()))
+                .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
         var invoice = software.calculateInvoiceAs()
@@ -136,7 +137,7 @@ public class InvoiceAllowanceTest {
                 .setSupplierParty(supplier)
                 .setReceiverParty(receiver)
                 .setCurrency("COP")
-                .setDate(new InvoiceDate(LocalDateTime.now()))
+                .setDate(new DocumentDate(LocalDateTime.now()))
                 .setInvoicingRange(invoicingRange)
                 .addItem(item)
                 .withinOptionalSection()

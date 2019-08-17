@@ -44,6 +44,9 @@ public class Item {
     
     @Getter
     private final String description;
+    
+    @Getter
+    private final String units;
 
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_ITEM_TOTAL")
@@ -60,14 +63,15 @@ public class Item {
     @Getter
     private final List<Tax> taxes;
 
-    public Item(Integer position, String code, String description, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection) {
+    public Item(Integer position, String code, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection) {
         this.position = position;
         this.description = description;
         this.total = scaledOrNull(total);
-        this.quantity = quantity;
+        this.quantity = scaledOrNull(quantity);
         this.unitaryValue = scaledOrNull(unitaryValue);
         this.taxes = taxCollection;
         this.code = code;
+        this.units = units;
     }
 
     public Tax getTax(TaxType taxType) {

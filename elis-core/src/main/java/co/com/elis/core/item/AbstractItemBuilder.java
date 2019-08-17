@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.item;
 
 import co.com.elis.exception.ElisCoreException;
@@ -28,6 +29,7 @@ public class AbstractItemBuilder {
     protected Integer position;
     protected String code;
     protected String description;
+    protected String units;
     protected BigDecimal unitaryValue;
     protected BigDecimal quantity;
     protected boolean validate;
@@ -62,8 +64,8 @@ public class AbstractItemBuilder {
         public T setPosition(Integer position) {
             builder.position = position;
             return collectContext();
-        }              
-        
+        }
+
         public T setUnitaryValue(BigDecimal unitaryValue) {
             builder.unitaryValue = unitaryValue;
             return collectContext();
@@ -84,6 +86,11 @@ public class AbstractItemBuilder {
             return collectContext();
         }
 
+        public T setUnits(String units) {
+            builder.units = units;
+            return collectContext();
+        }
+
         protected abstract T collectContext();
 
     }
@@ -96,7 +103,6 @@ public class AbstractItemBuilder {
             this.builder = builder;
         }
 
-        
         /**
          * Assigns code to the item to be building
          *
@@ -106,8 +112,8 @@ public class AbstractItemBuilder {
         public T setCode(String code) {
             builder.code = code;
             return collectContext();
-        }              
-        
+        }
+
         public T setDescription(String description) {
             builder.description = description;
             return collectContext();

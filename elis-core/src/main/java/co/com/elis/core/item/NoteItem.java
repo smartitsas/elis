@@ -29,8 +29,8 @@ public class NoteItem extends Item {
     @Getter
     private final Discrepancy discrepancy;
 
-    NoteItem(Integer id, String code, String description, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, Discrepancy discrepancy) {
-        super(id, code, description, total, quantity, unitaryValue, taxList);
+    NoteItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, Discrepancy discrepancy) {
+        super(id, code, description, units, total, quantity, unitaryValue, taxList);
         this.discrepancy = discrepancy;
     }
 

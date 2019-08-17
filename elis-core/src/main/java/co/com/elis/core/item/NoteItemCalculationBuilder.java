@@ -49,7 +49,7 @@ public class NoteItemCalculationBuilder extends AbstractItemBuilder {
                 .map(t -> t.applyTo(total))
                 .collect(Collectors.toList());
 
-        NoteItem item = new NoteItem(position, code, description, quantity, unitaryValue, total, taxList, discrepancy);
+        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList, discrepancy);
 
         validateOrThrow(item);
         return item;

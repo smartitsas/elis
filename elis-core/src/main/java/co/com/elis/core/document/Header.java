@@ -45,7 +45,7 @@ public class Header {
     @Valid
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_INV_ISSUE_DATE")
-    private final InvoiceDate invoiceDate;
+    private final DocumentDate documentDate;
 
     @Valid
     @Getter
@@ -56,19 +56,19 @@ public class Header {
     @Valid
     private ValidityPeriod validityPeriod;
 
-    public Header(SupplierParty supplierParty, Software software, ReceiverParty receiverParty, InvoiceDate invoiceDate, DocumentNumber documentNumber) {
+    public Header(SupplierParty supplierParty, Software software, ReceiverParty receiverParty, DocumentDate invoiceDate, DocumentNumber documentNumber) {
         this.supplierParty = supplierParty;
         this.receiverParty = receiverParty;
-        this.invoiceDate = invoiceDate;
+        this.documentDate = invoiceDate;
         this.documentNumber = documentNumber;
         this.software = software;
     }
 
-    public Header(SupplierParty supplierParty, Software software, ReceiverParty receiverParty, InvoiceDate invoiceDate, DocumentNumber documentNumber, ValidityPeriod validityPeriod) {
+    public Header(SupplierParty supplierParty, Software software, ReceiverParty receiverParty, DocumentDate invoiceDate, DocumentNumber documentNumber, ValidityPeriod validityPeriod) {
         this.supplierParty = supplierParty;
         this.software = software;
         this.receiverParty = receiverParty;
-        this.invoiceDate = invoiceDate;
+        this.documentDate = invoiceDate;
         this.documentNumber = documentNumber;
         this.validityPeriod = validityPeriod;
     }

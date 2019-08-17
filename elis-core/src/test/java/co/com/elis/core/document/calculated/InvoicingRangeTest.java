@@ -5,6 +5,7 @@ import co.com.elis.core.document.InvoicingRange;
 import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
@@ -49,7 +50,7 @@ public class InvoicingRangeTest {
     @Test(expected = ElisCoreException.class)
     public void buildInvoiceRangeWrongPrefixTest() throws ElisCoreException {
 
-        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDateTime.MAX, LocalDateTime.MIN);
+        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDate.MAX, LocalDate.MIN);
 
         software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
@@ -63,7 +64,7 @@ public class InvoicingRangeTest {
     @Test
     public void buildInvoiceRangeNoPrefixTest() throws ElisCoreException {
 
-        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDateTime.MAX, LocalDateTime.MIN);
+        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDate.MAX, LocalDate.MIN);
 
         InvoicingRange invoicingRange = software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
@@ -83,7 +84,7 @@ public class InvoicingRangeTest {
     @Test
     public void buildInvoiceRangeTest() throws ElisCoreException {
 
-        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDateTime.MAX, LocalDateTime.MIN);
+        InvoicingRangePeriod period = new InvoicingRangePeriod(LocalDate.MAX, LocalDate.MIN);
 
         InvoicingRange invoicingRange = software.createInvoicingRangeAs()
                 .withConsecutiveRange(1L, 100L)
