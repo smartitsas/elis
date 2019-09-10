@@ -23,6 +23,7 @@ import co.com.elis.core.document.payment.PaymentData;
 import co.com.elis.core.document.reference.ReferenceList;
 import co.com.elis.core.document.validation.ExportationValidationGroup;
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -32,6 +33,8 @@ public class OtherRelatedData {
     private final Delivery delivery;
 
     @Getter
+    @Valid
+   // @NotNull(message = "ELIS_CORE_VAL_INV_PAYMENTS")
     private final PaymentData payments;
 
     @Getter

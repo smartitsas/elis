@@ -91,6 +91,7 @@ public class TaxType {
         return Objects.equals(this.description, other.description);
     }
 
+    @Override
     public String toString() {
         return code + "-" + description;
     }

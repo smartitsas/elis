@@ -28,11 +28,11 @@ public class InvoiceItem extends Item {
     
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_ITEM_PAYMENT_TERMS")
-    private final List<String> paymentTerms;    
+    private final List<String> notes;    
 
-    InvoiceItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<String> paymentTerms) {
+    InvoiceItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<String> notes) {
         super(id, code, description, units, total, quantity, unitaryValue, taxList);
-        this.paymentTerms = paymentTerms;
+        this.notes = notes;
     }
 
     public static ItemPopulationBuilder populateAs() {
@@ -42,5 +42,6 @@ public class InvoiceItem extends Item {
     public static ItemCalculationBuilder calculateAs() {
         return new ItemCalculationBuilder();
     }
+
 
 }

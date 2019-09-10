@@ -17,6 +17,7 @@ import co.com.elis.core.person.NaturalPersonName;
 import co.com.elis.core.person.Obligation;
 import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.document.PhysicalLocation;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
@@ -24,6 +25,7 @@ import co.com.elis.core.tax.Tax;
 import co.com.elis.core.tax.TaxTotal;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.tax.TaxType;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -66,18 +68,23 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision countrySubdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(countrySubdivision)
+                .build();
+
         SupplierParty supplier = personBuilder
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
         ReceiverParty receiverParty = personBuilder
                 .createReceiverPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("0", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
                 .build();
 
         var item = InvoiceItem.calculateAs()
@@ -144,16 +151,21 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision countrySubdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(countrySubdivision)
+                .build();
+
         SupplierParty supplier = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
         ReceiverParty receiver = personBuilder.createReceiverPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
                 .build();
 
         var currentDateTime = LocalDateTime.now();
@@ -212,18 +224,28 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision countrySubdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(countrySubdivision)
+                .withMainAddress("Imaginary street 123")
+                .build();
+
+        PhysicalLocation receptorAddress = PhysicalLocation.createAs()
+                .withCountrySubdivision(countrySubdivision)
+                .build();
+
         SupplierParty supplierParty = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("900", AccountType.NIT))
                 .withName(new JuridicPersonName("EMPRESA S001", "SCS Comidas S.A.S"))
                 .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
-                .withPhysicalLocation(PhysicalLocation.createAs().withMainAddress("Imaginary street 123").build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .build();
 
         ReceiverParty receiverParty = personBuilder.createReceiverPartyAsNaturalPerson()
                 .withIdentityDocument(new IdentityDocument("90000", AccountType.NIT))
                 .withName(new NaturalPersonName("Fulanito", "Rodriguez"))
-                .withPhysicalLocation(PhysicalLocation.createAs().withCountry("Colombia").build())
+                .withPhysicalLocation(receptorAddress)
                 .build();
 
         InvoiceItem item1 = InvoiceItem.calculateAs()
@@ -272,8 +294,8 @@ public class BasicInvoiceTest {
         assertThat(invoice.getHeader().getReceiverParty(), is(receiverParty));
         assertFalse(invoice.getItemList().isEmpty());
 
-        assertThat(item1.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(16).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item1.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(4.14).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item1.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(116).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item1.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(104.14).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(invoice.getLegalMonetaryTotal().getCurrency(), is("COP"));
         assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(200).setScale(4, RoundingMode.HALF_UP)));

@@ -5,6 +5,7 @@ import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRange;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.document.delivery.Delivery;
 import co.com.elis.core.document.delivery.DeliveryParty;
 import co.com.elis.core.item.InvoiceItem;
@@ -16,10 +17,10 @@ import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -51,11 +52,16 @@ public class InvoiceDeliveryTest {
                 .withInvoicingPeriod(new InvoicingRangePeriod(LocalDate.now(), LocalDate.now()))
                 .build();
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();
+
         supplier = software.getPersonBuilder()
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .build();
@@ -64,8 +70,8 @@ public class InvoiceDeliveryTest {
                 .createReceiverPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 

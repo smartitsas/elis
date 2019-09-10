@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.item;
 
 import co.com.elis.core.tax.Tax;
@@ -38,14 +39,15 @@ public class Item {
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_ITEM_POS")
     private final Integer position;
-    
+
     @Getter
-    private final String code;    
-    
+    private final String code;
+
     @Getter
     private final String description;
-    
+
     @Getter
+    @NotNull(message = "ELIS_CORE_VAL_ITEM_UNITS")
     private final String units;
 
     @Getter
@@ -80,7 +82,11 @@ public class Item {
                 .findFirst()
                 .orElse(Tax.createWithZeros(taxType).build());
     }
-    
+
+    public boolean isFreeOfCharge() {
+        return BigDecimal.ZERO.compareTo(total) == 0;
+    }
+
     public Set<ConstraintViolation<Item>> validate() {
         Validator validator = Validation.buildDefaultValidatorFactory()
                 .usingContext()
@@ -88,17 +94,17 @@ public class Item {
                 .getValidator();
         return validator.validate(this);
     }
-    
-    public String toDescriptiveId(){
+
+    public String toDescriptiveId() {
         StringBuilder sb = new StringBuilder();
-        
-        if(position != null){
-           sb.append(position).append(". ");
+
+        if (position != null) {
+            sb.append(position).append(". ");
         }
-        if(code != null){
+        if (code != null) {
             sb.append(code);
         }
         return sb.toString();
     }
-    
+
 }

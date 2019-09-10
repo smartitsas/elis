@@ -1,7 +1,9 @@
 package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.software.Software;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -31,12 +33,17 @@ public class PersonTest {
 
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();        
+        
         SupplierParty<JuridicPersonName> supplierParty = software.getPersonBuilder()
                 .createSupplierPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addEstablishmentType(EstablishmentType.ESTABLECIMIENTO_COMERCIO)
                 .addContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
@@ -61,12 +68,17 @@ public class PersonTest {
     public void buildReceiverPartyJuridicTest() throws ElisCoreException {
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();          
+        
         ReceiverParty<JuridicPersonName> receiver = software.getPersonBuilder()
                 .createReceiverPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addCustomUserCode(CustomUserCode.IMPORTADOR)
                 .addRepresentationType(JuridicPersonRepresentationType.REPRESENTANTE_ADUANERO)
                 .build();
@@ -85,12 +97,17 @@ public class PersonTest {
 
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();              
+        
         SupplierParty<NaturalPersonName> supplierParty = software.getPersonBuilder()
                 .createSupplierPartyAsNaturalPerson()
                 .withName(new NaturalPersonName("FirstName", "LastName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addRepresentationType(NaturalPersonRepresentationType.APODERADO_ESPECIAL)
                 .addContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
@@ -115,13 +132,18 @@ public class PersonTest {
     @Test
     public void buildReceiverPartyNaturalTest() throws ElisCoreException {
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();          
 
         ReceiverParty<NaturalPersonName> receiver = software.getPersonBuilder()
                 .createReceiverPartyAsNaturalPerson()
                 .withName(new NaturalPersonName("firstName", "lastName"))
                 .withIdentityDocument(new IdentityDocument("987654321", 4L, AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .build();
 
         assertThat(receiver.getName().getFirstName(), is("firstName"));

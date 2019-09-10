@@ -92,6 +92,16 @@ public class TaxTotalList {
                 .map(TaxTotal::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+    
+    
+    public BigDecimal getCalculatedTaxableAmount() {
+        return taxTotals.stream()
+                .map(TaxTotal::getTaxSubtotals)
+                .flatMap(Collection::stream)
+                .map(Tax::getTaxableAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }    
+
 
     public static TaxTotalList buildTotalList(Tax... subtotals) throws ElisCoreException {
         return buildTotalList(false, false, Arrays.asList(subtotals));
@@ -169,5 +179,7 @@ public class TaxTotalList {
                 .getValidator();
         return validator.validate(this);
     }
+
+    
 
 }

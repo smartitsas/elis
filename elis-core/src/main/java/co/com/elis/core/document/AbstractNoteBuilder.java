@@ -40,7 +40,7 @@ public abstract class AbstractNoteBuilder<M extends MandatoryBuildContext> exten
     }
 
     protected MonetaryTotal calculateTotals(ItemList<? extends Item> itemList, TaxTotalList taxTotalList, List<AllowanceCharge> allowanceCharge) {
-        return new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTotal(), allowanceCharge);
+        return new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTaxableAmount(), allowanceCharge);
     }
 
     public abstract static class MandatoryContext<M extends MandatoryBuildContext, O extends OptionalBuildContext> extends MandatoryBuildContext<M, O, NoteItem> {

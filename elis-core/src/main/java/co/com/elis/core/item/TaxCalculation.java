@@ -38,14 +38,15 @@ public class TaxCalculation {
     }
 
     public Tax applyTo(BigDecimal calcTotal) {
-        BigDecimal totalValue = calcTotal.multiply(percentage)
+        BigDecimal taxTotal = calcTotal.multiply(percentage)
                 .setScale(4, RoundingMode.HALF_UP)
                 .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
 
         return Tax.createAs(type)
                 .withPercentage(percentage)
-                .withTotal(totalValue)
-                .withTaxableAmount(totalValue)
+                .withTaxTotal(taxTotal)
+                .withTaxableAmount(calcTotal)
+                .withTotal(taxTotal.add(calcTotal))
                 .build();
     }
 

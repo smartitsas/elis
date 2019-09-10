@@ -1,82 +1,87 @@
 package co.com.elis.core.item;
 
+import co.com.elis.core.tax.Tax;
 import co.com.elis.core.tax.TaxType;
 import co.com.elis.exception.ElisCoreException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static co.com.elis.core.util.DecimalUtils.scaled;
+import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
+import java.math.BigDecimal;
+import static org.junit.Assert.assertTrue;
 
 public class ItemCalculatedTest {
 
     @Test
-    public void calculateItemSimpleTest() throws ElisCoreException {
-        InvoiceItem item = InvoiceItem.calculateAs()
-                .withinMandatorySection()
-                .setPosition(1)
-                .setQuantity(10.3)
-                .setUnitaryValue(1000.2)
-                .getCalculatedResult();
-
-        assertThat(item.getPosition(), is(1));
-        assertNull(item.getDescription());
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
-    }
-
-    @Test
     public void calculateItemSimpleDescriptionTest() throws ElisCoreException {
-        InvoiceItem item = InvoiceItem.calculateAs()
+        InvoiceItem item = InvoiceItem
+                .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));
+        assertThat(item.getQuantity(), is(scaled(10.3f)));
+        assertThat(item.getUnitaryValue(), is(scaled(1000.2f)));
+        assertThat(item.getCode(), is("ITEM1"));
+        assertThat(item.getUnits(), is("BX"));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getTotal(), is(scaled(10302.0600)));
+        assertTrue(item.getTaxes().isEmpty());
     }
 
     @Test
     public void calculateItemWithIVATest() throws ElisCoreException {
-        InvoiceItem item = InvoiceItem.calculateAs()
+        InvoiceItem item = InvoiceItem
+                .calculateAs()
                 .withinMandatorySection()
+                .setUnits("BX")
                 .setPosition(1)
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .withinOptionalSection()
-                .setCode("ITEM1")                
+                .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(18))
                 .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
-        assertThat(item.getPosition(), is(1));
-        assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
+        Tax vat = item.getTax(TaxType.IVA);
+        assertThat(vat.getTaxableAmount(), is(scaled(10302.0600)));
+        assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(18f), 2)));
+        assertThat(vat.getTaxTotal(), is(scaled(1854.3708)));
+        assertThat(vat.getTotal(), is(scaled(12156.4308)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(1854.3708)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        Tax consumption = item.getTax(TaxType.CONSUMPTION);
+        assertThat(consumption.getTaxableAmount(), is(scaled(0)));
+        assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(consumption.getTaxTotal(), is(scaled(0)));
+        assertThat(consumption.getTotal(), is(scaled(0)));
+
+        Tax ica = item.getTax(TaxType.ICA);
+        assertThat(ica.getTaxableAmount(), is(scaled(0)));
+        assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(ica.getTaxTotal(), is(scaled(0)));
+        assertThat(ica.getTotal(), is(scaled(0)));
+
+        assertThat(item.getTotal(), is(scaled(10302.06)));
     }
 
     @Test
     public void calculateItemWithConsumptionTest() throws ElisCoreException {
-        InvoiceItem item = InvoiceItem.calculateAs()
+        InvoiceItem item = InvoiceItem
+                .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(8))
@@ -85,22 +90,38 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getQuantity(), is(scaled(10.3)));
+        assertThat(item.getUnitaryValue(), is(scaled(1000.2)));
+        assertThat(item.getTotal(), is(scaled(10302.06)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(824.1648)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        Tax vat = item.getTax(TaxType.IVA);
+        assertThat(vat.getTaxableAmount(), is(scaled(0)));
+        assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(vat.getTaxTotal(), is(scaled(0)));
+        assertThat(vat.getTotal(), is(scaled(0)));
+
+        Tax consumption = item.getTax(TaxType.CONSUMPTION);
+        assertThat(consumption.getTaxableAmount(), is(scaled(10302.0600)));
+        assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(8f), 2)));
+        assertThat(consumption.getTaxTotal(), is(scaled(824.1648)));
+        assertThat(consumption.getTotal(), is(scaled(11126.2248)));
+
+        Tax ica = item.getTax(TaxType.ICA);
+        assertThat(ica.getTaxableAmount(), is(scaled(0)));
+        assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(ica.getTaxTotal(), is(scaled(0)));
+        assertThat(ica.getTotal(), is(scaled(0)));
     }
 
     @Test
     public void calculateItemWithICATest() throws ElisCoreException {
-        InvoiceItem item = InvoiceItem.calculateAs()
+        InvoiceItem item = InvoiceItem
+                .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.ICA).withPercentage(5))
@@ -109,13 +130,28 @@ public class ItemCalculatedTest {
 
         assertThat(item.getPosition(), is(1));
         assertThat(item.getDescription(), is("DESCRIPTION 001"));
-        assertThat(item.getQuantity(), is(BigDecimal.valueOf(10.3).setScale(4,RoundingMode.HALF_UP)));
-        assertThat(item.getUnitaryValue(), is(BigDecimal.valueOf(1000.2).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTotal(), is(BigDecimal.valueOf(10302.06).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item.getQuantity(), is(scaled(10.3)));
+        assertThat(item.getUnitaryValue(), is(scaled(1000.2)));
+        assertThat(item.getTotal(), is(scaled(10302.06)));
 
-        assertThat(item.getTax(TaxType.IVA).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item.getTax(TaxType.ICA).getTotal(), is(BigDecimal.valueOf(515.103).setScale(4)));
+        Tax vat = item.getTax(TaxType.IVA);
+        assertThat(vat.getTaxableAmount(), is(scaled(0)));
+        assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(vat.getTaxTotal(), is(scaled(0)));
+        assertThat(vat.getTotal(), is(scaled(0)));
+
+        Tax consumption = item.getTax(TaxType.CONSUMPTION);
+        assertThat(consumption.getTaxableAmount(), is(scaled(0)));
+        assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
+        assertThat(consumption.getTaxTotal(), is(scaled(0)));
+        assertThat(consumption.getTotal(), is(scaled(0)));
+
+        Tax ica = item.getTax(TaxType.ICA);
+        assertThat(ica.getTaxableAmount(), is(scaled(10302.0600)));
+        assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(5f), 2)));
+        assertThat(ica.getTaxTotal(), is(scaled(515.103)));
+        assertThat(ica.getTotal(), is(scaled(10817.1630)));
+
     }
 
 }

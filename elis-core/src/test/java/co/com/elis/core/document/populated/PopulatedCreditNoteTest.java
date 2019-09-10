@@ -14,12 +14,14 @@ import co.com.elis.core.person.JuridicPersonName;
 import co.com.elis.core.person.NaturalPersonName;
 import co.com.elis.core.person.Obligation;
 import co.com.elis.core.document.PhysicalLocation;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.Tax;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.tax.TaxType;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -42,18 +44,23 @@ public class PopulatedCreditNoteTest {
     public void startup() throws ElisCoreException {
         software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN");
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();
+
         supplier = software.getPersonBuilder().createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("9000", AccountType.NIT))
                 .withName(new JuridicPersonName("Cafe el cafesoso"))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
                 .build();
 
         receptor = software.getPersonBuilder().createReceiverPartyAsNaturalPerson()
                 .withName(new NaturalPersonName("Juan", "Exampleton"))
                 .withIdentityDocument(new IdentityDocument("30000001", AccountType.IDENTITY_CARD))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
                 .build();
     }
 

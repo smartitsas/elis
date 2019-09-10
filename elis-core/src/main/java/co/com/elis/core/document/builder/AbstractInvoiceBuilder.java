@@ -1,21 +1,22 @@
-/**********************************************************************************************
+/** ********************************************************************************************
  *
  * ELectronic Invoicing System Community Core library
  * Copyright (C) 2017-2018. Smart IT S.A.S. <smartit.net.co>
  *
- * This file is licensed under the GNU Affero General Public License version 3 as published by
- * the Free Software Foundation.
+ * This file is licensed under the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions
- * and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  *
- * You should have received a copy of the GNU Affero General Public License.  If not, please
- * visit <http://www.gnu.org/licenses/agpl-3.0.html>.
+ * You should have received a copy of the GNU Affero General Public License. If
+ * not, please visit <http://www.gnu.org/licenses/agpl-3.0.html>.
  *
- **********************************************************************************************/
-
+ *********************************************************************************************
+ */
 package co.com.elis.core.document.builder;
 
 import co.com.elis.core.document.InvoiceType;
@@ -27,7 +28,6 @@ import co.com.elis.core.item.InvoiceItem;
 import co.com.elis.core.person.PaymentReceptor;
 import co.com.elis.core.software.Software;
 import java.util.List;
-
 
 public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> extends AbstractBuilder<M, InvoiceItem> {
 
@@ -46,6 +46,16 @@ public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> ex
             super(invoiceBuilder);
         }
 
+        public M addPaymentMeans(PaymentMean paymentMean) {
+            builder.paymentDataBuilder.getMeans().add(paymentMean);
+            return collectContext();
+        }
+
+        public M addPaymentMeans(List<PaymentMean> paymentMeans) {
+            builder.paymentDataBuilder.getMeans().addAll(paymentMeans);
+            return collectContext();
+        }
+
         public M setInvoicingRange(InvoicingRange invoicingRange) {
             AbstractInvoiceBuilder concreteBuilder = (AbstractInvoiceBuilder) builder;
             concreteBuilder.invoicingRange = invoicingRange;
@@ -62,16 +72,6 @@ public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> ex
 
         public O setValidityPeriod(ValidityPeriod validityPeriod) {
             ((AbstractInvoiceBuilder) builder).validityPeriod = validityPeriod;
-            return collectContext();
-        }
-
-        public O addPaymentMeans(PaymentMean paymentMean) {
-            builder.paymentDataBuilder.getMeans().add(paymentMean);
-            return collectContext();
-        }
-
-        public O addPaymentMeans(List<PaymentMean> paymentMeans) {
-            builder.paymentDataBuilder.getMeans().addAll(paymentMeans);
             return collectContext();
         }
 

@@ -35,7 +35,7 @@ public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedI
         DocumentNumber docNumber = new DocumentNumber(invoicingRange.getPrefix(), consecutive);
         Header header = new Header(supplierParty, software, receiverParty, invoiceDate, docNumber);
         TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, false, itemList.getTaxes());
-        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTotal(), allowanceCharge);
+        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTaxableAmount(), allowanceCharge);
 
         OtherRelatedData otherData = new OtherRelatedData(delivery, paymentDataBuilder.buildOrNull(), exchangeRate, referenceList, additionalNotes);
         

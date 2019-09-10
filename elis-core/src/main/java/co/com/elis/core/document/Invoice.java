@@ -78,7 +78,7 @@ public class Invoice extends Document<InvoiceItem> {
         if (invoiceType == InvoiceType.EXPORTATION) {
             results = validator.validate(this, Default.class, ExportationValidationGroup.class);
         } else {
-            results = validator.validate(this);
+            results = validator.validate(this, Default.class);
         }
         return results;
     }

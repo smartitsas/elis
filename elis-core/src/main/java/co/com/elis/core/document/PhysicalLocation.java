@@ -19,18 +19,15 @@
  */
 package co.com.elis.core.document;
 
+import co.com.elis.core.document.address.CountrySubdivision;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 public class PhysicalLocation {
-
-    @Getter
-    private Integer id;
-
-    @Getter
-    private String dunsId;
 
     @Getter
     private String postalBox;
@@ -39,24 +36,11 @@ public class PhysicalLocation {
     private String postalCode;
 
     @Getter
-    private String department;
+    @NotNull( message =  "ELIS_CORE_VAL_ADDRESS_COUNTRYSUBDIVISION")
+    private CountrySubdivision countrySubdivision;
 
     @Getter
-    private String citySubdivision;
-
-    @Getter
-    private String cityName;
-
-    @Getter
-    private String countrySubentity;
-
-    @Getter
-    private String countrySubentityCode;
-
-    @Getter
-    private String country;
-
-    @Getter
+    @NotEmpty( message = "ELIS_CORE_VAL_ADDRESS_ADDRESS")
     private String address;
 
     @Getter
@@ -84,13 +68,8 @@ public class PhysicalLocation {
             physicalLocation = new PhysicalLocation();
         }
 
-        public PhysicalLocationBuilder withId(Integer id) {
-            physicalLocation.id = id;
-            return this;
-        }
-
-        public PhysicalLocationBuilder withDunsId(String dunsId) {
-            physicalLocation.dunsId = dunsId;
+        public PhysicalLocationBuilder withCountrySubdivision(CountrySubdivision countrySubdivision) {
+            physicalLocation.countrySubdivision = countrySubdivision;
             return this;
         }
 
@@ -154,72 +133,6 @@ public class PhysicalLocation {
          */
         public PhysicalLocationBuilder withPostalCode(String postalCode) {
             physicalLocation.postalCode = postalCode;
-            return this;
-        }
-
-        /**
-         * City subdivision, could be a district.
-         *
-         * @param citySubdivision district within the city of this address
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withCitySubdivision(String citySubdivision) {
-            physicalLocation.citySubdivision = citySubdivision;
-            return this;
-        }
-
-        /**
-         * City or town name for this address.
-         *
-         * @param cityName
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withCityName(String cityName) {
-            physicalLocation.cityName = cityName;
-            return this;
-        }
-
-        /**
-         * Country subdivision, could be state or department
-         *
-         * @param department department/state of this address
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withDepartment(String department) {
-            physicalLocation.department = department;
-            return this;
-        }
-
-        /**
-         * Country subdivision, could be state or department
-         *
-         * @param countrySubentity department/state of this address
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withCountrySubentity(String countrySubentity) {
-            physicalLocation.countrySubentity = countrySubentity;
-            return this;
-        }
-
-        /**
-         * Country subdivision code, could be state or department code
-         *
-         * @param countrySubentityCode department/state of this address
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withCountrySubentityCode(String countrySubentityCode) {
-            physicalLocation.countrySubentityCode = countrySubentityCode;
-            return this;
-        }
-
-        /**
-         * Country name
-         *
-         * @param country department/state of this address
-         * @return Chaining builder
-         */
-        public PhysicalLocationBuilder withCountry(String country) {
-            physicalLocation.country = country;
             return this;
         }
 

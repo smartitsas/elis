@@ -1,4 +1,3 @@
-
 package co.com.elis.core.document.calculated;
 
 import co.com.elis.core.document.DocumentType;
@@ -16,10 +15,12 @@ import co.com.elis.core.person.NaturalPersonName;
 import co.com.elis.core.person.Obligation;
 import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.document.PhysicalLocation;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxType;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,18 +62,23 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();
+
         SupplierParty supplier = personBuilder
                 .createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
         ReceiverParty receiverParty = personBuilder
                 .createReceiverPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("0", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
                 .build();
 
         var item = InvoiceItem.calculateAs()
@@ -80,6 +86,9 @@ public class BasicInvoiceTest {
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
+                .setUnits("BX")
+                .withinOptionalSection()
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(10))
                 .getCalculatedResult();
 
         var invoicingRange2 = software.createInvoicingRangeAs()
@@ -101,25 +110,22 @@ public class BasicInvoiceTest {
                 .addItem(item)
                 .getCalculatedResult();
 
+        assertThat(invoice.getInvoiceType(), is(InvoiceType.SALE));
+        assertThat(invoice.getType(), is(DocumentType.INVOICE));
+        assertFalse(invoice.isTranscription());
+        assertFalse(invoice.isExportation());
+
         assertThat(invoice.getDocumentNumber().getPrefix(), is("PRFX"));
         assertThat(invoice.getDocumentNumber().getConsecutive(), is(1L));
         assertThat(invoice.getLegalMonetaryTotal().getCurrency(), is("COP"));
-
         assertThat(invoice.getHeader().getSupplierParty(), is(supplier));
+        assertNotNull(invoice.getHeader().getDocumentDate());
 
         assertThat(invoice.getItemList().isEmpty(), is(false));
         assertThat(invoice.getItemList().size(), is(1));
         assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10000).setScale(4)));
 
-        assertNotNull(invoice.getHeader().getDocumentDate());
-        assertNotNull(invoice.getCufe());
-
-        assertThat(invoice.getCufe(), is("620023302F39A70960569C3631F24D6600DC63A1"));
-
-        assertThat(invoice.getInvoiceType(), is(InvoiceType.SALE));
-        assertThat(invoice.getType(), is(DocumentType.INVOICE));
-        assertFalse(invoice.isTranscription());
-        assertFalse(invoice.isExportation());
+        assertThat(invoice.getCufe(), is("CFA535EC4A4B7F8C82F5998681C380A23FCD563A"));
 
     }
 
@@ -128,17 +134,22 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();
+
         SupplierParty supplier = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
         ReceiverParty receiver = personBuilder.createReceiverPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .build();
 
         var currentDateTime = LocalDateTime.now();
@@ -148,6 +159,7 @@ public class BasicInvoiceTest {
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
+                .setUnits("BX")
                 .getCalculatedResult();
 
         Invoice invoice = software.calculateInvoiceAs()
@@ -195,19 +207,29 @@ public class BasicInvoiceTest {
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();
+
+        PhysicalLocation mainAddress = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .withMainAddress("Imaginary street 123")
+                .build();
+
         SupplierParty supplierParty = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withIdentityDocument(new IdentityDocument("900", AccountType.NIT))
                 .withName(new JuridicPersonName("EMPRESA S001", "SCS Comidas S.A.S"))
                 .addObligation(Obligation.OTRO_TIPO_OBLIGADO)
-                .withPhysicalLocation(PhysicalLocation.createAs().withMainAddress("Imaginary street 123").build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(mainAddress)
+                .withRegistrationAddress(address)
                 .build();
 
         ReceiverParty receiverParty = personBuilder.createReceiverPartyAsNaturalPerson()
                 .withIdentityDocument(new IdentityDocument("90000", AccountType.NIT))
                 .withName(new NaturalPersonName("Fulanito", "Rodriguez"))
-                .withPhysicalLocation(PhysicalLocation.createAs().withCountry("Colombia").build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .build();
 
         InvoiceItem item1 = InvoiceItem.calculateAs()
@@ -215,6 +237,7 @@ public class BasicInvoiceTest {
                 .setPosition(1)
                 .setQuantity(10)
                 .setUnitaryValue(10)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITM1")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16))
@@ -226,6 +249,7 @@ public class BasicInvoiceTest {
                 .setPosition(1)
                 .setQuantity(10)
                 .setUnitaryValue(10)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITEM2")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16))
@@ -249,16 +273,16 @@ public class BasicInvoiceTest {
         assertThat(invoice.getHeader().getReceiverParty(), is(receiverParty));
         assertFalse(invoice.getItemList().isEmpty());
 
-        assertThat(item1.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(16).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(item1.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(4.14).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item1.getTax(TaxType.IVA).getTotal(), is(BigDecimal.valueOf(116).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(item1.getTax(TaxType.CONSUMPTION).getTotal(), is(BigDecimal.valueOf(104.14).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(invoice.getLegalMonetaryTotal().getCurrency(), is("COP"));
         assertThat(invoice.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(200).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(invoice.getLegalMonetaryTotal().getTaxTotal(), is(BigDecimal.valueOf(40.28).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(invoice.getLegalMonetaryTotal().getPayableAmount(), is(BigDecimal.valueOf(240.2800).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(invoice.getLegalMonetaryTotal().getTaxTotal(), is(BigDecimal.valueOf(200.00).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(invoice.getLegalMonetaryTotal().getPayableAmount(), is(BigDecimal.valueOf(400.0000).setScale(4, RoundingMode.HALF_UP)));
 
-        assertThat(invoice.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.valueOf(32).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(invoice.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.valueOf(8.28).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(invoice.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.valueOf(232).setScale(4, RoundingMode.HALF_UP)));
+        assertThat(invoice.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.valueOf(208.28).setScale(4, RoundingMode.HALF_UP)));
         assertThat(invoice.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
     }
 

@@ -35,7 +35,7 @@ public class ItemCalculationBuilder extends AbstractItemBuilder {
         BigDecimal calcTotal = quantity.multiply(unitaryValue);
 
         List<Tax> taxList = taxCalcList.stream()
-                .map(t -> t.applyTo(calcTotal))
+                .map(tax -> tax.applyTo(calcTotal))
                 .collect(Collectors.toList());
 
         InvoiceItem item = new InvoiceItem(position, code, description, units, quantity, unitaryValue, calcTotal, taxList, paymentTerms);

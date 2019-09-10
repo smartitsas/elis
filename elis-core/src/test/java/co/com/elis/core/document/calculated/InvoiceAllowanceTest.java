@@ -3,6 +3,7 @@ package co.com.elis.core.document.calculated;
 import co.com.elis.core.document.DocumentDate;
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.PhysicalLocation;
+import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.document.allowance.AllowanceCharge;
 import co.com.elis.core.item.InvoiceItem;
 import co.com.elis.core.person.AccountType;
@@ -13,6 +14,7 @@ import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Software;
+import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -99,19 +101,24 @@ public class InvoiceAllowanceTest {
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
 
         PersonBuilder personBuilder = software.getPersonBuilder();
+        
+        CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
+        PhysicalLocation address = PhysicalLocation.createAs()
+                .withCountrySubdivision(subdivision)
+                .build();                
 
         SupplierParty supplier = personBuilder.createSupplierPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
-                .withRegistrationAddress(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
+                .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .build();
 
         ReceiverParty receiver = personBuilder.createReceiverPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
                 .withIdentityDocument(new IdentityDocument("987654321", AccountType.NIT))
-                .withPhysicalLocation(PhysicalLocation.createAs().build())
+                .withPhysicalLocation(address)
                 .build();
 
         var item = InvoiceItem.calculateAs()
