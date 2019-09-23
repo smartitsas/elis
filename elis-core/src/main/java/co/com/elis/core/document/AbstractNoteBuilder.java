@@ -27,6 +27,7 @@ import co.com.elis.core.item.ItemList;
 import co.com.elis.core.item.NoteItem;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
+import java.math.BigDecimal;
 import java.util.List;
 
 public abstract class AbstractNoteBuilder<M extends MandatoryBuildContext> extends AbstractBuilder<M, NoteItem> {
@@ -40,7 +41,11 @@ public abstract class AbstractNoteBuilder<M extends MandatoryBuildContext> exten
     }
 
     protected MonetaryTotal calculateTotals(ItemList<? extends Item> itemList, TaxTotalList taxTotalList, List<AllowanceCharge> allowanceCharge) {
-        return new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTaxableAmount(), allowanceCharge);
+        BigDecimal lineTotal = itemList.getCalculatedTotal();
+        BigDecimal taxableAmount = taxTotalList.getCalculatedTaxableAmount();
+        BigDecimal taxAmount = taxTotalList.getCalculatedTaxAmount();
+        
+        return new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, allowanceCharge);
     }
 
     public abstract static class MandatoryContext<M extends MandatoryBuildContext, O extends OptionalBuildContext> extends MandatoryBuildContext<M, O, NoteItem> {

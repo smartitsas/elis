@@ -34,7 +34,16 @@ public class MonetaryTotal {
 
     @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
-    private final BigDecimal taxTotal;
+    private final BigDecimal taxableAmount;
+    
+    
+    @Getter
+    @NotNull(message = "ELIS_CORE_UNKNOWN")
+    private final BigDecimal taxAmount;    
+    
+    @Getter
+    @NotNull(message = "ELIS_CORE_UNKNOWN")
+    private final BigDecimal taxInclusiveAmount;    
 
     @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
@@ -50,28 +59,34 @@ public class MonetaryTotal {
     @Getter
     private final BigDecimal discountTotal;
 
-    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount) {
+    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, BigDecimal payableAmount) {
         this.currency = currency;
         this.lineTotal = scaledOrNull(lineTotal);
-        this.taxTotal = scaledOrNull(taxTotal);
-        this.payableAmount = scaledOrNull(payableAmount);
+        this.taxableAmount = scaledOrNull(taxableAmount);
+        this.taxAmount = taxAmount;
+        this.taxInclusiveAmount = taxAmount.add(lineTotal);
         this.chargeTotal = null;
         this.discountTotal = null;
+        this.payableAmount = scaledOrNull(payableAmount);
     }
 
-    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, BigDecimal payableAmount, BigDecimal chargeTotal, BigDecimal discountTotal) {
+    public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, BigDecimal payableAmount, BigDecimal chargeTotal, BigDecimal discountTotal) {
         this.currency = currency;
         this.lineTotal = scaledOrNull(lineTotal);
-        this.taxTotal = scaledOrNull(taxTotal);
-        this.payableAmount = scaledOrNull(payableAmount);
+        this.taxableAmount = scaledOrNull(taxableAmount);
+        this.taxAmount = taxAmount;
+        this.taxInclusiveAmount = taxAmount.add(lineTotal);
         this.chargeTotal = scaledOrNull(chargeTotal);
         this.discountTotal = scaledOrNull(discountTotal);
+        this.payableAmount = scaledOrNull(payableAmount);
     }
 
-    MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxTotal, List<AllowanceCharge> allowanceCharges) {
+    MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, List<AllowanceCharge> allowanceCharges) {
         this.currency = currency;
         this.lineTotal = scaledOrNull(lineTotal);
-        this.taxTotal = scaledOrNull(taxTotal);
+        this.taxableAmount = scaledOrNull(taxableAmount);
+        this.taxAmount = taxAmount;
+        
         BigDecimal chargeSum = BigDecimal.ZERO;
         BigDecimal discuntSum = BigDecimal.ZERO;
 
@@ -85,7 +100,8 @@ public class MonetaryTotal {
 
         this.chargeTotal = scaledOrNull(chargeSum);
         this.discountTotal = scaledOrNull(discuntSum);
-        this.payableAmount = lineTotal.add(taxTotal).add(chargeSum).subtract(discuntSum).setScale(4, RoundingMode.HALF_UP);
+        this.taxInclusiveAmount = taxAmount.add(lineTotal);
+        this.payableAmount = lineTotal.add(taxAmount).add(chargeSum).subtract(discuntSum).setScale(4, RoundingMode.HALF_UP);
     }
 
     public String toPlainString() {

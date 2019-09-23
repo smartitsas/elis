@@ -80,7 +80,7 @@ public class Item {
         return taxes.stream()
                 .filter(t -> t.getType() == taxType)
                 .findFirst()
-                .orElse(Tax.createWithZeros(taxType).build());
+                .orElse(Tax.createWithZeros(taxType).withTaxableAmount(total).build());
     }
 
     public boolean isFreeOfCharge() {

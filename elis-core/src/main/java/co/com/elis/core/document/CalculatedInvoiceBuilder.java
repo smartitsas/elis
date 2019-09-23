@@ -22,6 +22,7 @@ import co.com.elis.core.document.builder.AbstractInvoiceBuilder;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
+import java.math.BigDecimal;
 
 public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedInvoiceBuilder.CalculatedMandatoryContext> {
 
@@ -35,7 +36,12 @@ public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedI
         DocumentNumber docNumber = new DocumentNumber(invoicingRange.getPrefix(), consecutive);
         Header header = new Header(supplierParty, software, receiverParty, invoiceDate, docNumber);
         TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, false, itemList.getTaxes());
-        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, itemList.getCalculatedTotal(), taxTotalList.getCalculatedTaxableAmount(), allowanceCharge);
+        
+        BigDecimal lineTotal = itemList.getCalculatedTotal();
+        BigDecimal taxableAmount = taxTotalList.getCalculatedTaxableAmount();
+        BigDecimal taxAmount = taxTotalList.getCalculatedTaxAmount();
+        
+        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, allowanceCharge);
 
         OtherRelatedData otherData = new OtherRelatedData(delivery, paymentDataBuilder.buildOrNull(), exchangeRate, referenceList, additionalNotes);
         

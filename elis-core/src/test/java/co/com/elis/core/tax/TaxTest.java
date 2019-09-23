@@ -2,7 +2,6 @@ package co.com.elis.core.tax;
 
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -20,13 +19,6 @@ public class TaxTest {
 
         TaxTotalList list = TaxTotalList.buildTotalList(taxIvaSubtotal, taxIcaSubtotal, taxExcSubtotal, taxIvaSubtotal2);
 
-        TaxTotal ivaTotal = list.getByType(TaxType.IVA).get();
-        TaxTotal icaTotal = list.getByType(TaxType.ICA).get();
-        TaxTotal excTotal = list.getByType(TaxType.CONSUMPTION).get();
-
-        assertThat(ivaTotal.getTotal(), is(BigDecimal.valueOf(120f).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(excTotal.getTotal(), is(BigDecimal.valueOf(100f).setScale(4, RoundingMode.HALF_UP)));
-        assertThat(icaTotal.getTotal(), is(BigDecimal.valueOf(100f).setScale(4, RoundingMode.HALF_UP)));
 
         assertThat(TaxType.IVA.getDescription(), is("IVA"));
         assertThat(TaxType.ICA.getDescription(), is("ICA"));

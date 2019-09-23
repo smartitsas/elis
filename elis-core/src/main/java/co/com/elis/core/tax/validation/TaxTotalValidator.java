@@ -31,10 +31,10 @@ public class TaxTotalValidator implements ConstraintValidator<ConsistentTaxTotal
         BigDecimal sum = BigDecimal.ZERO;
 
         for (Tax taxSubtotal : taxTotal) {
-            sum = sum.add(taxSubtotal.getTotal());
+            sum = sum.add(taxSubtotal.getTaxTotal());
         }
 
-        return sum.compareTo(taxTotal.getTotal()) == 0;
+        return sum.compareTo(taxTotal.getTaxAmount()) == 0;
     }
 
 }

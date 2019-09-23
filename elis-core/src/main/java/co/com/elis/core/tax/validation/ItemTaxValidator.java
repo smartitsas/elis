@@ -36,7 +36,6 @@ public class ItemTaxValidator implements ConstraintValidator<ValidateItemTax, It
             BigDecimal calTax = scaledOrNull(tax.getPercentage().multiply(total).divide(BigDecimal.valueOf(100)));
             isValid &= calTax.compareTo(scaledOrNull(tax.getTaxTotal())) == 0;
             isValid &= total.compareTo(tax.getTaxableAmount()) == 0;
-            isValid &= total.add(calTax).compareTo(tax.getTotal()) == 0;
         }
 
         return isValid;

@@ -80,6 +80,7 @@ public class InvoiceDeliveryTest {
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
+                .setUnits("BX")
                 .getCalculatedResult();
     }
 

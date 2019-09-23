@@ -56,19 +56,18 @@ public class ItemCalculatedTest {
         assertThat(vat.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(18f), 2)));
         assertThat(vat.getTaxTotal(), is(scaled(1854.3708)));
-        assertThat(vat.getTotal(), is(scaled(12156.4308)));
 
         Tax consumption = item.getTax(TaxType.CONSUMPTION);
-        assertThat(consumption.getTaxableAmount(), is(scaled(0)));
+        assertThat(consumption.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(consumption.getTaxTotal(), is(scaled(0)));
-        assertThat(consumption.getTotal(), is(scaled(0)));
+        assertThat(consumption.getTaxTotal(), is(scaled(0)));
 
         Tax ica = item.getTax(TaxType.ICA);
-        assertThat(ica.getTaxableAmount(), is(scaled(0)));
+        assertThat(ica.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(ica.getTaxTotal(), is(scaled(0)));
-        assertThat(ica.getTotal(), is(scaled(0)));
+        assertThat(ica.getTaxTotal(), is(scaled(0)));
 
         assertThat(item.getTotal(), is(scaled(10302.06)));
     }
@@ -95,22 +94,21 @@ public class ItemCalculatedTest {
         assertThat(item.getTotal(), is(scaled(10302.06)));
 
         Tax vat = item.getTax(TaxType.IVA);
-        assertThat(vat.getTaxableAmount(), is(scaled(0)));
+        assertThat(vat.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(vat.getTaxTotal(), is(scaled(0)));
-        assertThat(vat.getTotal(), is(scaled(0)));
+        assertThat(vat.getTaxTotal(), is(scaled(0)));
 
         Tax consumption = item.getTax(TaxType.CONSUMPTION);
         assertThat(consumption.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(8f), 2)));
         assertThat(consumption.getTaxTotal(), is(scaled(824.1648)));
-        assertThat(consumption.getTotal(), is(scaled(11126.2248)));
 
         Tax ica = item.getTax(TaxType.ICA);
-        assertThat(ica.getTaxableAmount(), is(scaled(0)));
+        assertThat(ica.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(ica.getTaxTotal(), is(scaled(0)));
-        assertThat(ica.getTotal(), is(scaled(0)));
+        assertThat(ica.getTaxTotal(), is(scaled(0)));
     }
 
     @Test
@@ -135,23 +133,19 @@ public class ItemCalculatedTest {
         assertThat(item.getTotal(), is(scaled(10302.06)));
 
         Tax vat = item.getTax(TaxType.IVA);
-        assertThat(vat.getTaxableAmount(), is(scaled(0)));
+        assertThat(vat.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(vat.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(vat.getTaxTotal(), is(scaled(0)));
-        assertThat(vat.getTotal(), is(scaled(0)));
 
         Tax consumption = item.getTax(TaxType.CONSUMPTION);
-        assertThat(consumption.getTaxableAmount(), is(scaled(0)));
+        assertThat(consumption.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(consumption.getPercentage(), is(scaledOrNull(BigDecimal.ZERO, 2)));
         assertThat(consumption.getTaxTotal(), is(scaled(0)));
-        assertThat(consumption.getTotal(), is(scaled(0)));
 
         Tax ica = item.getTax(TaxType.ICA);
         assertThat(ica.getTaxableAmount(), is(scaled(10302.0600)));
         assertThat(ica.getPercentage(), is(scaledOrNull(BigDecimal.valueOf(5f), 2)));
         assertThat(ica.getTaxTotal(), is(scaled(515.103)));
-        assertThat(ica.getTotal(), is(scaled(10817.1630)));
-
     }
 
 }

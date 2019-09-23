@@ -20,8 +20,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.var;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -55,6 +53,7 @@ public class InvoiceAllowanceTest {
                     .setPosition(1)
                     .setUnitaryValue(1000)
                     .setQuantity(10)
+                    .setUnits("BX")
                     .getCalculatedResult();
 
             var invoicingRange = software.createInvoicingRangeAs()
@@ -91,7 +90,7 @@ public class InvoiceAllowanceTest {
             assertThat(invoice.getLegalMonetaryTotal().getPayableAmount(), is(BigDecimal.valueOf(9900).setScale(4)));
 
         } catch (ElisCoreException ex) {
-            Logger.getLogger(InvoiceAllowanceTest.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 
@@ -126,6 +125,7 @@ public class InvoiceAllowanceTest {
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("ITM1")
                 .getCalculatedResult();

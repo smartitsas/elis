@@ -87,21 +87,18 @@ public class TaxTotalList {
         return taxTotals.stream().flatMap(t -> t.getTaxSubtotals().stream()).collect(Collectors.toList());
     }
 
-    public BigDecimal getCalculatedTotal() {
+    public BigDecimal getCalculatedTaxableAmount() {
         return taxTotals.stream()
-                .map(TaxTotal::getTotal)
+                .map(TaxTotal::getTaxableAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     
-    
-    public BigDecimal getCalculatedTaxableAmount() {
+    public BigDecimal getCalculatedTaxAmount() {
         return taxTotals.stream()
-                .map(TaxTotal::getTaxSubtotals)
-                .flatMap(Collection::stream)
-                .map(Tax::getTaxableAmount)
+                .map(TaxTotal::getTaxAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }    
-
+    }
+    
 
     public static TaxTotalList buildTotalList(Tax... subtotals) throws ElisCoreException {
         return buildTotalList(false, false, Arrays.asList(subtotals));
@@ -179,7 +176,5 @@ public class TaxTotalList {
                 .getValidator();
         return validator.validate(this);
     }
-
-    
 
 }

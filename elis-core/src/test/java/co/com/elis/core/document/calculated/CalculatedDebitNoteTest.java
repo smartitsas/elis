@@ -76,6 +76,7 @@ public class CalculatedDebitNoteTest {
                 .setUnitaryValue(1)
                 .addAffectedInvoice(affectedInvoice)
                 .setDiscrepancy(DebitNoteDiscrepancyReason.CHANGE_OF_VALUE)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0))
@@ -103,9 +104,6 @@ public class CalculatedDebitNoteTest {
         assertThat(debitNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(debitNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(debitNote.getItemList().iterator().next(), is(noteItem));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal().setScale(2), is(BigDecimal.TEN.setScale(2)));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal().setScale(2), is(BigDecimal.ZERO.setScale(2)));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal().setScale(2), is(BigDecimal.TEN.setScale(2)));
         assertThat(debitNote.getLegalMonetaryTotal().getLineTotal(), is(BigDecimal.valueOf(10).setScale(4)));
     }
 
@@ -119,6 +117,7 @@ public class CalculatedDebitNoteTest {
                 .setUnitaryValue(1)
                 .addAffectedInvoice(new AffectedInvoice(new DocumentNumber("PRFX", 1L), LocalDate.now(), "CUFEXAMPLE"))
                 .setDiscrepancy(DebitNoteDiscrepancyReason.INTERESTS)
+                .setUnits("BX")
                 .withinOptionalSection()
                 .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0))
@@ -127,7 +126,7 @@ public class CalculatedDebitNoteTest {
 
         DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
         AffectedInvoice affectedInvoice = new AffectedInvoice(new DocumentNumber("PFX", 1L), LocalDate.now(), "CUFEEXAMPLE");
-        MonetaryTotal monetaryTotal = new MonetaryTotal("COP", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+        MonetaryTotal monetaryTotal = new MonetaryTotal("COP", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
         DebitNote debitNote = software.populateDebitNoteAs()
                 .withinMandatorySection()
@@ -150,9 +149,9 @@ public class CalculatedDebitNoteTest {
         assertThat(debitNote.getHeader().getDocumentDate(), is(invoiceDate));
         assertThat(debitNote.getDiscrepancy().getAffectedInvoices().get(0), is(affectedInvoice));
         assertThat(debitNote.getItemList().iterator().next(), is(noteItem));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.ICA).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
-        assertThat(debitNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTotal(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(debitNote.getTaxTotalList().getByType(TaxType.IVA).get().getTaxAmount(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(debitNote.getTaxTotalList().getByType(TaxType.ICA).get().getTaxAmount(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
+        assertThat(debitNote.getTaxTotalList().getByType(TaxType.CONSUMPTION).get().getTaxAmount(), is(BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP)));
         assertThat(debitNote.getLegalMonetaryTotal(), is(monetaryTotal));
         assertThat(debitNote.getOtherData().getAdditionalNotes().get(0), is("SAMPLE NOTE 1"));
     }

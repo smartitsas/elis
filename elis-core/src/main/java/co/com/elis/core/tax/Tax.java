@@ -37,10 +37,6 @@ public class Tax {
 
     @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
-    private final BigDecimal total;
-
-    @Getter
-    @NotNull(message = "ELIS_CORE_UNKNOWN")
     private final BigDecimal taxableAmount;
 
     @Getter
@@ -67,14 +63,14 @@ public class Tax {
         }
 
         this.percentage = scaledOrNull(percentage, 2);
-        this.total = scaledOrNull(total);
+        //this.total = scaledOrNull(total);
         this.type = type;
         this.taxableAmount = scaledOrNull(taxableAmount);
         this.taxTotal = scaledOrNull(taxTotal);
     }
 
     public Tax add(Tax otherSubtotal) {
-        return new Tax(type, percentage, total.add(otherSubtotal.getTotal()), taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
+        return new Tax(type, percentage, /*total.add(otherSubtotal.getTotal())*/null, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
     }
 
     /**
