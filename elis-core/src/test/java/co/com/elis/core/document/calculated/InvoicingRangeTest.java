@@ -2,6 +2,7 @@ package co.com.elis.core.document.calculated;
 
 import co.com.elis.core.document.InvoicingRangePeriod;
 import co.com.elis.core.document.InvoicingRange;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public class InvoicingRangeTest {
 
     @Before
     public void setUp() throws ElisCoreException {
-        software = new Software("ID SOFT", 987L, "SOFTWARE NAME", "SOFTWARE PIN");
+        software = new Software("ID SOFT", 987L, "SOFTWARE NAME", "SOFTWARE PIN", Environment.HABILITATION);
 
     }
 

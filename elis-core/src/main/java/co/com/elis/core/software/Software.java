@@ -40,22 +40,24 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
 import lombok.Getter;
 
+@Getter
 public class Software {
 
-    @Getter
+
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_ID")
     private final String id;
 
-    @Getter
+
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_NIT")
     private final Long nit;
 
-    @Getter
+
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_NAME")
     private final String name;
 
-    @Getter
     private final String pin;
+    
+    private final Environment environment;
 
     /**
      * Creates a new software Object
@@ -67,11 +69,12 @@ public class Software {
      * @throws ElisCoreException Throws ElisCoreException if the securityCode
      * couldn't be acquired using the given arguments
      */
-    public Software(String id, Long nit, String name, String pin) throws ElisCoreException {
+    public Software(String id, Long nit, String name, String pin, Environment environment) throws ElisCoreException {
         this.id = id;
         this.nit = nit;
         this.pin = pin;
         this.name = name;
+        this.environment = environment;
     }
 
     /**
@@ -82,11 +85,12 @@ public class Software {
      * @throws ElisCoreException Throws ElisCoreException if the securityCode
      * couldn't be acquired using the given arguments
      */
-    public Software(String id, Long nit) throws ElisCoreException {
+    public Software(String id, Long nit, Environment environment) throws ElisCoreException {
         this.id = id;
         this.nit = nit;
         this.name = null;
         this.pin = null;
+        this.environment = environment;
     }
 
     /**

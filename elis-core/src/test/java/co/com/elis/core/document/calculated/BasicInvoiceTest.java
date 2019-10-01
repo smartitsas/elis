@@ -18,6 +18,7 @@ import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxType;
 import co.com.elis.core.util.CountrySubdivisionFactory;
@@ -44,7 +45,7 @@ public class BasicInvoiceTest {
 
     @BeforeClass
     public static void startup() throws ElisCoreException {
-        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN");
+        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN", Environment.HABILITATION);
 
         LocalDate startPeriod = LocalDate.parse("2014-01-04");
         LocalDate endPeriod = LocalDate.parse("2016-01-04");

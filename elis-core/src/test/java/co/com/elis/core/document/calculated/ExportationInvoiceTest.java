@@ -17,6 +17,7 @@ import co.com.elis.core.person.Obligation;
 import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
@@ -41,7 +42,7 @@ public class ExportationInvoiceTest {
     @Before
     public void prepareData() throws ElisCoreException {
 
-        software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
 
         PersonBuilder personBuilder = software.getPersonBuilder();
 

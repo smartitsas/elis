@@ -46,8 +46,8 @@ public class DocumentDate {
     }
 
     public String toFormattedDateTime() {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss-05:00");
         StringBuilder builder = new StringBuilder(dateFormatter.format(issueDate));
 
         builder.append(timeFormatter.format(issueTime));

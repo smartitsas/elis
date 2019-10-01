@@ -127,7 +127,7 @@ public class TaxTotal implements Iterable<Tax> {
     }
 
     public String toPlainString() {
-        return type.getCode() + taxAmount.setScale(2, RoundingMode.DOWN).toPlainString();
+        return taxAmount.setScale(2, RoundingMode.DOWN).toPlainString();
     }
 
     @Override

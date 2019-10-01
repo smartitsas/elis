@@ -12,6 +12,7 @@ import co.com.elis.core.person.IdentityDocument;
 import co.com.elis.core.person.Obligation;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
@@ -37,7 +38,7 @@ public class BillingReferenceTest {
         var ref5 = new Reference("R001", ReferenceType.RECEIPT_REFERENCE);
         var ref6 = new Reference("OTH_EPS001", ReferenceType.ADDITIONAL_REFERENCE);
 
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
         
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()

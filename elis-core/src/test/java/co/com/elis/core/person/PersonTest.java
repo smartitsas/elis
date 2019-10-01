@@ -2,6 +2,7 @@ package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.address.CountrySubdivision;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
@@ -18,7 +19,7 @@ public class PersonTest {
     @Test(expected = ElisCoreException.class)
     public void buildSupplierPartyJuridicWithoutObligationTest() throws ElisCoreException {
 
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
 
         software.getPersonBuilder()
                 .createSupplierPartyAsJuridicPerson()
@@ -31,7 +32,7 @@ public class PersonTest {
     @Test
     public void buildSupplierPartyJuridicTest() throws ElisCoreException {
 
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
 
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
@@ -66,7 +67,7 @@ public class PersonTest {
 
     @Test
     public void buildReceiverPartyJuridicTest() throws ElisCoreException {
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
 
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
@@ -95,7 +96,7 @@ public class PersonTest {
     @Test
     public void buildSupplierPartyNaturalTest() throws ElisCoreException {
 
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
 
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
@@ -131,7 +132,7 @@ public class PersonTest {
 
     @Test
     public void buildReceiverPartyNaturalTest() throws ElisCoreException {
-        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123");
+        Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
         
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()

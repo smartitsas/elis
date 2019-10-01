@@ -97,22 +97,30 @@ public class Invoice extends Document<InvoiceItem> {
     void calculateCufe() throws ElisCoreException {
 
         StringBuilder builder = new StringBuilder(getHeader().getDocumentNumber().getFullId());
+
+        builder.append('|');
         builder.append(getHeader().getDocumentDate().toFormattedDateTime());
-
+        builder.append('|');
         builder.append(getLegalMonetaryTotal().toPlainString());
+        builder.append('|');
 
-        TaxTotal taxTotal = getTaxTotalList().getByType(TaxType.IVA).orElseThrow(() -> new ElisCoreException("In order to calculate CUFE total IVA must be present"));
-        builder.append(taxTotal.toPlainString());
+        for (TaxTotal taxTotal : getTaxTotalList()) {
+            builder.append(taxTotal.getType().getCode());
+            builder.append('|');
+            builder.append(taxTotal.toPlainString());
+            builder.append('|');
+        }
 
-        taxTotal = getTaxTotalList().getByType(TaxType.ICA).orElseThrow(() -> new ElisCoreException("In order to calculate CUFE ICA must be present"));
-        builder.append(taxTotal.toPlainString());
-
-        taxTotal = getTaxTotalList().getByType(TaxType.CONSUMPTION).orElseThrow(() -> new ElisCoreException("In order to calculate CUFE CONSUMPTION must be present"));
-        builder.append(taxTotal.toPlainString())
-                .append(getHeader().getReceiverParty().getIdentityDocument().getType().getCode())
-                .append(getHeader().getReceiverParty().getIdentityDocument().getAccount());
-
+        builder.append(getLegalMonetaryTotal().getPayableAmount().toPlainString());
+        builder.append('|');
+        builder.append(getHeader().getSoftware().getNit().toString());
+        builder.append('|');
+        builder.append(getHeader().getReceiverParty().getIdentityDocument().getAccount());
+        builder.append('|');
         builder.append(invoicingRange.getTechnicalKey());
+        builder.append('|');
+        builder.append(getHeader().getSoftware().getEnvironment().toString());
+
         String consolidatedData = builder.toString();
         cufe = ElisEncoder.applyHash(consolidatedData);
     }

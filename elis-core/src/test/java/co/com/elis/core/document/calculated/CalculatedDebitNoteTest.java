@@ -17,6 +17,7 @@ import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
+import co.com.elis.core.software.Environment;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.Tax;
 import co.com.elis.core.tax.TaxTotalList;
@@ -42,7 +43,7 @@ public class CalculatedDebitNoteTest {
 
     @Before
     public void startup() throws ElisCoreException {
-        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN");
+        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN", Environment.HABILITATION);
 
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()

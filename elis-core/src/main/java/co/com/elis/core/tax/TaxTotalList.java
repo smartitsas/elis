@@ -40,7 +40,7 @@ import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-public class TaxTotalList {
+public class TaxTotalList implements Iterable<TaxTotal> {
 
     @Valid
     @ContainsDefaultTaxes(message = "ELIS_CORE_VAL_TAX_SUBTAXES")
@@ -67,6 +67,7 @@ public class TaxTotalList {
         return taxTotals.get(index);
     }
 
+    @Override
     public Iterator<TaxTotal> iterator() {
         return taxTotals.iterator();
     }
