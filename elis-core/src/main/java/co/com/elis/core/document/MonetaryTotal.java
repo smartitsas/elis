@@ -61,30 +61,30 @@ public class MonetaryTotal {
 
     public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, BigDecimal payableAmount) {
         this.currency = currency;
-        this.lineTotal = scaledOrNull(lineTotal);
+        this.lineTotal = scaledOrNull(lineTotal, 2);
         this.taxableAmount = scaledOrNull(taxableAmount);
         this.taxAmount = taxAmount;
         this.taxInclusiveAmount = taxAmount.add(lineTotal);
         this.chargeTotal = null;
         this.discountTotal = null;
-        this.payableAmount = scaledOrNull(payableAmount);
+        this.payableAmount = scaledOrNull(payableAmount, 2);
     }
 
     public MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, BigDecimal payableAmount, BigDecimal chargeTotal, BigDecimal discountTotal) {
         this.currency = currency;
-        this.lineTotal = scaledOrNull(lineTotal);
+        this.lineTotal = scaledOrNull(lineTotal, 2);
         this.taxableAmount = scaledOrNull(taxableAmount);
         this.taxAmount = taxAmount;
         this.taxInclusiveAmount = taxAmount.add(lineTotal);
         this.chargeTotal = scaledOrNull(chargeTotal);
         this.discountTotal = scaledOrNull(discountTotal);
-        this.payableAmount = scaledOrNull(payableAmount);
+        this.payableAmount = scaledOrNull(payableAmount, 2);
     }
 
     MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, List<AllowanceCharge> allowanceCharges) {
         this.currency = currency;
-        this.lineTotal = scaledOrNull(lineTotal);
-        this.taxableAmount = scaledOrNull(taxableAmount);
+        this.lineTotal = scaledOrNull(lineTotal, 2);
+        this.taxableAmount = scaledOrNull(taxableAmount, 2);
         this.taxAmount = taxAmount;
         
         BigDecimal chargeSum = BigDecimal.ZERO;
@@ -101,11 +101,11 @@ public class MonetaryTotal {
         this.chargeTotal = scaledOrNull(chargeSum);
         this.discountTotal = scaledOrNull(discuntSum);
         this.taxInclusiveAmount = taxAmount.add(lineTotal);
-        this.payableAmount = lineTotal.add(taxAmount).add(chargeSum).subtract(discuntSum).setScale(4, RoundingMode.HALF_UP);
+        this.payableAmount = lineTotal.add(taxAmount).add(chargeSum).subtract(discuntSum).setScale(2, RoundingMode.HALF_UP);
     }
 
     public String toPlainString() {
-        return lineTotal.setScale(2, RoundingMode.DOWN).toPlainString();
+        return lineTotal.setScale(2, RoundingMode.HALF_UP).toPlainString();
     }
 
 }

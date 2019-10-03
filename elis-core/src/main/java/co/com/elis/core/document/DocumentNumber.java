@@ -47,7 +47,7 @@ public class DocumentNumber {
     }
 
     public String getFullId() {
-        return prefix + consecutive;
+        return prefix + String.format("%08d", consecutive);
     }
 
 }

@@ -29,12 +29,12 @@ public class ElisEncoder {
 
     public static String applyHash(String consolidatedData) throws ElisCoreException {
         try {
-            MessageDigest digester = MessageDigest.getInstance("SHA-1");
+            MessageDigest digester = MessageDigest.getInstance("SHA-384");
             byte[] digest = digester.digest(consolidatedData.getBytes());
 
             StringBuilder result = new StringBuilder();
             for (byte b : digest) {
-                result.append(String.format("%02X", b));
+                result.append(String.format("%02x", b));
             }
             return result.toString();
 

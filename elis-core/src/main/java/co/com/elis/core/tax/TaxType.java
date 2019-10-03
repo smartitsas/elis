@@ -31,9 +31,9 @@ public class TaxType {
     public static final TaxType IVA = new TaxType("01", "IVA");
 
     /**
-     * 02 - CONSUMPTION TAX
+     * 04 - CONSUMPTION TAX  (previously 02)
      */
-    public static final TaxType CONSUMPTION = new TaxType("02", "CONSUMO");
+    public static final TaxType CONSUMPTION = new TaxType("04", "CONSUMO");
 
     /**
      * 03 - ICA TAX

@@ -22,6 +22,7 @@ import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import lombok.var;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -36,16 +37,16 @@ public class CufeCalculationTest {
 
     @BeforeClass
     public static void startup() throws ElisCoreException {
-        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085380L, "SOFTWARE NAME", "SOFTPIN", Environment.HABILITATION);
+        software = new Software("8bad2864-011e-4fa1-8bfe-843ab63a4bf2", 700085371L, "SOFTWARE NAME", "SOFTPIN", Environment.PRODUCTION);
 
         LocalDate startPeriod = LocalDate.parse("2014-01-04");
         LocalDate endPeriod = LocalDate.parse("2016-01-04");
 
         invoicingRange = software.createInvoicingRangeAs()
                 .withAuthorizationNumber(BigDecimal.ONE)
-                .withTechnicalKey("TECHKEY")
-                .withPrefix("PRFX")
-                .withConsecutiveRange(10007869L, 19999999L)
+                .withTechnicalKey("693ff6f2a553c3646a063436fd4dd9ded0311471")
+                .withPrefix("3232")
+                .withConsecutiveRange(129L, 150L)
                 .withInvoicingPeriod(new InvoicingRangePeriod(startPeriod, endPeriod))
                 .build();
     }
@@ -70,32 +71,32 @@ public class CufeCalculationTest {
 
         ReceiverParty receiverParty = personBuilder
                 .createReceiverPartyAsJuridicPerson()
-                .withIdentityDocument(new IdentityDocument("0", AccountType.NIT))
+                .withIdentityDocument(new IdentityDocument("800199436", AccountType.NIT))
                 .withPhysicalLocation(address)
                 .build();
 
         var item = InvoiceItem.calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
-                .setUnitaryValue(1000)
+                .setUnitaryValue(150000.00)
                 .setQuantity(10)
                 .setUnits("BX")
                 .withinOptionalSection()
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(10))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(19))
                 .getCalculatedResult();
 
         Invoice invoice = software.calculateInvoiceAs()
                 .withinMandatorySection()
                 .setInvoicingRange(invoicingRange)
-                .setConsecutive(10007869L)
+                .setConsecutive(129L)
                 .setSupplierParty(supplier)
                 .setReceiverParty(receiverParty)
                 .setCurrency("COP")
-                .setDate(new DocumentDate(LocalDate.ofYearDay(2018, 256), LocalTime.of(5, 0)))
+                .setDate(new DocumentDate(LocalDate.of(2019, Month.JANUARY , 16), LocalTime.of(10, 53, 10)))
                 .addItem(item)
                 .getCalculatedResult();
 
-        assertThat(invoice.getCufe(), is("676C416DAB64BA15852265D6592DEDFE095A199C"));
+        assertThat(invoice.getCufe(), is("8bb918b19ba22a694f1da11c643b5e9de39adf60311cf179179e9b33381030bcd4c3c3f156c506ed5908f9276f5bd9b4"));
     }
 
 }
