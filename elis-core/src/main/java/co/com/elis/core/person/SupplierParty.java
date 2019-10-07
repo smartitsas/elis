@@ -22,13 +22,12 @@ package co.com.elis.core.person;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.person.validation.CheckForJuridicObligations;
 import co.com.elis.exception.ElisCoreException;
-import java.util.List;
 
 @CheckForJuridicObligations
 public class SupplierParty<N extends PersonName> extends Person<N> {
 
-    public SupplierParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, List<Contact> contacts) {
-        super(personType, name, identityDocument, physicalLocation, registrationAddress, dianCharacterization, contacts);
+    public SupplierParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Contact contact) {
+        super(personType, name, identityDocument, physicalLocation, registrationAddress, dianCharacterization, contact);
     }
 
     public static class SupplierPartyBuilder<N extends PersonName, R extends RepresentationType> extends PersonBuilder<N, R, SupplierPartyBuilder<N, R>> {
@@ -58,7 +57,7 @@ public class SupplierParty<N extends PersonName> extends Person<N> {
 
         public SupplierParty<N> build() throws ElisCoreException {
             DIANCharacterization dianCharacterization = new DIANCharacterization(regime, obligations, responsabilities, customUserCodes, establishmentTypes, representationTypes);
-            SupplierParty<N> supplier = new SupplierParty<>(personType, personName, identityDocument, physicalLocation, registrationAddress, dianCharacterization, contacts);
+            SupplierParty<N> supplier = new SupplierParty<>(personType, personName, identityDocument, physicalLocation, registrationAddress, dianCharacterization, contact);
 
             if (!disableValidations) {
                 supplier.validateOrThrow();

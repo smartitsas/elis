@@ -19,13 +19,12 @@
 package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
-import java.util.List;
 
 
 public class PaymentReceptor extends Person<NaturalPersonName>{
     
-    public PaymentReceptor(PersonType personType, NaturalPersonName name, IdentityDocument document, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, List<Contact> contacts) {
-        super(personType, name, document, physicalLocation, physicalLocation, dianCharacterization, contacts);
+    public PaymentReceptor(PersonType personType, NaturalPersonName name, IdentityDocument document, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, Contact contact) {
+        super(personType, name, document, physicalLocation, physicalLocation, dianCharacterization, contact);
     }
     
 }

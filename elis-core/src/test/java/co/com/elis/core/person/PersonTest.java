@@ -8,6 +8,7 @@ import co.com.elis.core.util.CountrySubdivisionFactory;
 import co.com.elis.exception.ElisCoreException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import org.junit.Ignore;
@@ -37,8 +38,8 @@ public class PersonTest {
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
                 .withCountrySubdivision(subdivision)
-                .build();        
-        
+                .build();
+
         SupplierParty<JuridicPersonName> supplierParty = software.getPersonBuilder()
                 .createSupplierPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
@@ -47,7 +48,7 @@ public class PersonTest {
                 .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addEstablishmentType(EstablishmentType.ESTABLECIMIENTO_COMERCIO)
-                .addContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
+                .setContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
                 .build();
 
         assertThat(supplierParty.getName().getComercialName(), is("commercialName"));
@@ -57,10 +58,10 @@ public class PersonTest {
         assertThat(supplierParty.getDianCharacterization().getObligations().size(), is(1));
         assertThat(supplierParty.getDianCharacterization().getObligations().get(0), is(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242));
         assertThat(supplierParty.getDianCharacterization().getEstablishmentTypes().get(0), is(EstablishmentType.ESTABLECIMIENTO_COMERCIO));
-        assertThat(supplierParty.getContacts().size(), is(1));
-        assertThat(supplierParty.getContacts().get(0).getId(), is("IDContact"));
-        assertThat(supplierParty.getContacts().get(0).getName(), is("Sales representative"));
-        assertThat(supplierParty.getContacts().get(0).getEmail(), is("sales@company.net"));
+        assertNotNull(supplierParty.getContact());
+        assertThat(supplierParty.getContact().getId(), is("IDContact"));
+        assertThat(supplierParty.getContact().getName(), is("Sales representative"));
+        assertThat(supplierParty.getContact().getEmail(), is("sales@company.net"));
         assertThat(supplierParty.isJuridicPerson(), is(true));
         assertThat(supplierParty.isNaturalPerson(), is(false));
     }
@@ -72,8 +73,8 @@ public class PersonTest {
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
                 .withCountrySubdivision(subdivision)
-                .build();          
-        
+                .build();
+
         ReceiverParty<JuridicPersonName> receiver = software.getPersonBuilder()
                 .createReceiverPartyAsJuridicPerson()
                 .withName(new JuridicPersonName("commercialName", "registrationName"))
@@ -101,8 +102,8 @@ public class PersonTest {
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
                 .withCountrySubdivision(subdivision)
-                .build();              
-        
+                .build();
+
         SupplierParty<NaturalPersonName> supplierParty = software.getPersonBuilder()
                 .createSupplierPartyAsNaturalPerson()
                 .withName(new NaturalPersonName("FirstName", "LastName"))
@@ -111,7 +112,7 @@ public class PersonTest {
                 .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addRepresentationType(NaturalPersonRepresentationType.APODERADO_ESPECIAL)
-                .addContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
+                .setContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
                 .build();
 
         assertThat(supplierParty.getName().getFirstName(), is("FirstName"));
@@ -121,10 +122,10 @@ public class PersonTest {
         assertNull(supplierParty.getIdentityDocument().getVerificationDigit());
         assertThat(supplierParty.getDianCharacterization().getObligations().size(), is(1));
         assertThat(supplierParty.getDianCharacterization().getObligations().get(0), is(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242));
-        assertThat(supplierParty.getContacts().size(), is(1));
-        assertThat(supplierParty.getContacts().get(0).getId(), is("IDContact"));
-        assertThat(supplierParty.getContacts().get(0).getName(), is("Sales representative"));
-        assertThat(supplierParty.getContacts().get(0).getEmail(), is("sales@company.net"));
+        assertNotNull(supplierParty.getContact());
+        assertThat(supplierParty.getContact().getId(), is("IDContact"));
+        assertThat(supplierParty.getContact().getName(), is("Sales representative"));
+        assertThat(supplierParty.getContact().getEmail(), is("sales@company.net"));
         assertThat(supplierParty.isJuridicPerson(), is(false));
         assertThat(supplierParty.isNaturalPerson(), is(true));
         assertThat(supplierParty.getDianCharacterization().getRepresentationTypes().get(0), is(NaturalPersonRepresentationType.APODERADO_ESPECIAL));
@@ -133,11 +134,11 @@ public class PersonTest {
     @Test
     public void buildReceiverPartyNaturalTest() throws ElisCoreException {
         Software software = new Software("IDSOFT", 909090L, "SOFT1", "PIN123", Environment.HABILITATION);
-        
+
         CountrySubdivision subdivision = CountrySubdivisionFactory.getInstance().findById(11001);
         PhysicalLocation address = PhysicalLocation.createAs()
                 .withCountrySubdivision(subdivision)
-                .build();          
+                .build();
 
         ReceiverParty<NaturalPersonName> receiver = software.getPersonBuilder()
                 .createReceiverPartyAsNaturalPerson()

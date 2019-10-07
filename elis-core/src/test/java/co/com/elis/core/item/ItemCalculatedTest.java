@@ -20,11 +20,11 @@ public class ItemCalculatedTest {
                 .withinMandatorySection()
                 .setPosition(1)
                 .setQuantity(10.3)
-                .setUnitaryValue(1000.2)
                 .setUnits("BX")
+                .setUnitaryValue(1000.2)
+                .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
-                .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));
@@ -46,10 +46,10 @@ public class ItemCalculatedTest {
                 .setPosition(1)
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
+                .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(18))
-                .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
         Tax vat = item.getTax(TaxType.IVA);
@@ -81,10 +81,10 @@ public class ItemCalculatedTest {
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .setUnits("BX")
+                .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(8))
-                .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));
@@ -120,10 +120,10 @@ public class ItemCalculatedTest {
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .setUnits("BX")
+                .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.ICA).withPercentage(5))
-                .setDescription("DESCRIPTION 001")
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));

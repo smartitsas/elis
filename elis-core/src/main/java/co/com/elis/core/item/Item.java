@@ -44,6 +44,7 @@ public class Item {
     private final String code;
 
     @Getter
+    @NotNull(message = "ELIS_CORE_VAL_ITEM_DESC")
     private final String description;
 
     @Getter
@@ -63,6 +64,7 @@ public class Item {
     private final BigDecimal unitaryValue;
 
     @Getter
+    @NotNull(message = "ELIS_CORE_VAL_ITEM_TAXLIST")
     private final List<Tax> taxes;
 
     public Item(Integer position, String code, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection) {

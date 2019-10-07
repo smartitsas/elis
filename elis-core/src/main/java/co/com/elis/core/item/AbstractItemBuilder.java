@@ -66,6 +66,11 @@ public class AbstractItemBuilder {
             return collectContext();
         }
 
+        public T setDescription(String description) {
+            builder.description = description;
+            return collectContext();
+        }        
+        
         public T setUnitaryValue(BigDecimal unitaryValue) {
             builder.unitaryValue = unitaryValue;
             return collectContext();
@@ -111,11 +116,6 @@ public class AbstractItemBuilder {
          */
         public T setCode(String code) {
             builder.code = code;
-            return collectContext();
-        }
-
-        public T setDescription(String description) {
-            builder.description = description;
             return collectContext();
         }
 

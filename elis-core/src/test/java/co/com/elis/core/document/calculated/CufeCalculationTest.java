@@ -81,6 +81,7 @@ public class CufeCalculationTest {
                 .setUnitaryValue(150000.00)
                 .setQuantity(10)
                 .setUnits("BX")
+                .setDescription("ITEM1")
                 .withinOptionalSection()
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(19))
                 .getCalculatedResult();

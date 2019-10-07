@@ -63,15 +63,15 @@ public abstract class Person<N extends PersonName> {
     private final PersonType personType;
 
     @Getter
-    private final List<Contact> contacts;
+    private final Contact contact;
 
-    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, List<Contact> contacts) {
+    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Contact contact) {
         this.identityDocument = document;
         this.physicalLocation = physicalLocation;
         this.dianCharacterization = dianCharacterization;
         this.personType = personType;
         this.name = name;
-        this.contacts = contacts;
+        this.contact = contact;
         this.registrationAddress = registrationAddress;
     }
 
@@ -104,19 +104,18 @@ public abstract class Person<N extends PersonName> {
         protected List<CustomUserCode> customUserCodes;
         protected List<EstablishmentType> establishmentTypes;
         protected List<RepresentationType> representationTypes;
-        protected List<Contact> contacts;
+        protected Contact contact;
         protected N personName;
         protected PersonType personType;
         protected boolean disableValidations;
         protected Regime regime;
 
         public PersonBuilder(PersonType personType) {
-            responsabilities = new ArrayList<>();
-            obligations = new ArrayList<>();
-            customUserCodes = new ArrayList<>();
-            establishmentTypes = new ArrayList<>();
-            representationTypes = new ArrayList<>();
-            contacts = new ArrayList<>();
+            this.responsabilities = new ArrayList<>();
+            this.obligations = new ArrayList<>();
+            this.customUserCodes = new ArrayList<>();
+            this.establishmentTypes = new ArrayList<>();
+            this.representationTypes = new ArrayList<>();
             this.personType = personType;
             this.disableValidations = false;
         }
@@ -138,12 +137,12 @@ public abstract class Person<N extends PersonName> {
         }
 
         public C addResponsability(Responsability responsability) {
-            responsabilities.add(responsability);
+            this.responsabilities.add(responsability);
             return collectContext();
         }
 
         public C addObligation(Obligation obligation) {
-            obligations.add(obligation);
+            this.obligations.add(obligation);
             return collectContext();
         }
 
@@ -163,12 +162,12 @@ public abstract class Person<N extends PersonName> {
         }
 
         public C addRepresentationType(R representationType) {
-            representationTypes.add(representationType);
+            this.representationTypes.add(representationType);
             return collectContext();
         }
 
         public C addEstablishmentType(EstablishmentType establishmentType) {
-            establishmentTypes.add(establishmentType);
+            this.establishmentTypes.add(establishmentType);
             return collectContext();
         }
 
@@ -177,13 +176,8 @@ public abstract class Person<N extends PersonName> {
             return collectContext();
         }
 
-        public C addContacts(List<Contact> contacts) {
-            this.contacts.addAll(contacts);
-            return collectContext();
-        }
-
-        public C addContact(Contact contact) {
-            contacts.add(contact);
+        public C setContact(Contact contact) {
+            this.contact = contact;
             return collectContext();
         }
 

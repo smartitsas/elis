@@ -22,12 +22,11 @@ import co.com.elis.core.person.IdentityDocument;
 import co.com.elis.core.person.JuridicPersonName;
 import co.com.elis.core.person.Person;
 import co.com.elis.core.person.PersonType;
-import java.util.Collections;
 
 public class DeliveryParty extends Person<JuridicPersonName> {
 
     private DeliveryParty(JuridicPersonName name, IdentityDocument document) {
-        super(PersonType.JURIDIC, name, document, null, null, null, Collections.emptyList());
+        super(PersonType.JURIDIC, name, document, null, null, null, null);
     }
 
     public static class DeliveryPartyBuilder {
