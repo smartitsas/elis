@@ -35,7 +35,6 @@ import lombok.Getter;
 import co.com.elis.core.document.validation.ExportationValidationGroup;
 import co.com.elis.core.document.validation.InvoicingRangeValid;
 import co.com.elis.core.item.InvoiceItem;
-import co.com.elis.core.tax.TaxType;
 import java.math.RoundingMode;
 import javax.validation.groups.Default;
 
@@ -99,32 +98,21 @@ public class Invoice extends Document<InvoiceItem> {
 
         StringBuilder builder = new StringBuilder(getHeader().getDocumentNumber().getFullId());
 
-//        builder.append('|');
         builder.append(getHeader().getDocumentDate().toFormattedDateTime());
-//        builder.append('|');
         builder.append(getLegalMonetaryTotal().getLineTotal().setScale(2, RoundingMode.HALF_UP).toPlainString());
-//        builder.append('|');
 
         for (TaxTotal taxTotal : getTaxTotalList()) {
             builder.append(taxTotal.getType().getCode());
-//            builder.append('|');
             builder.append(taxTotal.toPlainString());
-//            builder.append('|');
         }
 
         builder.append(getLegalMonetaryTotal().getPayableAmount().setScale(2, RoundingMode.HALF_UP).toPlainString());
-//        builder.append('|');
         builder.append(getHeader().getSoftware().getNit().toString());
-//        builder.append('|');
         builder.append(getHeader().getReceiverParty().getIdentityDocument().getAccount());
-//        builder.append('|');
         builder.append(invoicingRange.getTechnicalKey());
-//        builder.append('|');
         builder.append(getHeader().getSoftware().getEnvironment().toString());
 
-        String consolidatedData = builder.toString();
-        
-        cufe = ElisEncoder.applyHash(consolidatedData);
+        cufe = ElisEncoder.applyHash(builder.toString());
     }
 
     void setCufe(String cufe) {
@@ -142,6 +130,13 @@ public class Invoice extends Document<InvoiceItem> {
 
     public boolean isTranscription() {
         return invoiceType == InvoiceType.TRANSCRIPTION;
+    }
+
+    @Override
+    public String getQR() {
+        StringBuilder builder = new StringBuilder(getHeader().getSoftware().getEnvironment().getQrUrl());
+        builder.append(this.cufe);
+        return builder.toString();
     }
 
 }

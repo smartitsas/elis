@@ -54,9 +54,6 @@ public abstract class Document<I extends Item> {
     private final ItemList<I> itemList;
 
     @Getter
-    private String qrCode;
-
-    @Getter
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_SECURITY_CODE")
     private final String securityCode;
 
@@ -67,6 +64,7 @@ public abstract class Document<I extends Item> {
         this.otherData = otherData;
         this.itemList = itemList;
         this.securityCode = header.getSoftware().calculateSecurityCode(header.getDocumentNumber());
+
     }
 
     public DocumentNumber getDocumentNumber() {
@@ -74,5 +72,7 @@ public abstract class Document<I extends Item> {
     }
 
     public abstract DocumentType getType();
+
+    public abstract String getQR();
 
 }

@@ -63,4 +63,9 @@ public class CreditNote extends Document<NoteItem> {
 
         getTaxTotalList().validate();
     }
+
+    @Override
+    public String getQR() {
+       return null;
+    }
 }
