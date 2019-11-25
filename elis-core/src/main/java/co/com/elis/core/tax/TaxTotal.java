@@ -36,6 +36,7 @@ import lombok.Getter;
 public class TaxTotal implements Iterable<Tax> {
 
     @Getter
+    @NotNull
     private final BigDecimal taxAmount;
 
     @Getter

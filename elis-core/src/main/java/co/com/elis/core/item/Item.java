@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -63,6 +64,7 @@ public class Item {
     @NotNull(message = "ELIS_CORE_VAL_ITEM_UNITARYVAL")
     private final BigDecimal unitaryValue;
 
+    @Valid
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_ITEM_TAXLIST")
     private final List<Tax> taxes;

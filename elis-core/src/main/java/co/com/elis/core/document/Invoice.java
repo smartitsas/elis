@@ -83,7 +83,8 @@ public class Invoice extends Document<InvoiceItem> {
         return results;
     }
 
-    void validateOrThrow() throws ElisCoreException {
+    @Override
+    public void validateOrThrow() throws ElisCoreException {
         Set<ConstraintViolation<Invoice>> violations = validate();
 
         if (!violations.isEmpty()) {

@@ -29,16 +29,11 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import lombok.Getter;
 
-public class DebitNote extends Document<NoteItem> {
-
-    @Getter
-    private final Discrepancy discrepancy;
+public class DebitNote extends NoteDocument {
 
     public DebitNote(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
-        super(header, taxTotalList, monetaryTotal, itemList, otherData);
-        this.discrepancy = discrepancy;
+        super(header, taxTotalList, monetaryTotal, itemList, otherData, discrepancy);
     }
 
     private Set<ConstraintViolation<DebitNote>> validate() {
@@ -49,7 +44,8 @@ public class DebitNote extends Document<NoteItem> {
         return results;
     }
 
-    void validateOrThrow() throws ElisCoreException {
+    @Override
+    public void validateOrThrow() throws ElisCoreException {
         Set<ConstraintViolation<DebitNote>> violations = validate();
 
         if (!violations.isEmpty()) {
@@ -63,11 +59,6 @@ public class DebitNote extends Document<NoteItem> {
     @Override
     public DocumentType getType() {
         return DocumentType.DEBIT_NOTE;
-    }
-
-    @Override
-    public String getQR() {
-        return null;
     }
 
 }

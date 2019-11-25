@@ -40,6 +40,7 @@ public class Tax {
     private final BigDecimal taxableAmount;
 
     @Getter
+    @NotNull
     private final BigDecimal taxTotal;
 
     public static final Tax ICA_ZERO = new Tax(TaxType.ICA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
@@ -70,7 +71,7 @@ public class Tax {
     }
 
     public Tax add(Tax otherSubtotal) {
-        return new Tax(type, percentage, /*total.add(otherSubtotal.getTotal())*/null, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
+        return new Tax(type, percentage, /*total.add(otherSubtotal.getTotal())*/ null, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
     }
 
     /**

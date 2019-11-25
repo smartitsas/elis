@@ -22,7 +22,7 @@ import co.com.elis.core.person.Person;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ObligationsValidator implements ConstraintValidator<ConsistentSamePersonGroup, Person> {
+public class ObligationsValidator implements ConstraintValidator<CheckForJuridicObligations, Person> {
 
     @Override
     public boolean isValid(Person person, ConstraintValidatorContext context) {

@@ -43,20 +43,17 @@ import lombok.Getter;
 @Getter
 public class Software {
 
-
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_ID")
     private final String id;
 
-
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_NIT")
     private final Long nit;
-
 
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_NAME")
     private final String name;
 
     private final String pin;
-    
+
     private final Environment environment;
 
     /**
@@ -185,15 +182,15 @@ public class Software {
 
     public String calculateSecurityCode(DocumentNumber documentNumber) throws ElisCoreException {
         try {
-            String seed = id+pin+documentNumber.getFullId();
+            String seed = id + pin + documentNumber.getFullId();
             MessageDigest digester = MessageDigest.getInstance("SHA-384");
 
             return DatatypeConverter.printHexBinary(digester.digest(seed.getBytes())).toLowerCase();
-            
+
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Software.class.getName()).log(Level.SEVERE, null, ex);
             throw new ElisCoreException("Error obtaining hashing function: SHA-384 for security code.", ex);
-        }        
+        }
     }
 
 }

@@ -19,6 +19,7 @@
  */
 package co.com.elis.core.document.payment;
 
+import co.com.elis.exception.ElisCoreException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +50,8 @@ public class PaymentMean {
 
         private final PaymentMean paymentMeans;
 
-        @Getter
-        private final List<String> instructionNotes;
-
         public PaymentMeansBuilder() {
             this.paymentMeans = new PaymentMean();
-            this.instructionNotes = new ArrayList<>();
         }
 
         public PaymentMeansBuilder withId(String id) {
@@ -64,6 +61,11 @@ public class PaymentMean {
 
         public PaymentMeansBuilder withChannel(PaymentChannel channel) {
             paymentMeans.channel = channel;
+            return this;
+        }
+
+        public PaymentMeansBuilder withChannelCode(Integer channel) throws ElisCoreException {
+            paymentMeans.channel = PaymentChannel.fromCode(channel).orElseThrow(() -> new ElisCoreException("Invalid mapping for paymentChannel: " + channel));
             return this;
         }
 
