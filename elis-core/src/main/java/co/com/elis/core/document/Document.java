@@ -75,5 +75,8 @@ public abstract class Document<I extends Item> {
 
     public abstract String getQR();
 
+    public abstract String getCude();
+    
     public abstract void validateOrThrow() throws ElisCoreException;
+    
 }

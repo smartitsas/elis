@@ -7,7 +7,6 @@ import co.com.elis.core.software.Software;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;

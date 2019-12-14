@@ -25,7 +25,6 @@ import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.exception.ElisCoreException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PopulatedCreditNoteBuilder extends AbstractNoteBuilder<PopulatedCreditNoteBuilder.PopulatedMandatoryContext> {
 
@@ -106,6 +105,11 @@ public class PopulatedCreditNoteBuilder extends AbstractNoteBuilder<PopulatedCre
             return collectContext();
         }
 
+        public PopulatedMandatoryContext setDiscrepancyReason(CreditNoteDiscrepancyReason reason) {
+            ((PopulatedCreditNoteBuilder) builder).discrepancyReason = reason;
+            return collectContext();
+        }
+
         @Override
         public PopulatedOptionalContext withinOptionalSection() {
             return new PopulatedOptionalContext((PopulatedCreditNoteBuilder) builder);
@@ -139,11 +143,6 @@ public class PopulatedCreditNoteBuilder extends AbstractNoteBuilder<PopulatedCre
             ((PopulatedCreditNoteBuilder) builder).cude = cude;
             ((PopulatedCreditNoteBuilder) builder).calculateCUDE = false;
             return this;
-        }
-
-        public PopulatedOptionalContext setDiscrepancyReason(CreditNoteDiscrepancyReason reason) {
-            ((PopulatedCreditNoteBuilder) builder).discrepancyReason = reason;
-            return collectContext();
         }
 
         public CreditNote getResult() throws ElisCoreException {

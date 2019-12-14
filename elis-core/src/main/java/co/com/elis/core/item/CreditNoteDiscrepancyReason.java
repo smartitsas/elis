@@ -24,7 +24,7 @@ import lombok.Getter;
 public enum CreditNoteDiscrepancyReason implements DiscrepancyReason {
 
     /**
-     * 1- RETUNR OF PRODUCT OR NOT TAKING A SERVICE
+     * 1- RETURN OF PRODUCT OR NOT TAKING A SERVICE
      */
     RETURN_OF_PRODUCT_OR_SERVICE(1),
     /**

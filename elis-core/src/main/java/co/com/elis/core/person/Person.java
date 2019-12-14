@@ -176,7 +176,7 @@ public abstract class Person<N extends PersonName> {
             return collectContext();
         }
 
-        public C setContact(Contact contact) {
+        public C withContact(Contact contact) {
             this.contact = contact;
             return collectContext();
         }

@@ -21,8 +21,6 @@ package co.com.elis.core.document.payment;
 
 import co.com.elis.exception.ElisCoreException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 
 public class PaymentMean {

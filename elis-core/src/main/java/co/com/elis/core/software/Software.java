@@ -63,10 +63,8 @@ public class Software {
      * @param nit NIT of the registree company
      * @param name Name of the software
      * @param pin PIN of the software as registered in DIAN
-     * @throws ElisCoreException Throws ElisCoreException if the securityCode
-     * couldn't be acquired using the given arguments
      */
-    public Software(String id, Long nit, String name, String pin, Environment environment) throws ElisCoreException {
+    public Software(String id, Long nit, String name, String pin, Environment environment) {
         this.id = id;
         this.nit = nit;
         this.pin = pin;
@@ -79,10 +77,8 @@ public class Software {
      *
      * @param id Id of the software as registered in DIAN
      * @param nit NIT of the registree company
-     * @throws ElisCoreException Throws ElisCoreException if the securityCode
-     * couldn't be acquired using the given arguments
      */
-    public Software(String id, Long nit, Environment environment) throws ElisCoreException {
+    public Software(String id, Long nit, Environment environment) {
         this.id = id;
         this.nit = nit;
         this.name = null;

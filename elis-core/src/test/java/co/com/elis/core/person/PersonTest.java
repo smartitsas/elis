@@ -48,7 +48,7 @@ public class PersonTest {
                 .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addEstablishmentType(EstablishmentType.ESTABLECIMIENTO_COMERCIO)
-                .setContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
+                .withContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
                 .build();
 
         assertThat(supplierParty.getName().getComercialName(), is("commercialName"));
@@ -112,7 +112,7 @@ public class PersonTest {
                 .withRegistrationAddress(address)
                 .addObligation(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242)
                 .addRepresentationType(NaturalPersonRepresentationType.APODERADO_ESPECIAL)
-                .setContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
+                .withContact(Contact.forId("IDContact").withName("Sales representative").withEmail("sales@company.net").build())
                 .build();
 
         assertThat(supplierParty.getName().getFirstName(), is("FirstName"));

@@ -121,6 +121,11 @@ public class Invoice extends Document<InvoiceItem> {
     }
 
     @Override
+    public String getCude() {
+        return this.cufe;
+    }
+
+    @Override
     public DocumentType getType() {
         return DocumentType.INVOICE;
     }

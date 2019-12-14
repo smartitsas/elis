@@ -21,6 +21,7 @@ package co.com.elis.core.item;
 
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 
@@ -69,15 +70,15 @@ public class AbstractItemBuilder {
         public T setDescription(String description) {
             builder.description = description;
             return collectContext();
-        }        
-        
+        }
+
         public T setUnitaryValue(BigDecimal unitaryValue) {
             builder.unitaryValue = unitaryValue;
             return collectContext();
         }
 
         public T setUnitaryValue(double unitaryValue) {
-            builder.unitaryValue = BigDecimal.valueOf(unitaryValue).setScale(4);
+            builder.unitaryValue = BigDecimal.valueOf(unitaryValue).setScale(4, RoundingMode.HALF_UP);
             return collectContext();
         }
 

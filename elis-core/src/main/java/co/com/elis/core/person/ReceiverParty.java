@@ -19,7 +19,6 @@
 package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
-import java.util.List;
 
 public class ReceiverParty<N extends PersonName> extends Person<N> {
 

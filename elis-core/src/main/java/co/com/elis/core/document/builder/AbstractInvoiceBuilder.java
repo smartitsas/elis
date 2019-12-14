@@ -57,8 +57,8 @@ public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> ex
         }
 
         public M setInvoicingRange(InvoicingRange invoicingRange) {
-            AbstractInvoiceBuilder concreteBuilder = (AbstractInvoiceBuilder) builder;
-            concreteBuilder.invoicingRange = invoicingRange;
+            AbstractInvoiceBuilder castedBuilder = (AbstractInvoiceBuilder) builder;
+            castedBuilder.invoicingRange = invoicingRange;
             return collectContext();
         }
 
@@ -71,7 +71,8 @@ public abstract class AbstractInvoiceBuilder<M extends MandatoryBuildContext> ex
         }
 
         public O setValidityPeriod(ValidityPeriod validityPeriod) {
-            ((AbstractInvoiceBuilder) builder).validityPeriod = validityPeriod;
+            AbstractInvoiceBuilder castedBuilder = (AbstractInvoiceBuilder) builder;
+            castedBuilder.validityPeriod = validityPeriod;
             return collectContext();
         }
 

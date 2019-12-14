@@ -23,6 +23,7 @@ import co.com.elis.core.document.allowance.AllowanceCharge;
 import co.com.elis.core.document.delivery.Delivery;
 import co.com.elis.core.document.reference.Reference;
 import co.com.elis.core.item.Item;
+import co.com.elis.core.tax.WithHoldCalculation;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +43,11 @@ public abstract class OptionalBuildContext<M extends MandatoryBuildContext, O ex
 
     public O setDelivery(Delivery delivery) {
         builder.delivery = delivery;
+        return collectContext();
+    }
+
+    public O withHoldTax(WithHoldCalculation calculation){
+        //TODO: Finish WithHolds
         return collectContext();
     }
 

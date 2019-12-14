@@ -25,7 +25,6 @@ import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.exception.ElisCoreException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PopulatedDebitNoteBuilder extends AbstractNoteBuilder<PopulatedDebitNoteBuilder.PopulatedMandatoryContext> {
 
@@ -98,7 +97,11 @@ public class PopulatedDebitNoteBuilder extends AbstractNoteBuilder<PopulatedDebi
         public PopulatedMandatoryContext setMonetaryTotal(MonetaryTotal monetaryTotal) {
             ((PopulatedDebitNoteBuilder) builder).legalMonetaryTotal = monetaryTotal;
             return this;
+        }
 
+        public PopulatedMandatoryContext setDiscrepancyReason(DebitNoteDiscrepancyReason reason) {
+            ((PopulatedDebitNoteBuilder) builder).discrepancyReason = reason;
+            return collectContext();
         }
 
         public PopulatedMandatoryContext setDocumentNumber(DocumentNumber documentNumber) {

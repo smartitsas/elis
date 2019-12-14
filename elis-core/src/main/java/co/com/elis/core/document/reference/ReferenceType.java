@@ -19,14 +19,34 @@
  */
 package co.com.elis.core.document.reference;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
 public enum ReferenceType {
 
-    BILLING_REFERENCE,
-    CONTRACT_REFERENCE,
-    ORDER_REFERENCE,
-    ORIGINATOR_REFERENCE,
-    RECEIPT_REFERENCE,
-    DESPATCH_REFERENCE,
-    ADDITIONAL_REFERENCE;
+    BILLING_REFERENCE(null, "FACTURA"),
+    CONTRACT_REFERENCE(null, "CONTRATO"),
+    ORDER_REFERENCE("OC", "ORDEN DE COMPRA"),
+    RECEIPT_REFERENCE(null, "RECIBO"),
+    DESPATCH_REFERENCE(null, "GUIA"),
+    PURCHASE_ORDER("15-C", "ORDEN DE PEDIDO");
+
+    @Getter
+    private final String code;
+
+    @Getter
+    private final String description;
+
+    public static Stream<ReferenceType> getAdditionalTypesAsStream() {
+        return Arrays.asList(ReferenceType.values())
+                .stream()
+                .filter(ref -> ref != ReferenceType.ORDER_REFERENCE)
+                .filter(ref -> ref != ReferenceType.BILLING_REFERENCE)
+                .filter(ref -> ref != ReferenceType.DESPATCH_REFERENCE)
+                .filter(ref -> ref != ReferenceType.RECEIPT_REFERENCE);
+    }
 
 }
