@@ -46,22 +46,22 @@ public class TaxTotalList implements Iterable<TaxTotal> {
     @ContainsDefaultTaxes(message = "ELIS_CORE_VAL_TAX_SUBTAXES")
     private final List<TaxTotal> taxTotals;
 
-    @Valid
-    private final TaxTotalList withHoldingTotals;
+//    @Valid
+//    private final TaxTotalList withHoldingTotals;
 
     private TaxTotalList() {
         taxTotals = new ArrayList<>();
-        withHoldingTotals = new TaxTotalList();
+//        withHoldingTotals = new TaxTotalList();
     }
 
     public TaxTotalList(List<TaxTotal> taxTotals) {
         this.taxTotals = taxTotals;
-        this.withHoldingTotals = new TaxTotalList();
+//        this.withHoldingTotals = new TaxTotalList();
     }
-
-    public boolean addWithHolding(TaxTotal taxTotal) {
-        return this.withHoldingTotals.add(taxTotal);
-    }
+//
+//    public boolean addWithHolding(TaxTotal taxTotal) {
+////        return this.withHoldingTotals.add(taxTotal);
+//    }
 
     //TODO: Limit this call
     public boolean add(TaxTotal taxTotal) {
