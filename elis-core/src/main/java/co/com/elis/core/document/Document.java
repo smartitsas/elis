@@ -22,6 +22,7 @@ package co.com.elis.core.document;
 import co.com.elis.core.item.Item;
 import co.com.elis.core.item.ItemList;
 import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -53,18 +54,24 @@ public abstract class Document<I extends Item> {
     @NotNull(message = "ELIS_CORE_VAL_INV_ITEMS")
     private final ItemList<I> itemList;
 
+    
+    @Getter
+    @Valid
+    @NotNull //TODO: write messages
+    private final WithHoldingList withHoldingList;    
+    
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_SECURITY_CODE")
     private final String securityCode;
 
-    public Document(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<I> itemList, OtherRelatedData otherData) throws ElisCoreException {
+    public Document(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<I> itemList, WithHoldingList withHoldingList, OtherRelatedData otherData) throws ElisCoreException {
         this.header = header;
         this.taxTotalList = taxTotalList;
         this.legalMonetaryTotal = monetaryTotal;
         this.otherData = otherData;
         this.itemList = itemList;
         this.securityCode = header.getSoftware().calculateSecurityCode(header.getDocumentNumber());
-
+        this.withHoldingList = withHoldingList;
     }
 
     public DocumentNumber getDocumentNumber() {

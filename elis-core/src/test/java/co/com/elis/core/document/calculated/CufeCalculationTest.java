@@ -83,7 +83,7 @@ public class CufeCalculationTest {
                 .setUnits("BX")
                 .setDescription("ITEM1")
                 .withinOptionalSection()
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(19))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(19).build())
                 .getCalculatedResult();
 
         Invoice invoice = software.calculateInvoiceAs()

@@ -11,11 +11,11 @@ public class TaxTest {
     @Test
     public void taxCalculationTest() throws ElisCoreException {
 
-        Tax taxIvaSubtotal = Tax.createWithZeros(TaxType.IVA).withPercentage(19).withTotal(BigDecimal.valueOf(100f)).build();
-        Tax taxIvaSubtotal2 = Tax.createWithZeros(TaxType.IVA).withPercentage(16).withTotal(BigDecimal.valueOf(20f)).build();
+        Tax taxIvaSubtotal = Tax.createWithZeros(TaxType.IVA).withPercentage(19).build();
+        Tax taxIvaSubtotal2 = Tax.createWithZeros(TaxType.IVA).withPercentage(16).build();
 
-        Tax taxExcSubtotal = Tax.createWithZeros(TaxType.CONSUMPTION).withPercentage(8).withTotal(BigDecimal.valueOf(100f)).build();
-        Tax taxIcaSubtotal = Tax.createWithZeros(TaxType.ICA).withPercentage(1).withTotal(BigDecimal.valueOf(100f)).build();
+        Tax taxExcSubtotal = Tax.createWithZeros(TaxType.CONSUMPTION).withPercentage(8).build();
+        Tax taxIcaSubtotal = Tax.createWithZeros(TaxType.ICA).withPercentage(1).build();
 
         TaxTotalList list = TaxTotalList.buildTotalList(taxIvaSubtotal, taxIcaSubtotal, taxExcSubtotal, taxIvaSubtotal2);
 

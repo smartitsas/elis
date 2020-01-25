@@ -22,6 +22,7 @@ package co.com.elis.core.document;
 import co.com.elis.core.document.builder.AbstractInvoiceBuilder;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.software.Software;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 
 public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInvoiceBuilder.PopulatedMandatoryContext> {
@@ -29,6 +30,8 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
     private DocumentNumber documentNumber;
 
     private TaxTotalList taxTotalList;
+
+    private WithHoldingList withHoldList;
 
     private MonetaryTotal legalMonetaryTotal;
 
@@ -53,6 +56,7 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
                 invoicingRange,
                 itemList,
                 taxTotalList,
+                withHoldList,
                 legalMonetaryTotal,
                 otherData
         );

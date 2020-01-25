@@ -21,16 +21,19 @@ package co.com.elis.core.item;
 
 import co.com.elis.core.item.AbstractItemBuilder.MandatoryContext;
 import co.com.elis.core.tax.Tax;
+import co.com.elis.core.withold.WithHold;
+import co.com.elis.core.withold.WithHoldCalculation;
+import co.com.elis.core.withold.WithHoldType;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NoteItemCalculationBuilder extends AbstractItemBuilder {
 
     private final Collection<TaxCalculation> taxCalcList;
+    private final Collection<WithHoldCalculation> withHoldCalcList = new ArrayList<>();
 
     public NoteItemCalculationBuilder() {
         taxCalcList = new ArrayList<>();
@@ -38,12 +41,33 @@ public class NoteItemCalculationBuilder extends AbstractItemBuilder {
 
     private NoteItem get() throws ElisCoreException {
         BigDecimal total = quantity.multiply(unitaryValue);
+        ArrayList<Tax> taxList = new ArrayList<>(taxCalcList.size());
+        List<WithHold> withHolds = new ArrayList<>();
 
-        List<Tax> taxList = taxCalcList.stream()
-                .map(t -> t.applyTo(total))
-                .collect(Collectors.toList());
+        for (TaxCalculation taxCalculation : taxCalcList) {
+            Tax tax = taxCalculation.applyTo(total);
+            taxList.add(tax);
+        }
 
-        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList);
+        for (WithHoldCalculation withHoldCalculation : withHoldCalcList) {
+            WithHold withHold;
+            WithHoldType withHoldType = withHoldCalculation.getWithHoldType();
+
+            if (!withHoldType.isOverTax()) {
+                withHold = withHoldCalculation.applyTo(total);
+            } else {
+                Tax foundTax = taxList.stream()
+                        .filter(tax -> tax.getType() == withHoldType.getTaxEquivalent())
+                        .findAny()
+                        .orElseThrow(() -> new ElisCoreException("There is no tax for withHold: " + withHoldType));
+
+                withHold = withHoldCalculation.applyTo(foundTax);
+            }
+
+            withHolds.add(withHold);
+        }
+
+        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList, withHolds);
 
         validateOrThrow(item);
         return item;
@@ -91,6 +115,11 @@ public class NoteItemCalculationBuilder extends AbstractItemBuilder {
 
         public CalculationOptionalContext addTax(TaxCalculation taxCalculation) {
             builder.taxCalcList.add(taxCalculation);
+            return this;
+        }
+
+        public CalculationOptionalContext addWithHolding(WithHoldCalculation withHold) {
+            builder.withHoldCalcList.add(withHold);
             return this;
         }
 

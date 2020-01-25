@@ -46,22 +46,13 @@ public class TaxTotalList implements Iterable<TaxTotal> {
     @ContainsDefaultTaxes(message = "ELIS_CORE_VAL_TAX_SUBTAXES")
     private final List<TaxTotal> taxTotals;
 
-//    @Valid
-//    private final TaxTotalList withHoldingTotals;
-
     private TaxTotalList() {
         taxTotals = new ArrayList<>();
-//        withHoldingTotals = new TaxTotalList();
     }
 
     public TaxTotalList(List<TaxTotal> taxTotals) {
         this.taxTotals = taxTotals;
-//        this.withHoldingTotals = new TaxTotalList();
     }
-//
-//    public boolean addWithHolding(TaxTotal taxTotal) {
-////        return this.withHoldingTotals.add(taxTotal);
-//    }
 
     //TODO: Limit this call
     public boolean add(TaxTotal taxTotal) {
@@ -110,18 +101,18 @@ public class TaxTotalList implements Iterable<TaxTotal> {
     }
 
     public static TaxTotalList buildTotalList(Tax... subtotals) throws ElisCoreException {
-        return buildTotalList(false, false, Arrays.asList(subtotals));
+        return buildTotalList(false, Arrays.asList(subtotals));
     }
 
-    public static TaxTotalList buildTotalList(boolean includeMissing, boolean isRetained, Tax... subtotals) throws ElisCoreException {
-        return buildTotalList(includeMissing, isRetained, Arrays.asList(subtotals));
+    public static TaxTotalList buildTotalList(boolean includeMissing, Tax... subtotals) throws ElisCoreException {
+        return buildTotalList(includeMissing, Arrays.asList(subtotals));
     }
 
     public static TaxTotalList buildTotalList(Collection<Tax> subtotals) throws ElisCoreException {
-        return buildTotalList(false, false, subtotals);
+        return buildTotalList(false, subtotals);
     }
 
-    public static TaxTotalList buildTotalList(boolean includeMissing, boolean isRetained, Collection<Tax> subtotals) throws ElisCoreException {
+    public static TaxTotalList buildTotalList(boolean includeMissing, Collection<Tax> subtotals) throws ElisCoreException {
         List<TaxTotal> totalsList = new LinkedList<>();
 
         //group by type
@@ -134,11 +125,11 @@ public class TaxTotalList implements Iterable<TaxTotal> {
 
             //each list in percentageMap (percentage category) must be converted into one taxSubtotal since they have the same type and percentage
             List<Tax> finalList = agregateSubtotalsByPercentage(percentageGroup);
-            totalsList.add(new TaxTotal(finalList, isRetained));
+            totalsList.add(new TaxTotal(finalList));
         }
 
         if (includeMissing) {
-            addZerosTo(totalsList, isRetained);
+            addZerosTo(totalsList);
         }
         return new TaxTotalList(totalsList);
     }
@@ -164,7 +155,7 @@ public class TaxTotalList implements Iterable<TaxTotal> {
         return result;
     }
 
-    private static void addZerosTo(List<TaxTotal> totalsList, boolean isRetained) {
+    private static void addZerosTo(List<TaxTotal> totalsList) {
         for (TaxType type : TaxType.values()) {
             Optional<TaxTotal> result = totalsList.stream()
                     .filter(t -> t.getType() == type)
@@ -172,7 +163,7 @@ public class TaxTotalList implements Iterable<TaxTotal> {
 
             if (!result.isPresent()) {
                 Tax tax = Tax.createWithZeros(type).build();
-                totalsList.add(new TaxTotal(type, BigDecimal.ZERO, isRetained, Arrays.asList(tax)));
+                totalsList.add(new TaxTotal(type, BigDecimal.ZERO, Optional.empty(), Arrays.asList(tax)));
             }
         }
     }

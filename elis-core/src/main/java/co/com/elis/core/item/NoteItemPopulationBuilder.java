@@ -21,6 +21,7 @@ package co.com.elis.core.item;
 
 import co.com.elis.core.item.AbstractItemBuilder.MandatoryContext;
 import co.com.elis.core.tax.Tax;
+import co.com.elis.core.withold.WithHold;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,12 +33,15 @@ public class NoteItemPopulationBuilder extends AbstractItemBuilder {
 
     private final List<Tax> taxList;
 
+    private final List<WithHold> witHoldList;
+
     public NoteItemPopulationBuilder() {
         this.taxList = new ArrayList<>();
+        this.witHoldList = new ArrayList<>();
     }
 
     private NoteItem get() throws ElisCoreException {
-        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList);
+        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList, witHoldList);
 
         validateOrThrow(item);
         return item;
@@ -107,6 +111,16 @@ public class NoteItemPopulationBuilder extends AbstractItemBuilder {
 
         public PopulationOptionalContext addTaxes(List<Tax> taxes) {
             builder.taxList.addAll(taxes);
+            return this;
+        }
+
+        public PopulationOptionalContext addWithHold(WithHold withHold) {
+            builder.witHoldList.add(withHold);
+            return this;
+        }
+
+        public PopulationOptionalContext addWithHolds(List<WithHold> withHolds) {
+            builder.witHoldList.addAll(withHolds);
             return this;
         }
 

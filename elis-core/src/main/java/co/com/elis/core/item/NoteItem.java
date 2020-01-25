@@ -20,13 +20,14 @@
 package co.com.elis.core.item;
 
 import co.com.elis.core.tax.Tax;
+import co.com.elis.core.withold.WithHold;
 import java.math.BigDecimal;
 import java.util.List;
 
 public class NoteItem extends Item {
 
-    NoteItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList) {
-        super(id, code, description, units, total, quantity, unitaryValue, taxList);
+    NoteItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<WithHold> withHoldList) {
+        super(id, code, description, units, total, quantity, unitaryValue, taxList, withHoldList);
     }
 
     public static NoteItemPopulationBuilder populateAs() {

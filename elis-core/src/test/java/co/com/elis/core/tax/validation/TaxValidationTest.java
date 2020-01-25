@@ -59,8 +59,8 @@ public class TaxValidationTest {
 
         //Only IVA and ICA
         totalList = TaxTotalList.buildTotalList(
-                Tax.createWithZeros(TaxType.ICA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.IVA).withTotal(1).build()
+                Tax.createWithZeros(TaxType.ICA).build(),
+                Tax.createWithZeros(TaxType.IVA).build()
         );
         validations = totalList.validate();
 
@@ -69,8 +69,8 @@ public class TaxValidationTest {
 
         //Only CONSUMPTION and ICA
         totalList = TaxTotalList.buildTotalList(
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.ICA).withTotal(1).build()
+                Tax.createWithZeros(TaxType.CONSUMPTION).build(),
+                Tax.createWithZeros(TaxType.ICA).build()
         );
         validations = totalList.validate();
 
@@ -89,9 +89,9 @@ public class TaxValidationTest {
 
         //All taxes
         totalList = TaxTotalList.buildTotalList(
-                Tax.createWithZeros(TaxType.IVA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.ICA).withTotal(1).build()
+                Tax.createWithZeros(TaxType.IVA).build(),
+                Tax.createWithZeros(TaxType.CONSUMPTION).build(),
+                Tax.createWithZeros(TaxType.ICA).build()
         );
         validations = totalList.validate();
 
@@ -102,18 +102,18 @@ public class TaxValidationTest {
     public void consistentTaxTotalTest() throws ElisCoreException {
 
         List<Tax> ivaSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.IVA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.IVA).withTotal(10).build()
+                Tax.createWithZeros(TaxType.IVA).build(),
+                Tax.createWithZeros(TaxType.IVA).build()
         );
 
         List<Tax> icaSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.ICA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.ICA).withTotal(10).build()
+                Tax.createWithZeros(TaxType.ICA).build(),
+                Tax.createWithZeros(TaxType.ICA).build()
         );
 
         List<Tax> consumptionSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(10).build()
+                Tax.createWithZeros(TaxType.CONSUMPTION).build(),
+                Tax.createWithZeros(TaxType.CONSUMPTION).build()
         );
 
         //total validation consistency for ICA
@@ -162,18 +162,18 @@ public class TaxValidationTest {
     public void consistentTaxTotalTypeTest() throws ElisCoreException {
 
         List<Tax> ivaSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.IVA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.IVA).withTotal(10).build()
+                Tax.createWithZeros(TaxType.IVA).build(),
+                Tax.createWithZeros(TaxType.IVA).build()
         );
 
         List<Tax> icaSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.ICA).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.ICA).withTotal(10).build()
+                Tax.createWithZeros(TaxType.ICA).build(),
+                Tax.createWithZeros(TaxType.ICA).build()
         );
 
         List<Tax> consumptionSubtotals = Arrays.asList(
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(1).build(),
-                Tax.createWithZeros(TaxType.CONSUMPTION).withTotal(10).build()
+                Tax.createWithZeros(TaxType.CONSUMPTION).build(),
+                Tax.createWithZeros(TaxType.CONSUMPTION).build()
         );
 
         //Wrong tax type in ICA TaxTotal

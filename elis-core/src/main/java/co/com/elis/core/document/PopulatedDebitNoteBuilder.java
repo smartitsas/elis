@@ -23,12 +23,16 @@ import co.com.elis.core.item.DebitNoteDiscrepancyReason;
 import co.com.elis.core.item.Discrepancy;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PopulatedDebitNoteBuilder extends AbstractNoteBuilder<PopulatedDebitNoteBuilder.PopulatedMandatoryContext> {
 
     private TaxTotalList taxTotalList;
+
+    private WithHoldingList withHoldList;
 
     private MonetaryTotal legalMonetaryTotal;
 
@@ -46,6 +50,7 @@ public class PopulatedDebitNoteBuilder extends AbstractNoteBuilder<PopulatedDebi
         super(software);
         this.affectedInvoices = new ArrayList<>();
         this.validate = true;
+        this.withHoldList = new WithHoldingList(Collections.emptyList());
     }
 
     public DebitNote getResult() throws ElisCoreException {
@@ -56,6 +61,7 @@ public class PopulatedDebitNoteBuilder extends AbstractNoteBuilder<PopulatedDebi
         DebitNote debitNote = new DebitNote(
                 new Header(supplierParty, software, receiverParty, invoiceDate, documentNumber),
                 taxTotalList,
+                withHoldList,
                 legalMonetaryTotal,
                 itemList,
                 otherData,

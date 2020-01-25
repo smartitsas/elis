@@ -49,7 +49,7 @@ public class ItemCalculatedTest {
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(18))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(18).build())
                 .getCalculatedResult();
 
         Tax vat = item.getTax(TaxType.IVA);
@@ -84,7 +84,7 @@ public class ItemCalculatedTest {
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
-                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(8))
+                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(8).build())
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));
@@ -123,7 +123,7 @@ public class ItemCalculatedTest {
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
                 .setCode("ITEM1")
-                .addTax(TaxCalculation.of(TaxType.ICA).withPercentage(5))
+                .addTax(TaxCalculation.of(TaxType.ICA).withPercentage(5).build())
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));

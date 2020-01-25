@@ -24,6 +24,7 @@ import co.com.elis.core.item.ItemList;
 import co.com.elis.core.item.NoteItem;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.util.ResourceInterpolator;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -32,8 +33,8 @@ import javax.validation.Validator;
 
 public class CreditNote extends NoteDocument {
 
-    public CreditNote(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
-        super(header, taxTotalList, monetaryTotal, itemList, otherData, discrepancy);
+    public CreditNote(Header header, TaxTotalList taxTotalList, WithHoldingList withHoldList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
+        super(header, taxTotalList, withHoldList, monetaryTotal, itemList, otherData, discrepancy);
     }
 
     @Override

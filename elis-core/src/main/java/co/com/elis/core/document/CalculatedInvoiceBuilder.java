@@ -22,6 +22,7 @@ package co.com.elis.core.document;
 import co.com.elis.core.document.builder.AbstractInvoiceBuilder;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.software.Software;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 
@@ -36,7 +37,9 @@ public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedI
     public Invoice getCalculatedResult() throws ElisCoreException {
         DocumentNumber docNumber = new DocumentNumber(invoicingRange.getPrefix(), consecutive);
         Header header = new Header(supplierParty, software, receiverParty, invoiceDate, docNumber, validityPeriod);
-        TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, false, itemList.getTaxes());
+        TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, itemList.getTaxes());
+
+        WithHoldingList withHoldingList = WithHoldingList.buildWithHoldingList(itemList.getWithHolds());
 
         BigDecimal lineTotal = itemList.getCalculatedTotal();
         BigDecimal taxableAmount = taxTotalList.getCalculatedTaxableAmount();
@@ -52,6 +55,7 @@ public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedI
                 invoicingRange,
                 itemList,
                 taxTotalList,
+                withHoldingList,
                 legalMonetaryTotal,
                 otherData
         );

@@ -24,54 +24,52 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 public class Tax {
 
-    @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
     private final TaxType type;
 
-    @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
     private final BigDecimal percentage;
 
-    @Getter
     @NotNull(message = "ELIS_CORE_UNKNOWN")
     private final BigDecimal taxableAmount;
 
-    @Getter
     @NotNull
     private final BigDecimal taxTotal;
 
-    public static final Tax ICA_ZERO = new Tax(TaxType.ICA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-    public static final Tax IVA_ZERO = new Tax(TaxType.IVA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-    public static final Tax CONSUMPTION_ZERO = new Tax(TaxType.CONSUMPTION, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    @Setter
+    private boolean withHolded;
+
+    public static final Tax ICA_ZERO = new Tax(TaxType.ICA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    public static final Tax IVA_ZERO = new Tax(TaxType.IVA, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    public static final Tax CONSUMPTION_ZERO = new Tax(TaxType.CONSUMPTION, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
     /**
      * Create tax with type, percentage and total (this must be calculated by
      * the user)
      *
      * @param type Type of the Tax
-     * @param percentage Percentage of the tax to be created
-     * @param total Total of the tax to be created, must be calculated by the
-     * user
+     * @param percentage Percentage of the tax to be created user
      * @param taxableAmount Original amount to apply the percentage
      */
-    private Tax(TaxType type, BigDecimal percentage, BigDecimal total, BigDecimal taxableAmount, BigDecimal taxTotal) {
+    private Tax(TaxType type, BigDecimal percentage, BigDecimal taxableAmount, BigDecimal taxTotal) {
 
         if (type == null) {
             throw new NullPointerException("type must not be null");
         }
 
         this.percentage = scaledOrNull(percentage, 2);
-        //this.total = scaledOrNull(total);
         this.type = type;
         this.taxableAmount = scaledOrNull(taxableAmount);
         this.taxTotal = scaledOrNull(taxTotal);
     }
 
     public Tax add(Tax otherSubtotal) {
-        return new Tax(type, percentage, /*total.add(otherSubtotal.getTotal())*/ null, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
+        return new Tax(type, percentage, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
     }
 
     /**
@@ -102,7 +100,6 @@ public class Tax {
 
         private final TaxType type;
         private BigDecimal percentage;
-        private BigDecimal totalValue;
         private BigDecimal taxableAmount;
         private BigDecimal taxTotal;
 
@@ -110,7 +107,6 @@ public class Tax {
             this.type = type;
             if (defaultToZero) {
                 this.percentage = BigDecimal.ZERO.setScale(2);
-                this.totalValue = BigDecimal.ZERO.setScale(4);
                 this.taxableAmount = BigDecimal.ZERO.setScale(4);
                 this.taxTotal = BigDecimal.ZERO.setScale(4);
             }
@@ -136,18 +132,8 @@ public class Tax {
             return this;
         }
 
-        public TaxBuilder withTotal(BigDecimal totalValue) {
-            this.totalValue = totalValue;
-            return this;
-        }
-
-        public TaxBuilder withTotal(double totalValue) {
-            this.totalValue = BigDecimal.valueOf(totalValue).setScale(4, RoundingMode.HALF_UP);
-            return this;
-        }
-
         public Tax build() {
-            return new Tax(type, percentage, totalValue, taxableAmount, taxTotal);
+            return new Tax(type, percentage, taxableAmount, taxTotal);
         }
 
     }

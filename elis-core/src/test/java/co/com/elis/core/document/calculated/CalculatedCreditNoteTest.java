@@ -79,8 +79,8 @@ public class CalculatedCreditNoteTest {
                 .setDescription("sample description")
                 .withinOptionalSection()
                 .setCode("")
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0))
-                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
+                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();
 
         DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());
@@ -123,8 +123,8 @@ public class CalculatedCreditNoteTest {
                 .setDescription("Sample discription")
                 .withinOptionalSection()
                 .setCode("")
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0))
-                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
+                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();
 
         DocumentDate invoiceDate = new DocumentDate(LocalDateTime.now());

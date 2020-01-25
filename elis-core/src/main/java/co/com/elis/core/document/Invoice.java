@@ -35,6 +35,7 @@ import lombok.Getter;
 import co.com.elis.core.document.validation.ExportationValidationGroup;
 import co.com.elis.core.document.validation.InvoicingRangeValid;
 import co.com.elis.core.item.InvoiceItem;
+import co.com.elis.core.withold.WithHoldingList;
 import java.math.RoundingMode;
 import javax.validation.groups.Default;
 
@@ -64,8 +65,8 @@ public class Invoice extends Document<InvoiceItem> {
      * informed here
      * @param otherData Additional related data
      */
-    Invoice(InvoiceType invoiceType, Header header, InvoicingRange invoicingRange, ItemList<InvoiceItem> itemList, TaxTotalList taxTotalList, MonetaryTotal legalMonetaryTotal, OtherRelatedData otherData) throws ElisCoreException {
-        super(header, taxTotalList, legalMonetaryTotal, itemList, otherData);
+    Invoice(InvoiceType invoiceType, Header header, InvoicingRange invoicingRange, ItemList<InvoiceItem> itemList, TaxTotalList taxTotalList, WithHoldingList withHoldList, MonetaryTotal legalMonetaryTotal, OtherRelatedData otherData) throws ElisCoreException {
+        super(header, taxTotalList, legalMonetaryTotal, itemList, withHoldList, otherData);
         this.invoiceType = invoiceType;
         this.invoicingRange = invoicingRange;
 

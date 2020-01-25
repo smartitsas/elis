@@ -24,6 +24,7 @@ import co.com.elis.core.tax.TaxType;
 import co.com.elis.core.tax.validation.ValidateItemTax;
 import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import co.com.elis.core.util.ResourceInterpolator;
+import co.com.elis.core.withold.WithHold;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -69,7 +70,12 @@ public class Item {
     @NotNull(message = "ELIS_CORE_VAL_ITEM_TAXLIST")
     private final List<Tax> taxes;
 
-    public Item(Integer position, String code, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection) {
+    @Valid
+    @Getter
+    @NotNull
+    private final List<WithHold> withHolds;
+
+    public Item(Integer position, String code, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection, List<WithHold> withHolds) {
         this.position = position;
         this.description = description;
         this.total = scaledOrNull(total);
@@ -78,6 +84,7 @@ public class Item {
         this.taxes = taxCollection;
         this.code = code;
         this.units = units;
+        this.withHolds = withHolds;
     }
 
     public Tax getTax(TaxType taxType) {

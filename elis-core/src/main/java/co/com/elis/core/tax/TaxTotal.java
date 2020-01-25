@@ -22,11 +22,13 @@ package co.com.elis.core.tax;
 import co.com.elis.core.tax.validation.ConsistentTaxTotal;
 import co.com.elis.core.tax.validation.ConsistentTaxType;
 import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
+import co.com.elis.core.withold.WithHold;
 import co.com.elis.exception.ElisCoreException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -45,29 +47,30 @@ public class TaxTotal implements Iterable<Tax> {
     @Getter
     private final TaxType type;
 
-    //TODO: When calculating an ITEM there is no way to know if is retained, we should check this
-    @Getter
-    private final boolean isRetained;
-
     @Getter
     @Size(min = 1, message = "ELIS_CORE_VAL_TAX_SUBTAXES")
     @NotNull(message = "ELIS_CORE_VAL_TAX_SUBTAXES")
     private final List<Tax> taxSubtotals;
+
+    @Getter
+    @NotNull
+    //TODO: When calculating an ITEM there is no way to know if is retained, we should check this
+    private final Optional<WithHold> withHold;
 
     /**
      * Constructor used to create a tax total with already calculated data
      *
      * @param taxAmount
      * @param type
-     * @param isRetained if this tax is retained
+     * @param withHold if this tax is with this withHold
      * @param taxSubtotals
      */
-    public TaxTotal(TaxType type, BigDecimal taxAmount, boolean isRetained, List<Tax> taxSubtotals) {
+    public TaxTotal(TaxType type, BigDecimal taxAmount, Optional<WithHold> withHold, List<Tax> taxSubtotals) {
         this.taxAmount = scaledOrNull(taxAmount);
         this.type = type;
-        this.isRetained = isRetained;
         this.taxSubtotals = taxSubtotals;
         this.taxableAmount = this.taxSubtotals.get(0).getTaxableAmount();
+        this.withHold = withHold;
     }
 
     /**
@@ -78,7 +81,7 @@ public class TaxTotal implements Iterable<Tax> {
      * @param taxSubtotals
      */
     public TaxTotal(TaxType type, BigDecimal taxAmount, List<Tax> taxSubtotals) {
-        this(type, taxAmount, false, taxSubtotals);
+        this(type, taxAmount, Optional.empty(), taxSubtotals);
     }
 
     /**
@@ -88,17 +91,17 @@ public class TaxTotal implements Iterable<Tax> {
      * @throws co.com.elis.exception.ElisCoreException
      */
     public TaxTotal(List<Tax> taxSubtotals) throws ElisCoreException {
-        this(taxSubtotals, false);
+        this(taxSubtotals, Optional.empty());
     }
 
     /**
      * Constructor used to create a tax total calculating internal values
      *
      * @param taxSubtotals
-     * @param isRetained
+     * @param withHold withHold of the tax
      * @throws co.com.elis.exception.ElisCoreException
      */
-    public TaxTotal(List<Tax> taxSubtotals, boolean isRetained) throws ElisCoreException {
+    public TaxTotal(List<Tax> taxSubtotals, Optional<WithHold> withHold) throws ElisCoreException {
         if (taxSubtotals.isEmpty()) {
             throw new ElisCoreException("Subtotal list must not be empty");
         }
@@ -106,7 +109,7 @@ public class TaxTotal implements Iterable<Tax> {
         this.taxAmount = taxSubtotals.stream().map(Tax::getTaxTotal).reduce((a, b) -> a.add(b)).orElseThrow(() -> new ElisCoreException("Could not calculate total from subtotals"));
         this.type = subtotal.getType();
         this.taxSubtotals = taxSubtotals;
-        this.isRetained = isRetained;
+        this.withHold = withHold;
         this.taxableAmount = this.taxSubtotals.get(0).getTaxableAmount();
     }
 
@@ -125,6 +128,10 @@ public class TaxTotal implements Iterable<Tax> {
             throw new ElisCoreException("Para el tipo: " + type + "El valor total: " + taxAmount + " no coincide con la suma de los subtotales: " + sum);
         }
 
+    }
+
+    public boolean isRetained() {
+        return withHold.isPresent();
     }
 
     public String toPlainString() {

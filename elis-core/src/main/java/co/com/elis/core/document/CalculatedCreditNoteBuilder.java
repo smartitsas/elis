@@ -23,6 +23,7 @@ import co.com.elis.core.item.CreditNoteDiscrepancyReason;
 import co.com.elis.core.item.Discrepancy;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 
 public class CalculatedCreditNoteBuilder extends AbstractNoteBuilder<CalculatedCreditNoteBuilder.CalculatedMandatoryContext> {
@@ -35,7 +36,8 @@ public class CalculatedCreditNoteBuilder extends AbstractNoteBuilder<CalculatedC
 
     public CreditNote getCalculatedResult() throws ElisCoreException {
         OtherRelatedData otherData = new OtherRelatedData(delivery, paymentDataBuilder.buildOrNull(), exchangeRate, referenceList, additionalNotes);
-        TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, false, itemList.getTaxes());
+        TaxTotalList taxTotalList = TaxTotalList.buildTotalList(true, itemList.getTaxes());
+        WithHoldingList withHoldingList = WithHoldingList.buildWithHoldingList(itemList.getWithHolds());
         MonetaryTotal legalMonetaryTotal = calculateTotals(itemList, taxTotalList, allowanceCharge);
         DocumentNumber documentNumber = new DocumentNumber(prefix, consecutive);
 
@@ -44,6 +46,7 @@ public class CalculatedCreditNoteBuilder extends AbstractNoteBuilder<CalculatedC
         CreditNote creditNote = new CreditNote(
                 new Header(supplierParty, software, receiverParty, invoiceDate, documentNumber),
                 taxTotalList,
+                withHoldingList,
                 legalMonetaryTotal,
                 itemList,
                 otherData,

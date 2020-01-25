@@ -19,6 +19,7 @@
 package co.com.elis.core.item;
 
 import co.com.elis.core.tax.Tax;
+import co.com.elis.core.withold.WithHold;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -30,8 +31,8 @@ public class InvoiceItem extends Item {
     @NotNull(message = "ELIS_CORE_VAL_ITEM_PAYMENT_TERMS")
     private final List<String> notes;    
 
-    InvoiceItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<String> notes) {
-        super(id, code, description, units, total, quantity, unitaryValue, taxList);
+    InvoiceItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<WithHold> withHolds, List<String> notes) {
+        super(id, code, description, units, total, quantity, unitaryValue, taxList, withHolds);
         this.notes = notes;
     }
 

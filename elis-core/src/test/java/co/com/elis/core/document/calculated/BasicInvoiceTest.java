@@ -91,7 +91,7 @@ public class BasicInvoiceTest {
                 .setUnits("BX")
                 .setDescription("Sample description")
                 .withinOptionalSection()
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(10))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(10).build())
                 .getCalculatedResult();
 
         var invoicingRange2 = software.createInvoicingRangeAs()
@@ -246,8 +246,8 @@ public class BasicInvoiceTest {
                 .setDescription("Sample description")
                 .withinOptionalSection()
                 .setCode("ITM1")
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16))
-                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16).build())
+                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f).build())
                 .getCalculatedResult();
 
         InvoiceItem item2 = InvoiceItem.calculateAs()
@@ -259,8 +259,8 @@ public class BasicInvoiceTest {
                 .setDescription("Línea-2 8110007869 fos0001_900373076_8bad2_R000001-81-26610")
                 .withinOptionalSection()
                 .setCode("ITEM2")
-                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16))
-                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f))
+                .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16).build())
+                .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f).build())
                 .getCalculatedResult();
 
         Invoice invoice = software.calculateInvoiceAs()

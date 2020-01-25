@@ -6,6 +6,7 @@ import co.com.elis.core.item.NoteItem;
 import co.com.elis.core.tax.TaxTotal;
 import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.util.ElisEncoder;
+import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
 import java.math.RoundingMode;
 import javax.validation.Valid;
@@ -20,8 +21,8 @@ public abstract class NoteDocument extends Document<NoteItem> {
     @Getter
     private final Discrepancy discrepancy;
 
-    public NoteDocument(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
-        super(header, taxTotalList, monetaryTotal, itemList, otherData);
+    public NoteDocument(Header header, TaxTotalList taxTotalList, WithHoldingList withHoldList, MonetaryTotal monetaryTotal, ItemList<NoteItem> itemList, OtherRelatedData otherData, Discrepancy discrepancy) throws ElisCoreException {
+        super(header, taxTotalList, monetaryTotal, itemList, withHoldList, otherData);
         this.discrepancy = discrepancy;
     }
 
