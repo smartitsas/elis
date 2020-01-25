@@ -44,8 +44,9 @@ public class CalculatedInvoiceBuilder extends AbstractInvoiceBuilder<CalculatedI
         BigDecimal lineTotal = itemList.getCalculatedTotal();
         BigDecimal taxableAmount = taxTotalList.getCalculatedTaxableAmount();
         BigDecimal taxAmount = taxTotalList.getCalculatedTaxAmount();
+        BigDecimal withHoldingTotal = withHoldingList.getWithHoldingTotal();
 
-        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, allowanceCharge);
+        MonetaryTotal legalMonetaryTotal = new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, withHoldingTotal, allowanceCharge);
 
         OtherRelatedData otherData = new OtherRelatedData(delivery, paymentDataBuilder.buildOrNull(), exchangeRate, referenceList, additionalNotes);
 

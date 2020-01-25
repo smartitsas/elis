@@ -28,6 +28,7 @@ import co.com.elis.core.item.ItemList;
 import co.com.elis.core.item.NoteItem;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.tax.TaxTotalList;
+import co.com.elis.core.withold.WithHoldingList;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,9 @@ public abstract class AbstractNoteBuilder<M extends MandatoryBuildContext> exten
         BigDecimal lineTotal = itemList.getCalculatedTotal();
         BigDecimal taxableAmount = taxTotalList.getCalculatedTaxableAmount();
         BigDecimal taxAmount = taxTotalList.getCalculatedTaxAmount();
+        BigDecimal withHoldingTotal = WithHoldingList.buildWithHoldingList(itemList.getWithHolds()).getWithHoldingTotal();
 
-        return new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, allowanceCharge);
+        return new MonetaryTotal(currency, lineTotal, taxableAmount, taxAmount, withHoldingTotal, allowanceCharge);
     }
 
     public abstract static class MandatoryContext<M extends MandatoryBuildContext, O extends OptionalBuildContext> extends MandatoryBuildContext<M, O, NoteItem> {

@@ -81,7 +81,7 @@ public class MonetaryTotal {
         this.payableAmount = scaledOrNull(payableAmount, 2);
     }
 
-    MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, List<AllowanceCharge> allowanceCharges) {
+    MonetaryTotal(String currency, BigDecimal lineTotal, BigDecimal taxableAmount, BigDecimal taxAmount, BigDecimal withHoldingTotal, List<AllowanceCharge> allowanceCharges) {
         this.currency = currency;
         this.lineTotal = scaledOrNull(lineTotal, 2);
         this.taxableAmount = scaledOrNull(taxableAmount, 2);
@@ -101,7 +101,7 @@ public class MonetaryTotal {
         this.chargeTotal = scaledOrNull(chargeSum);
         this.discountTotal = scaledOrNull(discuntSum);
         this.taxInclusiveAmount = taxAmount.add(lineTotal);
-        this.payableAmount = lineTotal.add(taxAmount).add(chargeSum).subtract(discuntSum).setScale(2, RoundingMode.HALF_UP);
+        this.payableAmount = lineTotal.add(taxAmount).add(chargeSum).subtract(discuntSum).subtract(withHoldingTotal).setScale(2, RoundingMode.HALF_UP);
     }
 
     public String toPlainString() {

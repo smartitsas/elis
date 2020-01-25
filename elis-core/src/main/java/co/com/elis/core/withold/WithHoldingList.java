@@ -1,5 +1,6 @@
 package co.com.elis.core.withold;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,12 @@ public class WithHoldingList implements Iterable<WithHold> {
         return internalCollection.stream()
                 .filter(withHold -> withHold.getWithHoldType() == withHoldType)
                 .findAny();
+    }
+
+    public BigDecimal getWithHoldingTotal() {
+        return internalCollection.stream()
+                .map(withHolding -> withHolding.getWithHoldtotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
