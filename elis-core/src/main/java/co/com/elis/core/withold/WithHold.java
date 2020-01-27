@@ -50,6 +50,15 @@ public class WithHold {
         }
 
         public WithHold build() {
+
+            if (withHoldtotal == null) {
+                withHoldtotal = BigDecimal.ZERO;
+            }
+
+            if (percentage == null) {
+                percentage = BigDecimal.ZERO;
+            }
+
             return new WithHold(type, percentage, withHoldtotal);
         }
 
