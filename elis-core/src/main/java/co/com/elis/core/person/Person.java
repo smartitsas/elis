@@ -41,7 +41,7 @@ public abstract class Person<N extends PersonName> {
 
     @Valid
     @Getter
-    @NotNull(message = "ELIS_CORE_UNKNOWN")
+    //@NotNull(message = "ELIS_CORE_UNKNOWN")
     private final DIANCharacterization dianCharacterization;
 
     @Getter

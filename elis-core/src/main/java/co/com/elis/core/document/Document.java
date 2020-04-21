@@ -27,6 +27,7 @@ import co.com.elis.exception.ElisCoreException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class Document<I extends Item> {
 
@@ -54,15 +55,18 @@ public abstract class Document<I extends Item> {
     @NotNull(message = "ELIS_CORE_VAL_INV_ITEMS")
     private final ItemList<I> itemList;
 
-    
     @Getter
     @Valid
     @NotNull //TODO: write messages
-    private final WithHoldingList withHoldingList;    
-    
+    private final WithHoldingList withHoldingList;
+
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_SOFTWARE_SECURITY_CODE")
     private final String securityCode;
+
+    @Getter
+    @Setter
+    private DocumentStatus documentStatus;
 
     public Document(Header header, TaxTotalList taxTotalList, MonetaryTotal monetaryTotal, ItemList<I> itemList, WithHoldingList withHoldingList, OtherRelatedData otherData) throws ElisCoreException {
         this.header = header;
@@ -72,6 +76,7 @@ public abstract class Document<I extends Item> {
         this.itemList = itemList;
         this.securityCode = header.getSoftware().calculateSecurityCode(header.getDocumentNumber());
         this.withHoldingList = withHoldingList;
+        this.documentStatus = DocumentStatus.PENDING;
     }
 
     public DocumentNumber getDocumentNumber() {
@@ -83,7 +88,7 @@ public abstract class Document<I extends Item> {
     public abstract String getQR();
 
     public abstract String getCude();
-    
+
     public abstract void validateOrThrow() throws ElisCoreException;
-    
+
 }
