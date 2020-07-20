@@ -59,9 +59,9 @@ public class PersonTest {
         assertThat(supplierParty.getDianCharacterization().getObligations().get(0), is(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242));
         assertThat(supplierParty.getDianCharacterization().getEstablishmentTypes().get(0), is(EstablishmentType.ESTABLECIMIENTO_COMERCIO));
         assertNotNull(supplierParty.getContact());
-        assertThat(supplierParty.getContact().getId(), is("IDContact"));
-        assertThat(supplierParty.getContact().getName(), is("Sales representative"));
-        assertThat(supplierParty.getContact().getEmail(), is("sales@company.net"));
+        assertThat(supplierParty.getContact().get().getId(), is("IDContact"));
+        assertThat(supplierParty.getContact().get().getName(), is("Sales representative"));
+        assertThat(supplierParty.getContact().get().getEmail(), is("sales@company.net"));
         assertThat(supplierParty.isJuridicPerson(), is(true));
         assertThat(supplierParty.isNaturalPerson(), is(false));
     }
@@ -123,9 +123,9 @@ public class PersonTest {
         assertThat(supplierParty.getDianCharacterization().getObligations().size(), is(1));
         assertThat(supplierParty.getDianCharacterization().getObligations().get(0), is(Obligation.FACTURA_ELECTRONICA_VOLUNTARIA_MODELO_2242));
         assertNotNull(supplierParty.getContact());
-        assertThat(supplierParty.getContact().getId(), is("IDContact"));
-        assertThat(supplierParty.getContact().getName(), is("Sales representative"));
-        assertThat(supplierParty.getContact().getEmail(), is("sales@company.net"));
+        assertThat(supplierParty.getContact().get().getId(), is("IDContact"));
+        assertThat(supplierParty.getContact().get().getName(), is("Sales representative"));
+        assertThat(supplierParty.getContact().get().getEmail(), is("sales@company.net"));
         assertThat(supplierParty.isJuridicPerson(), is(false));
         assertThat(supplierParty.isNaturalPerson(), is(true));
         assertThat(supplierParty.getDianCharacterization().getRepresentationTypes().get(0), is(NaturalPersonRepresentationType.APODERADO_ESPECIAL));

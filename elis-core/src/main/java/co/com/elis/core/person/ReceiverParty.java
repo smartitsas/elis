@@ -19,10 +19,11 @@
 package co.com.elis.core.person;
 
 import co.com.elis.core.document.PhysicalLocation;
+import java.util.Optional;
 
 public class ReceiverParty<N extends PersonName> extends Person<N> {
 
-    public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, Contact contact) {
+    public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
         super(personType, name, identityDocument, physicalLocation, physicalLocation, dianCharacterization, contact);
     }
 

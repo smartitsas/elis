@@ -24,6 +24,7 @@ import co.com.elis.core.util.ResourceInterpolator;
 import co.com.elis.exception.ElisCoreException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -63,9 +64,9 @@ public abstract class Person<N extends PersonName> {
     private final PersonType personType;
 
     @Getter
-    private final Contact contact;
+    private final Optional<Contact> contact;
 
-    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Contact contact) {
+    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
         this.identityDocument = document;
         this.physicalLocation = physicalLocation;
         this.dianCharacterization = dianCharacterization;
@@ -104,7 +105,7 @@ public abstract class Person<N extends PersonName> {
         protected List<CustomUserCode> customUserCodes;
         protected List<EstablishmentType> establishmentTypes;
         protected List<RepresentationType> representationTypes;
-        protected Contact contact;
+        protected Optional<Contact> contact;
         protected N personName;
         protected PersonType personType;
         protected boolean disableValidations;
@@ -118,6 +119,7 @@ public abstract class Person<N extends PersonName> {
             this.representationTypes = new ArrayList<>();
             this.personType = personType;
             this.disableValidations = false;
+            this.contact = Optional.empty();
         }
 
         public C withRegime(Regime regime) {
@@ -177,7 +179,7 @@ public abstract class Person<N extends PersonName> {
         }
 
         public C withContact(Contact contact) {
-            this.contact = contact;
+            this.contact = Optional.of(contact);
             return collectContext();
         }
 

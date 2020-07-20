@@ -22,11 +22,12 @@ package co.com.elis.core.person;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.person.validation.CheckForJuridicObligations;
 import co.com.elis.exception.ElisCoreException;
+import java.util.Optional;
 
 @CheckForJuridicObligations
 public class SupplierParty<N extends PersonName> extends Person<N> {
 
-    public SupplierParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Contact contact) {
+    public SupplierParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
         super(personType, name, identityDocument, physicalLocation, registrationAddress, dianCharacterization, contact);
     }
 

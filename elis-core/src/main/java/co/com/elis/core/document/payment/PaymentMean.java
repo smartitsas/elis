@@ -26,7 +26,7 @@ import lombok.Getter;
 public class PaymentMean {
 
     @Getter
-    private String id;
+    private PaymentType type;
 
     @Getter
     private PaymentChannel channel;
@@ -52,8 +52,8 @@ public class PaymentMean {
             this.paymentMeans = new PaymentMean();
         }
 
-        public PaymentMeansBuilder withId(String id) {
-            paymentMeans.id = id;
+        public PaymentMeansBuilder withType(PaymentType type) {
+            paymentMeans.type = type;
             return this;
         }
 

@@ -20,8 +20,11 @@ package co.com.elis.core.tax.validation;
 
 import co.com.elis.core.item.Item;
 import co.com.elis.core.tax.Tax;
+import co.com.elis.core.tax.TaxType;
 import static co.com.elis.core.util.DecimalUtils.scaledOrNull;
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -31,13 +34,21 @@ public class ItemTaxValidator implements ConstraintValidator<ValidateItemTax, It
     public boolean isValid(Item item, ConstraintValidatorContext context) {
         boolean isValid = true;
         BigDecimal total = item.getTotal();
-
+        List<TaxType> foundType = new LinkedList<>();
+        
+        
         for (Tax tax : item.getTaxes()) {
+            isValid &= !foundType.contains(tax.getType()); //TODO: make message regarding non-repeating taxes
+            
+            if(isValid){
+                foundType.add(tax.getType());
+            }
+
             BigDecimal calTax = scaledOrNull(tax.getPercentage().multiply(total).divide(BigDecimal.valueOf(100)));
             isValid &= calTax.compareTo(scaledOrNull(tax.getTaxTotal())) == 0;
             isValid &= total.compareTo(tax.getTaxableAmount()) == 0;
         }
-
+        
         return isValid;
     }
 

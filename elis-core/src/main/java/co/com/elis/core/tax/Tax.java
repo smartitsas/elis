@@ -72,6 +72,10 @@ public class Tax {
         return new Tax(type, percentage, taxableAmount, taxTotal.add(otherSubtotal.getTaxTotal()));
     }
 
+    public boolean isZero() {
+        return BigDecimal.ZERO.compareTo(this.taxTotal) == 0;
+    }
+
     /**
      * Creates a Builder for tax.
      *
