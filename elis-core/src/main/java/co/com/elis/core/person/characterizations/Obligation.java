@@ -17,12 +17,12 @@
  *
  *********************************************************************************************
  */
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
 import lombok.Getter;
 
 //named by DIAN as: "Section 53 of RUT" (why they use a non-autocontained number??)
-public enum Obligation {
+public enum Obligation implements Characterization {
 
     /**
      * O-1 APORTE_ESPECIAL_ADMIN_JUSTICIA
@@ -43,7 +43,7 @@ public enum Obligation {
     /**
      * O-5 IMPUESTO_RENTA_REGIMEN_ORDINARIO
      */
-//    IMPUESTO_RENTA_REGIMEN_ORDINARIO(5, "Impuesto sobre la renta y complementario régimen ordinario"),
+    IMPUESTO_RENTA_REGIMEN_ORDINARIO(5, "Impuesto sobre la renta y complementario régimen ordinario"),
     /**
      * O-6 INGRESOS_PATRIMONIO
      */
@@ -63,7 +63,7 @@ public enum Obligation {
     /**
      * O-10 USUARIO_ADUANERO
      */
-    //    USUARIO_ADUANERO(10, "Usuario aduanero"),
+    USUARIO_ADUANERO(10, "Usuario aduanero"),
     /**
      * O-11 VENTAS_REGIMEN_COMUN
      */
@@ -167,7 +167,19 @@ public enum Obligation {
     /**
      * O-42 OBLIGADO_LLEVAR_CONTABILIDAD
      */
-    //    OBLIGADO_LLEVAR_CONTABILIDAD(42, "Obligado a Llevar Contabilidad"),
+    OBLIGADO_LLEVAR_CONTABILIDAD(42, "Obligado a Llevar Contabilidad"),
+    /**
+     * O-48 IMPUESTO_VENTAS_IVA
+     */
+    IMPUESTO_VENTAS_IVA(48, "Impuesto ventas iva"),
+    /**
+     * O-49 NO_RESOIBSABLE_IVA
+     */
+    NO_RESPONSABLE_IVA(49, "No responsable iva"),
+    /**
+     * O-52 FACTURADOR_ELECTRONICO
+     */
+    FACTURADOR_ELECTRONICO(52, "Facturador electrónico"),
     /**
      * O-99 OTRO_TIPO_OBLIGADO
      */

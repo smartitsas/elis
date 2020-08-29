@@ -18,12 +18,13 @@
 
 package co.com.elis.core.person;
 
+import co.com.elis.core.person.characterizations.RepresentationType;
 import co.com.elis.core.document.PhysicalLocation;
 import java.util.Optional;
 
 public class ReceiverParty<N extends PersonName> extends Person<N> {
 
-    public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
+    public ReceiverParty(PersonType personType, N name, IdentityDocument identityDocument, PhysicalLocation physicalLocation, DIANCharacterizationData dianCharacterization, Optional<Contact> contact) {
         super(personType, name, identityDocument, physicalLocation, physicalLocation, dianCharacterization, contact);
     }
 
@@ -50,7 +51,7 @@ public class ReceiverParty<N extends PersonName> extends Person<N> {
         }
 
         public ReceiverParty<N> build() {
-            DIANCharacterization dianCharacterization = new DIANCharacterization(regime, obligations, responsabilities, customUserCodes, establishmentTypes, representationTypes);
+            DIANCharacterizationData dianCharacterization = new DIANCharacterizationData(regime, obligations, responsabilities, customUserCodes, establishmentTypes, representationTypes);
             return new ReceiverParty<>(personType, personName, identityDocument, physicalLocation, dianCharacterization, contact);
         }
 

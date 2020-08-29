@@ -16,9 +16,9 @@
  *
  **********************************************************************************************/
 
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
-public interface RepresentationType {
+public interface RepresentationType extends Characterization {
 
     public Integer getCode();
     

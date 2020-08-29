@@ -43,7 +43,12 @@ public class Item {
     private final Integer position;
 
     @Getter
+    @NotNull(message = "ELIS_CORE_VAL_ITEM_CODE")
     private final String code;
+    
+    @Getter
+    @NotNull(message = "ELIS_CORE_VAL_ITEM_STANDARD_CODE")
+    private final String standardCode;    
 
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_ITEM_DESC")
@@ -75,7 +80,7 @@ public class Item {
     @NotNull
     private final List<WithHold> withHolds;
 
-    public Item(Integer position, String code, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection, List<WithHold> withHolds) {
+    public Item(Integer position, String code, String standardCode, String description, String units, BigDecimal total, BigDecimal quantity, BigDecimal unitaryValue, List<Tax> taxCollection, List<WithHold> withHolds) {
         this.position = position;
         this.description = description;
         this.total = scaledOrNull(total);
@@ -85,6 +90,7 @@ public class Item {
         this.code = code;
         this.units = units;
         this.withHolds = withHolds;
+        this.standardCode = standardCode;
     }
 
     public Tax getTax(TaxType taxType) {

@@ -19,12 +19,13 @@ public class ItemCalculatedTest {
                 .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setStandardCode("24120000")
+                .setCode("ITEM1")
                 .setQuantity(10.3)
                 .setUnits("BX")
                 .setUnitaryValue(1000.2)
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
-                .setCode("ITEM1")
                 .getCalculatedResult();
 
         assertThat(item.getPosition(), is(1));
@@ -44,11 +45,12 @@ public class ItemCalculatedTest {
                 .withinMandatorySection()
                 .setUnits("BX")
                 .setPosition(1)
+                .setCode("ITEM1")
+                .setStandardCode("24120000")
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
-                .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(18).build())
                 .getCalculatedResult();
 
@@ -78,12 +80,13 @@ public class ItemCalculatedTest {
                 .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("ITEM1")
+                .setStandardCode("24120000")
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .setUnits("BX")
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
-                .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(8).build())
                 .getCalculatedResult();
 
@@ -117,12 +120,13 @@ public class ItemCalculatedTest {
                 .calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("ITEM1")
+                .setStandardCode("24120000")
                 .setQuantity(10.3)
                 .setUnitaryValue(1000.2)
                 .setUnits("BX")
                 .setDescription("DESCRIPTION 001")
                 .withinOptionalSection()
-                .setCode("ITEM1")
                 .addTax(TaxCalculation.of(TaxType.ICA).withPercentage(5).build())
                 .getCalculatedResult();
 

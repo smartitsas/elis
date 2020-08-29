@@ -18,15 +18,15 @@
 
 package co.com.elis.core.person.validation;
 
-import co.com.elis.core.person.DIANCharacterization;
-import co.com.elis.core.person.RepresentationType;
+import co.com.elis.core.person.DIANCharacterizationData;
+import co.com.elis.core.person.characterizations.RepresentationType;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class RepresentationTypeValidator implements ConstraintValidator<ConsistentSamePersonGroup, DIANCharacterization> {
+public class RepresentationTypeValidator implements ConstraintValidator<ConsistentSamePersonGroup, DIANCharacterizationData> {
 
     @Override
-    public boolean isValid(DIANCharacterization representationType, ConstraintValidatorContext context) {
+    public boolean isValid(DIANCharacterizationData representationType, ConstraintValidatorContext context) {
 
         if (!representationType.getRepresentationTypes().iterator().hasNext()) {
             return true;

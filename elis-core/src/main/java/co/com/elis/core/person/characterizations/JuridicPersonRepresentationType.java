@@ -16,8 +16,9 @@
  *
  **********************************************************************************************/
 
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
+import co.com.elis.core.person.characterizations.RepresentationType;
 import lombok.Getter;
 
 public enum JuridicPersonRepresentationType implements RepresentationType {
@@ -76,7 +77,7 @@ public enum JuridicPersonRepresentationType implements RepresentationType {
 
     @Override
     public String toString() {
-        return "R-" + String.format("%02d", code) + "PJ";
+        return "R-" + String.format("%02d", code) + "-PJ";
     }
 
 }

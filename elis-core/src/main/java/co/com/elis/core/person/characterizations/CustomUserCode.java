@@ -16,11 +16,11 @@
  *
  **********************************************************************************************/
 
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
 import lombok.Getter;
 
-public enum CustomUserCode {
+public enum CustomUserCode implements Characterization  {
 
     AGENTE_CARGA_INTERNACIONAL(1, "Agente de carga internacional"),
     AGENTE_MARITIMO(2, "Agente marítimo"),

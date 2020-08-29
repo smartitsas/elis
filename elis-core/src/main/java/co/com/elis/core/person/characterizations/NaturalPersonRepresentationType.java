@@ -16,8 +16,9 @@
  *
  **********************************************************************************************/
 
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
+import co.com.elis.core.person.characterizations.RepresentationType;
 import lombok.Getter;
 
 public enum NaturalPersonRepresentationType implements RepresentationType {
@@ -81,7 +82,7 @@ public enum NaturalPersonRepresentationType implements RepresentationType {
 
     @Override
     public String toString() {
-        return "R-" + String.format("%02d", code) + "PN";
+        return "R-" + String.format("%02d", code) + "-PN";
     }
 
 }

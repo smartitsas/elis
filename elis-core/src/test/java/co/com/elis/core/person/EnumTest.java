@@ -1,5 +1,10 @@
 package co.com.elis.core.person;
 
+import co.com.elis.core.person.characterizations.NaturalPersonRepresentationType;
+import co.com.elis.core.person.characterizations.JuridicPersonRepresentationType;
+import co.com.elis.core.person.characterizations.Obligation;
+import co.com.elis.core.person.characterizations.EstablishmentType;
+import co.com.elis.core.person.characterizations.CustomUserCode;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 

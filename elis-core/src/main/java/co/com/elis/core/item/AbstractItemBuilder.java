@@ -29,6 +29,7 @@ public class AbstractItemBuilder {
 
     protected Integer position;
     protected String code;
+    protected String standardCode;
     protected String description;
     protected String units;
     protected BigDecimal unitaryValue;
@@ -54,6 +55,28 @@ public class AbstractItemBuilder {
 
         public MandatoryContext(B builder) {
             this.builder = builder;
+        }
+
+        /**
+         * Assigns code to the item to be building
+         *
+         * @param code Code of the item
+         * @return Chaining Builder
+         */
+        public T setCode(String code) {
+            builder.code = code;
+            return collectContext();
+        }
+
+        /**
+         * Assigns code to the item to be building
+         *
+         * @param standardCode Code of the item in the UNSPSC
+         * @return Chaining Builder
+         */
+        public T setStandardCode(String standardCode) {
+            builder.standardCode = standardCode;
+            return collectContext();
         }
 
         /**
@@ -107,17 +130,6 @@ public class AbstractItemBuilder {
 
         public OptionalContext(B builder) {
             this.builder = builder;
-        }
-
-        /**
-         * Assigns code to the item to be building
-         *
-         * @param code Code of the item
-         * @return Chaining Builder
-         */
-        public T setCode(String code) {
-            builder.code = code;
-            return collectContext();
         }
 
         public T disableValidations() {

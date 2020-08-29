@@ -19,13 +19,20 @@
  */
 package co.com.elis.core.person;
 
+import co.com.elis.core.person.characterizations.Characterization;
+import co.com.elis.core.person.characterizations.RepresentationType;
+import co.com.elis.core.person.characterizations.Responsability;
+import co.com.elis.core.person.characterizations.EstablishmentType;
+import co.com.elis.core.person.characterizations.CustomUserCode;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.person.validation.ConsistentSamePersonGroup;
+import java.util.LinkedList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 @ConsistentSamePersonGroup
-public class DIANCharacterization {
+public class DIANCharacterizationData {
 
     @Getter
     @NotNull(message = "ELIS_CORE_VAL_PERSON_OBLIGATION")
@@ -50,13 +57,24 @@ public class DIANCharacterization {
     @NotNull(message = "ELIS_CORE_VAL_PERSON_REPRESENTATION_NOT_NULL")
     private final List<RepresentationType> representationTypes;
 
-    DIANCharacterization(Regime regime, List<Obligation> obligations, List<Responsability> responsabilities, List<CustomUserCode> customUserCodes, List<EstablishmentType> establishmentTypes, List<RepresentationType> representationTypes) {
+    DIANCharacterizationData(Regime regime, List<Obligation> obligations, List<Responsability> responsabilities, List<CustomUserCode> customUserCodes, List<EstablishmentType> establishmentTypes, List<RepresentationType> representationTypes) {
         this.regime = regime;
         this.obligations = obligations;
         this.customUserCodes = customUserCodes;
         this.responsabilities = responsabilities;
         this.establishmentTypes = establishmentTypes;
         this.representationTypes = representationTypes;
+    }
+
+    public List<Characterization> getAllCharacterizations() {
+        List<Characterization> characterizations = new LinkedList<>();
+
+        characterizations.addAll(obligations);
+        characterizations.addAll(customUserCodes);
+        characterizations.addAll(responsabilities);
+        characterizations.addAll(establishmentTypes);
+        characterizations.addAll(representationTypes);
+        return characterizations;
     }
 
 }

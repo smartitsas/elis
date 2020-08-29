@@ -9,7 +9,7 @@ import co.com.elis.core.document.reference.ReferenceType;
 import co.com.elis.core.item.InvoiceItem;
 import co.com.elis.core.person.AccountType;
 import co.com.elis.core.person.IdentityDocument;
-import co.com.elis.core.person.Obligation;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
 import co.com.elis.core.software.Environment;
@@ -62,6 +62,8 @@ public class BillingReferenceTest {
 
         var item = InvoiceItem.calculateAs()
                 .withinMandatorySection()
+                .setCode("COD01")
+                .setStandardCode("24120000")
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)

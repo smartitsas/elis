@@ -26,8 +26,8 @@ import java.util.List;
 
 public class NoteItem extends Item {
 
-    NoteItem(Integer id, String code, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<WithHold> withHoldList) {
-        super(id, code, description, units, total, quantity, unitaryValue, taxList, withHoldList);
+    NoteItem(Integer id, String code, String standardCode, String description, String units, BigDecimal quantity, BigDecimal unitaryValue, BigDecimal total, List<Tax> taxList, List<WithHold> withHoldList) {
+        super(id, code, standardCode, description, units, total, quantity, unitaryValue, taxList, withHoldList);
     }
 
     public static NoteItemPopulationBuilder populateAs() {

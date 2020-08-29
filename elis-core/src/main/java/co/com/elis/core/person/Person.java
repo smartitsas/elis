@@ -19,6 +19,11 @@
  */
 package co.com.elis.core.person;
 
+import co.com.elis.core.person.characterizations.RepresentationType;
+import co.com.elis.core.person.characterizations.Responsability;
+import co.com.elis.core.person.characterizations.EstablishmentType;
+import co.com.elis.core.person.characterizations.CustomUserCode;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.util.ResourceInterpolator;
 import co.com.elis.exception.ElisCoreException;
@@ -43,7 +48,7 @@ public abstract class Person<N extends PersonName> {
     @Valid
     @Getter
     //@NotNull(message = "ELIS_CORE_UNKNOWN")
-    private final DIANCharacterization dianCharacterization;
+    private final DIANCharacterizationData dianCharacterization;
 
     @Getter
     @Valid
@@ -66,7 +71,7 @@ public abstract class Person<N extends PersonName> {
     @Getter
     private final Optional<Contact> contact;
 
-    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
+    protected Person(PersonType personType, N name, IdentityDocument document, PhysicalLocation physicalLocation, PhysicalLocation registrationAddress, DIANCharacterizationData dianCharacterization, Optional<Contact> contact) {
         this.identityDocument = document;
         this.physicalLocation = physicalLocation;
         this.dianCharacterization = dianCharacterization;

@@ -12,7 +12,7 @@ import co.com.elis.core.person.AccountType;
 import co.com.elis.core.person.IdentityDocument;
 import co.com.elis.core.person.JuridicPersonName;
 import co.com.elis.core.person.NaturalPersonName;
-import co.com.elis.core.person.Obligation;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.person.ReceiverParty;
@@ -72,13 +72,14 @@ public class CalculatedCreditNoteTest {
 
         NoteItem noteItem = NoteItem.calculateAs()
                 .withinMandatorySection()
+                .setCode("")
+                .setStandardCode("24120000")
                 .setPosition(1)
                 .setQuantity(10)
                 .setUnitaryValue(1)
                 .setUnits("BX")
                 .setDescription("sample description")
                 .withinOptionalSection()
-                .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();
@@ -116,13 +117,14 @@ public class CalculatedCreditNoteTest {
 
         NoteItem noteItem = NoteItem.calculateAs()
                 .withinMandatorySection()
+                .setCode("")
+                .setStandardCode("24120000")
                 .setPosition(1)
                 .setQuantity(10)
                 .setUnitaryValue(1)
                 .setUnits("BX")
                 .setDescription("Sample discription")
                 .withinOptionalSection()
-                .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();

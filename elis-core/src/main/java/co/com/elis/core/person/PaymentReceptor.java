@@ -24,7 +24,7 @@ import java.util.Optional;
 
 public class PaymentReceptor extends Person<NaturalPersonName>{
     
-    public PaymentReceptor(PersonType personType, NaturalPersonName name, IdentityDocument document, PhysicalLocation physicalLocation, DIANCharacterization dianCharacterization, Optional<Contact> contact) {
+    public PaymentReceptor(PersonType personType, NaturalPersonName name, IdentityDocument document, PhysicalLocation physicalLocation, DIANCharacterizationData dianCharacterization, Optional<Contact> contact) {
         super(personType, name, document, physicalLocation, physicalLocation, dianCharacterization, contact);
     }
     

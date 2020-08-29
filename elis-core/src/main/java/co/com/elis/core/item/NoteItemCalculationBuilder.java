@@ -67,7 +67,7 @@ public class NoteItemCalculationBuilder extends AbstractItemBuilder {
             withHolds.add(withHold);
         }
 
-        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList, withHolds);
+        NoteItem item = new NoteItem(position, code, standardCode, description, units, quantity, unitaryValue, total, taxList, withHolds);
 
         validateOrThrow(item);
         return item;

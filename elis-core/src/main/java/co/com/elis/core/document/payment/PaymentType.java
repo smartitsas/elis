@@ -12,4 +12,13 @@ public enum PaymentType {
     @Getter
     private final int code;
 
+    static PaymentType valueOfCode(String value) {
+        for (PaymentType type : PaymentType.values()) {
+            if (type.getCode() == Integer.parseInt(value)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
 }

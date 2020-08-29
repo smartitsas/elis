@@ -63,7 +63,7 @@ public class ItemCalculationBuilder extends AbstractItemBuilder {
             withHolds.add(withHold);
         }
 
-        InvoiceItem item = new InvoiceItem(position, code, description, units, quantity, unitaryValue, calcTotal, taxList, withHolds, paymentTerms);
+        InvoiceItem item = new InvoiceItem(position, code, standardCode, description, units, quantity, unitaryValue, calcTotal, taxList, withHolds, paymentTerms);
 
         validateOrThrow(item);
         return item;

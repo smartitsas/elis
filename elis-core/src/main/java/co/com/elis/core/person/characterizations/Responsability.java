@@ -17,12 +17,12 @@
  *
  *********************************************************************************************
  */
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
 import lombok.Getter;
 
 //named by DIAN as: "Section 53 of RUT" (why they use a non-autocontained number??)
-public enum Responsability {
+public enum Responsability implements Characterization {
 
     /**
      * R-00-PN CLIENTES_DEL_EXTERIOR

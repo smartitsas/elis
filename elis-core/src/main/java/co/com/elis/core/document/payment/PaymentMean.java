@@ -21,6 +21,7 @@ package co.com.elis.core.document.payment;
 
 import co.com.elis.exception.ElisCoreException;
 import java.time.LocalDate;
+import java.util.Optional;
 import lombok.Getter;
 
 public class PaymentMean {
@@ -32,12 +33,14 @@ public class PaymentMean {
     private PaymentChannel channel;
 
     @Getter
-    private LocalDate dueDate;
+    private Optional<LocalDate> dueDate;
 
     @Getter
-    private String paymentId;
+    private Optional<String> paymentId;
 
     private PaymentMean() {
+        paymentId = Optional.empty();
+        dueDate = Optional.empty();
     }
 
     public static PaymentMeansBuilder createAs() {
@@ -50,6 +53,11 @@ public class PaymentMean {
 
         public PaymentMeansBuilder() {
             this.paymentMeans = new PaymentMean();
+        }
+
+        public PaymentMeansBuilder withTypeCode(String type) { //TODO: adjust dozer mapping
+            paymentMeans.type = PaymentType.valueOfCode(type);
+            return this;
         }
 
         public PaymentMeansBuilder withType(PaymentType type) {
@@ -68,12 +76,12 @@ public class PaymentMean {
         }
 
         public PaymentMeansBuilder withDueDate(LocalDate dueDate) {
-            paymentMeans.dueDate = dueDate;
+            paymentMeans.dueDate = Optional.of(dueDate);
             return this;
         }
 
         public PaymentMeansBuilder withPaymentId(String paymentId) {
-            paymentMeans.paymentId = paymentId;
+            paymentMeans.paymentId = Optional.of(paymentId);
             return this;
         }
 

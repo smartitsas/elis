@@ -18,6 +18,8 @@
 
 package co.com.elis.core.person;
 
+import co.com.elis.core.person.characterizations.JuridicPersonRepresentationType;
+import co.com.elis.core.person.characterizations.NaturalPersonRepresentationType;
 import co.com.elis.core.document.delivery.DeliveryParty;
 
 

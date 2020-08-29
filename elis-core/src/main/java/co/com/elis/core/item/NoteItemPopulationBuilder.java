@@ -41,7 +41,7 @@ public class NoteItemPopulationBuilder extends AbstractItemBuilder {
     }
 
     private NoteItem get() throws ElisCoreException {
-        NoteItem item = new NoteItem(position, code, description, units, quantity, unitaryValue, total, taxList, witHoldList);
+        NoteItem item = new NoteItem(position, code, standardCode, description, units, quantity, unitaryValue, total, taxList, witHoldList);
 
         validateOrThrow(item);
         return item;

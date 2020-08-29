@@ -16,11 +16,11 @@
  *
  **********************************************************************************************/
 
-package co.com.elis.core.person;
+package co.com.elis.core.person.characterizations;
 
 import lombok.Getter;
 
-public enum EstablishmentType {
+public enum EstablishmentType implements Characterization {
 
     AGENCIA(1, "Agencia"),
     ESTABLECIMIENTO_COMERCIO(2, "Establecimiento de comercio"),

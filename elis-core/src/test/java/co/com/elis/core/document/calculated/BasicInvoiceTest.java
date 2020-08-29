@@ -12,7 +12,7 @@ import co.com.elis.core.person.AccountType;
 import co.com.elis.core.person.IdentityDocument;
 import co.com.elis.core.person.JuridicPersonName;
 import co.com.elis.core.person.NaturalPersonName;
-import co.com.elis.core.person.Obligation;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.person.PersonBuilder;
 import co.com.elis.core.document.PhysicalLocation;
 import co.com.elis.core.document.address.CountrySubdivision;
@@ -84,6 +84,8 @@ public class BasicInvoiceTest {
 
         var item = InvoiceItem.calculateAs()
                 .withinMandatorySection()
+                .setCode("COD01")
+                .setStandardCode("24120000")
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
@@ -159,6 +161,8 @@ public class BasicInvoiceTest {
 
         var item = InvoiceItem.calculateAs()
                 .withinMandatorySection()
+                .setCode("COD01")
+                .setStandardCode("24120000")
                 .setPosition(1)
                 .setUnitaryValue(1000)
                 .setQuantity(10)
@@ -239,12 +243,13 @@ public class BasicInvoiceTest {
         InvoiceItem item1 = InvoiceItem.calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("ITM1")
+                .setStandardCode("24120000")
                 .setQuantity(10)
                 .setUnitaryValue(10)
                 .setUnits("BX")
                 .setDescription("Sample description")
                 .withinOptionalSection()
-                .setCode("ITM1")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f).build())
                 .getCalculatedResult();
@@ -252,12 +257,13 @@ public class BasicInvoiceTest {
         InvoiceItem item2 = InvoiceItem.calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("ITEM2")
+                .setStandardCode("24120000")
                 .setQuantity(10)
                 .setUnitaryValue(10)
                 .setUnits("BX")
                 .setDescription("Línea-2 8110007869 fos0001_900373076_8bad2_R000001-81-26610")
                 .withinOptionalSection()
-                .setCode("ITEM2")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(16).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(4.14f).build())
                 .getCalculatedResult();

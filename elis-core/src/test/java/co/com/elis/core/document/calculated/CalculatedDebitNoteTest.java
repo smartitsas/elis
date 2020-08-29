@@ -10,7 +10,7 @@ import co.com.elis.core.document.address.CountrySubdivision;
 import co.com.elis.core.item.NoteItem;
 import co.com.elis.core.item.TaxCalculation;
 import co.com.elis.core.item.DebitNoteDiscrepancyReason;
-import co.com.elis.core.person.Obligation;
+import co.com.elis.core.person.characterizations.Obligation;
 import co.com.elis.core.person.AccountType;
 import co.com.elis.core.person.ReceiverParty;
 import co.com.elis.core.person.SupplierParty;
@@ -73,12 +73,13 @@ public class CalculatedDebitNoteTest {
         NoteItem noteItem = NoteItem.calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("")
+                .setStandardCode("24120000")
                 .setQuantity(10)
                 .setUnitaryValue(1)
                 .setUnits("BX")
                 .setDescription("sample description")
                 .withinOptionalSection()
-                .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();
@@ -115,12 +116,13 @@ public class CalculatedDebitNoteTest {
         NoteItem noteItem = NoteItem.calculateAs()
                 .withinMandatorySection()
                 .setPosition(1)
+                .setCode("")
+                .setStandardCode("24120000")
                 .setQuantity(10)
                 .setUnitaryValue(1)
                 .setUnits("BX")
                 .setDescription("sample description")
                 .withinOptionalSection()
-                .setCode("")
                 .addTax(TaxCalculation.of(TaxType.IVA).withPercentage(0).build())
                 .addTax(TaxCalculation.of(TaxType.CONSUMPTION).withPercentage(0).build())
                 .get();
