@@ -12,6 +12,8 @@ public class WithHold {
     private final WithHoldType withHoldType;
 
     private final BigDecimal percentage;
+    
+    private final BigDecimal retainableAmount;
 
     private final BigDecimal withHoldtotal;
 
@@ -24,6 +26,7 @@ public class WithHold {
         private final WithHoldType type;
         private BigDecimal percentage;
         private BigDecimal withHoldtotal;
+        private BigDecimal retainableAmount;
 
         public WithHoldBuilder(WithHoldType type) {
             this.type = type;
@@ -58,8 +61,12 @@ public class WithHold {
             if (percentage == null) {
                 percentage = BigDecimal.ZERO;
             }
+            
+            if (retainableAmount == null) {
+                retainableAmount = BigDecimal.ZERO;
+            }
 
-            return new WithHold(type, percentage, withHoldtotal);
+            return new WithHold(type, percentage, withHoldtotal, retainableAmount);
         }
 
     }

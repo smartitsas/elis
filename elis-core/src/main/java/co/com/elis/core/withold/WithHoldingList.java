@@ -22,7 +22,7 @@ public class WithHoldingList implements Iterable<WithHold> {
 
     public Optional<WithHold> getByType(WithHoldType withHoldType) {
         return internalCollection.stream()
-                .filter(withHold -> withHold.getWithHoldType() == withHoldType)
+                .filter(withHold -> withHold.getWithHoldType().compareTo(withHoldType) == 0)
                 .findAny();
     }
 
@@ -30,6 +30,10 @@ public class WithHoldingList implements Iterable<WithHold> {
         return internalCollection.stream()
                 .map(withHolding -> withHolding.getWithHoldtotal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public int size() {
+        return internalCollection.size();
     }
 
 }

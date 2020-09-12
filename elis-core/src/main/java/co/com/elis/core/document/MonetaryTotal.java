@@ -65,8 +65,8 @@ public class MonetaryTotal {
         this.taxableAmount = scaledOrNull(taxableAmount);
         this.taxAmount = taxAmount;
         this.taxInclusiveAmount = taxAmount.add(lineTotal);
-        this.chargeTotal = null;
-        this.discountTotal = null;
+        this.chargeTotal = scaledOrNull(BigDecimal.ZERO);
+        this.discountTotal = scaledOrNull(BigDecimal.ZERO);
         this.payableAmount = scaledOrNull(payableAmount, 2);
     }
 

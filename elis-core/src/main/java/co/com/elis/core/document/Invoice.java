@@ -35,6 +35,7 @@ import lombok.Getter;
 import co.com.elis.core.document.validation.ExportationValidationGroup;
 import co.com.elis.core.document.validation.InvoicingRangeValid;
 import co.com.elis.core.item.InvoiceItem;
+import co.com.elis.core.tax.TaxType;
 import co.com.elis.core.withold.WithHoldingList;
 import java.math.RoundingMode;
 import javax.validation.groups.Default;
@@ -103,10 +104,19 @@ public class Invoice extends Document<InvoiceItem> {
         builder.append(getHeader().getDocumentDate().toFormattedDateTime());
         builder.append(getLegalMonetaryTotal().getLineTotal().setScale(2, RoundingMode.HALF_UP).toPlainString());
 
-        for (TaxTotal taxTotal : getTaxTotalList()) {
-            builder.append(taxTotal.getType().getCode());
-            builder.append(taxTotal.toPlainString());
-        }
+        
+        TaxTotal taxTotal = getTaxTotalList().getByType(TaxType.IVA).orElse(null);
+        builder.append(taxTotal.getType().getCode());
+        builder.append(taxTotal.toPlainString());
+                
+        taxTotal = getTaxTotalList().getByType(TaxType.CONSUMPTION).orElse(null);
+        builder.append(taxTotal.getType().getCode());
+        builder.append(taxTotal.toPlainString());
+
+        taxTotal = getTaxTotalList().getByType(TaxType.ICA).orElse(null);
+        builder.append(taxTotal.getType().getCode());
+        builder.append(taxTotal.toPlainString());
+        
 
         builder.append(getLegalMonetaryTotal().getPayableAmount().setScale(2, RoundingMode.HALF_UP).toPlainString());
         builder.append(getHeader().getSoftware().getNit().toString());

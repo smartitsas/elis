@@ -24,6 +24,7 @@ import co.com.elis.core.tax.TaxTotalList;
 import co.com.elis.core.software.Software;
 import co.com.elis.core.withold.WithHoldingList;
 import co.com.elis.exception.ElisCoreException;
+import java.util.Collections;
 
 public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInvoiceBuilder.PopulatedMandatoryContext> {
 
@@ -31,7 +32,7 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
 
     private TaxTotalList taxTotalList;
 
-    private WithHoldingList withHoldList;
+    private WithHoldingList withHoldList; //TODO: implement withHolding
 
     private MonetaryTotal legalMonetaryTotal;
 
@@ -45,6 +46,7 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
         super(software);
         validate = true;
         calculateCUFE = true;
+        withHoldList = new WithHoldingList(Collections.emptyList());
     }
 
     public Invoice getResult() throws ElisCoreException {
@@ -89,17 +91,17 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
 
         public PopulatedMandatoryContext setDocumentNumber(DocumentNumber documentNumber) {
             ((PopulatedInvoiceBuilder) builder).documentNumber = documentNumber;
-            return this;
+            return collectContext();
         }
 
         public PopulatedMandatoryContext setTaxTotals(TaxTotalList taxTotalLists) {
             ((PopulatedInvoiceBuilder) builder).taxTotalList = taxTotalLists;
-            return this;
+            return collectContext();
         }
 
         public PopulatedMandatoryContext setMonetaryTotal(MonetaryTotal monetaryTotal) {
             ((PopulatedInvoiceBuilder) builder).legalMonetaryTotal = monetaryTotal;
-            return this;
+            return collectContext();
         }
 
         @Override
@@ -129,10 +131,15 @@ public class PopulatedInvoiceBuilder extends AbstractInvoiceBuilder<PopulatedInv
             return collectContext();
         }
 
+        public PopulatedOptionalContext setWithHoldings(WithHoldingList withHoldList) {
+            ((PopulatedInvoiceBuilder) builder).withHoldList = withHoldList;
+            return collectContext();
+        }
+
         public PopulatedOptionalContext setCUFE(String cufe) {
             ((PopulatedInvoiceBuilder) builder).cufe = cufe;
             ((PopulatedInvoiceBuilder) builder).calculateCUFE = false;
-            return this;
+            return collectContext();
         }
 
         public Invoice getResult() throws ElisCoreException {
