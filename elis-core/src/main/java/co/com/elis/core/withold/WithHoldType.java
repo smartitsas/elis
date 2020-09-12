@@ -17,13 +17,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WithHoldType {
 
-    RETE_IVA(true, TaxType.IVA),
-    RETE_ICA(true, TaxType.ICA),
-    RETE_FUENTE_RENTA(false, null);
+    RETE_IVA(true, "05", "ReteIVA", TaxType.IVA),
+    RETE_FUENTE_RENTA(false, "06", "ReteFuente", null),
+    RETE_ICA(true, "07", "ReteICA", TaxType.ICA),
+    FTO_HORTICULTURA(true, "20", "FtoHorticultura", null);
 
     @Getter
     private final boolean overTax;
 
+    @Getter
+    private final String code;
+
+    @Getter
+    private final String description;
+    
     @Getter
     private final TaxType taxEquivalent;
 

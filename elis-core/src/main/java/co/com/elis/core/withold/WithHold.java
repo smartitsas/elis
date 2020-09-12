@@ -12,7 +12,7 @@ public class WithHold {
     private final WithHoldType withHoldType;
 
     private final BigDecimal percentage;
-    
+
     private final BigDecimal retainableAmount;
 
     private final BigDecimal withHoldtotal;
@@ -42,6 +42,16 @@ public class WithHold {
             return this;
         }
 
+        public WithHoldBuilder withRetainableAmount(BigDecimal retainableAmount) {
+            this.retainableAmount = retainableAmount;
+            return this;
+        }
+
+        public WithHoldBuilder withRetainableAmount(double retainableAmount) {
+            this.retainableAmount = BigDecimal.valueOf(retainableAmount).setScale(4, RoundingMode.HALF_UP);
+            return this;
+        }
+
         public WithHoldBuilder withTotal(BigDecimal withHoldTotal) {
             this.withHoldtotal = withHoldTotal;
             return this;
@@ -61,12 +71,12 @@ public class WithHold {
             if (percentage == null) {
                 percentage = BigDecimal.ZERO;
             }
-            
+
             if (retainableAmount == null) {
                 retainableAmount = BigDecimal.ZERO;
             }
 
-            return new WithHold(type, percentage, withHoldtotal, retainableAmount);
+            return new WithHold(type, percentage, retainableAmount, withHoldtotal);
         }
 
     }
