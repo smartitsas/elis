@@ -6,6 +6,7 @@
 package co.com.elis.core.withold;
 
 import co.com.elis.core.tax.TaxType;
+import java.util.Arrays;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public enum WithHoldType {
 
     @Getter
     private final String description;
-    
+
     @Getter
     private final TaxType taxEquivalent;
 
@@ -41,6 +42,13 @@ public enum WithHoldType {
             return Optional.of(RETE_ICA);
         }
         return Optional.empty();
+    }
+
+    public static Optional<WithHoldType> fromCode(String code) {
+        return Arrays.asList(WithHoldType.values())
+                .stream()
+                .filter(w -> w.getCode().equals(code))
+                .findAny();
     }
 
 }

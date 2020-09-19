@@ -22,18 +22,21 @@ package co.com.elis.core.document.payment;
 import co.com.elis.exception.ElisCoreException;
 import java.time.LocalDate;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 public class PaymentMean {
 
     @Getter
+    @NotNull
     private PaymentType type;
 
     @Getter
-    private PaymentChannel channel;
+    @NotNull
+    private PaymentChannel channel; //TODO: si el typo es contado, este debe existir
 
     @Getter
-    private Optional<LocalDate> dueDate;
+    private Optional<LocalDate> dueDate; //TODO: si es credito este debe existir
 
     @Getter
     private Optional<String> paymentId;
@@ -72,6 +75,13 @@ public class PaymentMean {
 
         public PaymentMeansBuilder withChannelCode(Integer channel) throws ElisCoreException {
             paymentMeans.channel = PaymentChannel.fromCode(channel).orElseThrow(() -> new ElisCoreException("Invalid mapping for paymentChannel: " + channel));
+            return this;
+        }
+
+        public PaymentMeansBuilder withChannelCodeStr(String channel) throws ElisCoreException {
+            if (channel != null) {
+                withChannelCode(Integer.parseInt(channel));
+            }
             return this;
         }
 
