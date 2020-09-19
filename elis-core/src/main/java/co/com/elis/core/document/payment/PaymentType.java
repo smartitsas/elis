@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum PaymentType {
 
     CASH(1, "Efectivo"),
-    CREDIT(2, "Crèdito");
+    CREDIT(2, "Crédito");
 
     private final int code;
 
